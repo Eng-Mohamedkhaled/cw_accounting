@@ -9,7 +9,7 @@ class AccountAccount(models.Model):
 
     @api.onchange('account_type')
     def _onchange_account_type_generate_code(self):
-        if self.account_type and not self.code:
+        if self.account_type:
             max_numeric_code = 0
             # Search for all accounts of the current type within the current company context.
             # 'self.search' automatically filters by the current company.
@@ -27,7 +27,7 @@ class AccountAccount(models.Model):
             # Pass an empty cache to allow the method to return the start_code if it's available.
             new_code = self._search_new_account_code(start_code, cache={})
             self.code = new_code
-        elif not self.account_type:
+        else:
             self.code = False # Clear code if account type is cleared
 
 
