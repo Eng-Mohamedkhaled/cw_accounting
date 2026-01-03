@@ -11,6 +11,7 @@
     'version': '1.0',
     'depends': ['custom_account_move_line'],
     'data': [],
+    "license": "LGPL-3",
     'installable': True,
     'application': False,
     'auto_install': False,
