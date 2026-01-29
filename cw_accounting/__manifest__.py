@@ -10,7 +10,9 @@
     'category': 'Accounting',
     'version': '1.0',
     'depends': ['custom_account_move_line'],
-    'data': [],
+    'data': [
+        'views/account_move_views.xml',
+    ],
     "license": "LGPL-3",
     'installable': True,
     'application': False,
