@@ -48,7 +48,7 @@
                     </group>
                     
                     <group string="Accounts">
-                        <field name="retained_earnings_account_id" options="{'no_create': True}"/>
+                        <field name="undistributed_profit_account_id" options="{'no_create': True}"/>
                     </group>
                     
                     <notebook>

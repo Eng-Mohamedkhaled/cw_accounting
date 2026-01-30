@@ -934,11 +934,11 @@ class EquityAllocation(models.Model):
     )
     
     # Retained earnings account
-    retained_earnings_account_id = fields.Many2one(
+    undistributed_profit_account_id = fields.Many2one(
         'account.account',
-        string='Retained Earnings Account',
+        string='Undistributed Profit Account',
         domain="[('company_ids', 'in', company_id), ('account_type', '=', 'equity_unaffected')]",
-        help='Account for retained earnings'
+        help='Account for undistributed profit'
     )
     
     @api.constrains('period_start', 'period_end', 'allocation_date')
@@ -1166,13 +1166,13 @@ class EquityAllocation(models.Model):
                         'currency_id': self.currency_id.id,
                     })
         
-        # Add to retained earnings if specified
-        if self.retained_earnings_account_id:
+        # Adjust undistributed profit account
+        if self.undistributed_profit_account_id:
             move_lines.append({
-                'name': 'Retained Earnings Adjustment',
-                'account_id': self.retained_earnings_account_id.id,
-                'debit': 0.0 if self.net_amount >= 0 else abs(self.net_amount),
-                'credit': self.net_amount if self.net_amount >= 0 else 0.0,
+                'name': 'Undistributed Profit Adjustment',
+                'account_id': self.undistributed_profit_account_id.id,
+                'debit': self.net_amount if self.net_amount >= 0 else 0.0,
+                'credit': 0.0 if self.net_amount >= 0 else abs(self.net_amount),
                 'currency_id': self.currency_id.id,
             })
         

@@ -93,11 +93,11 @@ class EquityAllocation(models.Model):
     )
     
     # Retained earnings account
-    retained_earnings_account_id = fields.Many2one(
+    undistributed_profit_account_id = fields.Many2one(
         'account.account',
-        string='Retained Earnings Account',
+        string='Undistributed Profit Account',
         domain="[('company_ids', 'in', company_id), ('account_type', '=', 'equity_unaffected')]",
-        help='Account for retained earnings'
+        help='Account for undistributed profit'
     )
     
     @api.constrains('period_start', 'period_end', 'allocation_date')
@@ -175,23 +175,34 @@ class EquityAllocation(models.Model):
     def _create_allocation_lines(self):
         """Create allocation lines based on ownership percentages"""
         self.ensure_one()
-        
+
         # Delete existing lines
         self.allocation_line_ids.unlink()
-        
+
         # Get active ownership records during the allocation period
-        ownership_records = self.env['equity.ownership'].search([
+        # An ownership is active during the period if:
+        # - It belongs to the same company
+        # - It started before or on the period end
+        # - It either has no end date or ends after or on the period start
+        ownership_domain = [
             ('company_id', '=', self.company_id.id),
             ('date_from', '<=', self.period_end),
             '|', ('date_to', '=', False), ('date_to', '>=', self.period_start),
-        ])
-        
+        ]
+
+        ownership_records = self.env['equity.ownership'].search(ownership_domain)
+
+        # Debug: Print how many ownership records were found
+        print(f"DEBUG: Found {len(ownership_records)} ownership records for allocation period {self.period_start} to {self.period_end}")
+
         # Create allocation lines
         allocation_lines = []
         for ownership in ownership_records:
             # Calculate the portion of profit/loss for this owner
             amount = self.net_amount * (ownership.percentage / 100.0)
-            
+
+            print(f"DEBUG: Creating allocation line for {ownership.partner_id.name}: {ownership.percentage}% of {self.net_amount} = {amount}")
+
             allocation_lines.append((0, 0, {
                 'partner_id': ownership.partner_id.id,
                 'ownership_id': ownership.id,
@@ -199,8 +210,13 @@ class EquityAllocation(models.Model):
                 'amount': amount,
                 'equity_account_id': ownership.equity_account_id.id,
             }))
-        
-        self.write({'allocation_line_ids': allocation_lines})
+
+        print(f"DEBUG: Total allocation lines to create: {len(allocation_lines)}")
+
+        if allocation_lines:
+            self.write({'allocation_line_ids': allocation_lines})
+        else:
+            print("DEBUG: No allocation lines created - check if equity ownership records exist for this company and period")
     
     def action_post(self):
         """Post the allocation and create journal entries"""
@@ -224,64 +240,9 @@ class EquityAllocation(models.Model):
     def _prepare_allocation_journal_entry(self):
         """Prepare journal entry for profit/loss allocation"""
         self.ensure_one()
-        
+
         move_lines = []
-        
-        # Get P&L accounts for the period
-        income_accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
-            ('account_type', 'in', ['income', 'income_other'])
-        ])
-        
-        expense_accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
-            ('account_type', 'in', ['expense', 'expense_direct_cost'])
-        ])
-        
-        # Close income accounts (debit them)
-        for income_acc in income_accounts:
-            # Get the balance for this account during the period
-            self.env.cr.execute("""
-                SELECT SUM(balance) FROM account_move_line 
-                WHERE account_id = %s 
-                AND date >= %s 
-                AND date <= %s 
-                AND company_id = %s
-                AND parent_state = 'posted'
-            """, (income_acc.id, self.period_start, self.period_end, self.company_id.id))
-            
-            balance = self.env.cr.fetchone()[0] or 0.0
-            if balance != 0:
-                move_lines.append({
-                    'name': f'Close Income: {income_acc.name}',
-                    'account_id': income_acc.id,
-                    'debit': 0.0,
-                    'credit': abs(balance),
-                    'currency_id': self.currency_id.id,
-                })
-        
-        # Close expense accounts (credit them)
-        for expense_acc in expense_accounts:
-            # Get the balance for this account during the period
-            self.env.cr.execute("""
-                SELECT SUM(balance) FROM account_move_line 
-                WHERE account_id = %s 
-                AND date >= %s 
-                AND date <= %s 
-                AND company_id = %s
-                AND parent_state = 'posted'
-            """, (expense_acc.id, self.period_start, self.period_end, self.company_id.id))
-            
-            balance = self.env.cr.fetchone()[0] or 0.0
-            if balance != 0:
-                move_lines.append({
-                    'name': f'Close Expense: {expense_acc.name}',
-                    'account_id': expense_acc.id,
-                    'debit': abs(balance),
-                    'credit': 0.0,
-                    'currency_id': self.currency_id.id,
-                })
-        
+
         # Allocate net profit/loss to equity accounts
         for line in self.allocation_line_ids:
             if line.amount != 0:
@@ -303,34 +264,34 @@ class EquityAllocation(models.Model):
                         'partner_id': line.partner_id.id,
                         'currency_id': self.currency_id.id,
                     })
-        
-        # Add to retained earnings if specified
-        if self.retained_earnings_account_id:
+
+        # Adjust undistributed profit account
+        if self.undistributed_profit_account_id:
             if self.net_amount >= 0:
-                # Net profit: credit retained earnings
+                # Net profit: debit undistributed profit account
                 move_lines.append({
-                    'name': 'Retained Earnings Adjustment',
-                    'account_id': self.retained_earnings_account_id.id,
-                    'debit': 0.0,
-                    'credit': self.net_amount,
-                    'currency_id': self.currency_id.id,
-                })
-            else:
-                # Net loss: debit retained earnings
-                move_lines.append({
-                    'name': 'Retained Earnings Adjustment',
-                    'account_id': self.retained_earnings_account_id.id,
-                    'debit': abs(self.net_amount),
+                    'name': 'Undistributed Profit Adjustment',
+                    'account_id': self.undistributed_profit_account_id.id,
+                    'debit': self.net_amount,
                     'credit': 0.0,
                     'currency_id': self.currency_id.id,
                 })
-        
+            else:
+                # Net loss: credit undistributed profit account
+                move_lines.append({
+                    'name': 'Undistributed Profit Adjustment',
+                    'account_id': self.undistributed_profit_account_id.id,
+                    'debit': 0.0,
+                    'credit': abs(self.net_amount),
+                    'currency_id': self.currency_id.id,
+                })
+
         # Create journal entry
         journal = self.env['account.journal'].search([
             ('type', '=', 'general'),
             ('company_id', '=', self.company_id.id)
         ], limit=1)
-        
+
         return {
             'ref': f'P&L Allocation for {self.period_start} to {self.period_end}',
             'date': self.allocation_date,
@@ -366,12 +327,13 @@ class EquityAllocation(models.Model):
                     'state': 'draft'
                 })
     
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Override create to set name"""
-        if vals.get('name', _('New Allocation')) == _('New Allocation'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('equity.allocation') or _('New Allocation')
-        return super(EquityAllocation, self).create(vals)
+        for vals in vals_list:
+            if vals.get('name', _('New Allocation')) == _('New Allocation'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('equity.allocation') or _('New Allocation')
+        return super(EquityAllocation, self).create(vals_list)
 
     def action_view_journal_entry(self):
         """Action to view the generated journal entry"""
