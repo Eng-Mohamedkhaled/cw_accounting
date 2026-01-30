@@ -155,9 +155,36 @@ class EquityAllocation(models.Model):
                 break
 
         if net_profit_line:
-            result = net_profit_line.get('balance', 0.0)
-            print(f"DEBUG: Returning net profit balance: {result}")
-            return result
+            original_net_profit = net_profit_line.get('balance', 0.0)
+
+            # Calculate the sum of balances for equity_unaffected accounts during the period
+            equity_unaffected_accounts = self.env['account.account'].search([
+                ('company_ids', 'in', self.company_id.id),
+                ('account_type', '=', 'equity_unaffected')
+            ])
+
+            total_equity_unaffected_change = 0.0
+            if equity_unaffected_accounts:
+                # Query the account move lines for equity unaffected accounts during the period
+                self.env.cr.execute("""
+                    SELECT SUM(aml.balance) FROM account_move_line aml
+                    JOIN account_account aa ON aml.account_id = aa.id
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE aa.id IN %s
+                    AND aml.date >= %s
+                    AND aml.date <= %s
+                    AND aml.company_id = %s
+                    AND am.state = 'posted'
+                """, (tuple(equity_unaffected_accounts.ids), self.period_start, self.period_end, self.company_id.id))
+
+                result = self.env.cr.fetchone()[0]
+                total_equity_unaffected_change = result or 0.0
+
+                print(f"DEBUG: Total change in equity_unaffected accounts: {total_equity_unaffected_change}")
+
+            adjusted_result = original_net_profit - total_equity_unaffected_change
+            print(f"DEBUG: Original net profit: {original_net_profit}, Equity Unaffected Change: {total_equity_unaffected_change}, Adjusted result: {adjusted_result}")
+            return adjusted_result
         else:
             print("DEBUG: Net Profit line not found, calculating manually")
             # If we can't find the net profit line, calculate it manually from the lines
@@ -175,8 +202,33 @@ class EquityAllocation(models.Model):
                     expense_total += expense_value
                     print(f"DEBUG: Expense line '{line.get('account_name', 'N/A')}': {expense_value}")
 
-            manual_result = income_total - expense_total
-            print(f"DEBUG: Manual calculation - Income: {income_total}, Expenses: {expense_total}, Result: {manual_result}")
+            # Calculate the sum of balances for equity_unaffected accounts during the period
+            equity_unaffected_accounts = self.env['account.account'].search([
+                ('company_ids', 'in', self.company_id.id),
+                ('account_type', '=', 'equity_unaffected')
+            ])
+
+            total_equity_unaffected_change = 0.0
+            if equity_unaffected_accounts:
+                # Query the account move lines for equity unaffected accounts during the period
+                self.env.cr.execute("""
+                    SELECT SUM(aml.balance) FROM account_move_line aml
+                    JOIN account_account aa ON aml.account_id = aa.id
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE aa.id IN %s
+                    AND aml.date >= %s
+                    AND aml.date <= %s
+                    AND aml.company_id = %s
+                    AND am.state = 'posted'
+                """, (tuple(equity_unaffected_accounts.ids), self.period_start, self.period_end, self.company_id.id))
+
+                result = self.env.cr.fetchone()[0]
+                total_equity_unaffected_change = result or 0.0
+
+                print(f"DEBUG: Total change in equity_unaffected accounts: {total_equity_unaffected_change}")
+
+            manual_result = income_total - expense_total - total_equity_unaffected_change
+            print(f"DEBUG: Manual calculation - Income: {income_total}, Expenses: {expense_total}, Equity Unaffected Change: {total_equity_unaffected_change}, Result: {manual_result}")
             return manual_result
     
     def action_calculate(self):
