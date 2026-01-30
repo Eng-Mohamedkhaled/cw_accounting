@@ -34,16 +34,20 @@ class EquityAllocation(models.Model):
         help='Date of the allocation'
     )
     
+    from datetime import datetime, date
+
     # Period for which profit/loss is calculated
     period_start = fields.Date(
         string='Period Start',
         required=True,
+        default=lambda self: date(date.today().year, 1, 1),
         help='Start date of the period for profit/loss calculation'
     )
-    
+
     period_end = fields.Date(
         string='Period End',
         required=True,
+        default=lambda self: date(date.today().year, 12, 31),
         help='End date of the period for profit/loss calculation'
     )
     
@@ -113,65 +117,46 @@ class EquityAllocation(models.Model):
             self.net_amount = self._calculate_net_profit_loss()
     
     def _calculate_net_profit_loss(self):
-        """Calculate net profit/loss for the period"""
-        # This is a simplified calculation - in practice, you'd use Odoo's reporting engine
-        # or connect to the P&L report
-        
-        # Get income and expense accounts for the company
-        income_accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
-            ('account_type', 'in', ['income', 'income_other'])
-        ])
-        
-        expense_accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
-            ('account_type', 'in', ['expense', 'expense_direct_cost'])
-        ])
-        
-        # Calculate total income
-        income_query = """
-            SELECT SUM(balance) FROM account_move_line 
-            WHERE account_id IN %s 
-            AND date >= %s 
-            AND date <= %s 
-            AND company_id = %s
-            AND parent_state = 'posted'
-        """
-        
-        expense_query = """
-            SELECT SUM(balance) FROM account_move_line 
-            WHERE account_id IN %s 
-            AND date >= %s 
-            AND date <= %s 
-            AND company_id = %s
-            AND parent_state = 'posted'
-        """
-        
-        income_total = 0.0
-        if income_accounts:
-            self.env.cr.execute(income_query, (
-                tuple(income_accounts.ids), 
-                self.period_start, 
-                self.period_end, 
-                self.company_id.id
-            ))
-            income_result = self.env.cr.fetchone()[0]
-            income_total = income_result or 0.0
-        
-        expense_total = 0.0
-        if expense_accounts:
-            self.env.cr.execute(expense_query, (
-                tuple(expense_accounts.ids), 
-                self.period_start, 
-                self.period_end, 
-                self.company_id.id
-            ))
-            expense_result = self.env.cr.fetchone()[0]
-            expense_total = expense_result or 0.0
-        
-        # Net profit/loss = Income - Expenses
-        net_amount = income_total - expense_total
-        return net_amount
+        """Calculate net profit/loss for the period using the existing custom P&L report"""
+        # Call the existing report to get the net profit/loss
+        report_model = self.env['report.custom_account_move_line.profit_loss_report']
+
+        # Prepare the data for the report
+        report_data = {
+            'date_from': self.period_start,
+            'date_to': self.period_end,
+            'company_id': self.company_id.id
+        }
+
+        # Get the report values
+        report_values = report_model._get_report_values([], data=report_data)
+
+        # Extract the net profit from the report values
+        # The report returns a 'lines' list, and the last line should be the net profit
+        lines = report_values.get('lines', [])
+
+        # Find the net profit line (usually the last one with 'Net Profit' in the name)
+        net_profit_line = None
+        for line in reversed(lines):  # Iterate backwards to find the last line
+            if 'Net Profit' in str(line.get('account_name', '')) or 'net profit' in str(line.get('account_name', '')).lower():
+                net_profit_line = line
+                break
+
+        if net_profit_line:
+            return net_profit_line.get('balance', 0.0)
+        else:
+            # If we can't find the net profit line, calculate it manually from the lines
+            # Find all income and expense lines
+            income_total = 0.0
+            expense_total = 0.0
+
+            for line in lines:
+                if line.get('key') in ['income', 'other_income']:
+                    income_total += line.get('balance', 0.0)
+                elif line.get('key') in ['cogs', 'opex', 'other_exp', 'depr']:
+                    expense_total += line.get('balance', 0.0)
+
+            return income_total - expense_total
     
     def action_calculate(self):
         """Calculate profit/loss allocation"""
@@ -300,8 +285,7 @@ class EquityAllocation(models.Model):
         # Allocate net profit/loss to equity accounts
         for line in self.allocation_line_ids:
             if line.amount != 0:
-                if line.amount > 0:  # Profit allocation
-                    # Credit the equity account
+                if line.amount > 0:  # Profit allocation (credit equity account)
                     move_lines.append({
                         'name': f'Profit Allocation to {line.partner_id.name}',
                         'account_id': line.equity_account_id.id,
@@ -310,8 +294,7 @@ class EquityAllocation(models.Model):
                         'partner_id': line.partner_id.id,
                         'currency_id': self.currency_id.id,
                     })
-                else:  # Loss allocation
-                    # Debit the equity account
+                else:  # Loss allocation (debit equity account)
                     move_lines.append({
                         'name': f'Loss Allocation to {line.partner_id.name}',
                         'account_id': line.equity_account_id.id,
@@ -323,13 +306,24 @@ class EquityAllocation(models.Model):
         
         # Add to retained earnings if specified
         if self.retained_earnings_account_id:
-            move_lines.append({
-                'name': 'Retained Earnings Adjustment',
-                'account_id': self.retained_earnings_account_id.id,
-                'debit': 0.0 if self.net_amount >= 0 else abs(self.net_amount),
-                'credit': self.net_amount if self.net_amount >= 0 else 0.0,
-                'currency_id': self.currency_id.id,
-            })
+            if self.net_amount >= 0:
+                # Net profit: credit retained earnings
+                move_lines.append({
+                    'name': 'Retained Earnings Adjustment',
+                    'account_id': self.retained_earnings_account_id.id,
+                    'debit': 0.0,
+                    'credit': self.net_amount,
+                    'currency_id': self.currency_id.id,
+                })
+            else:
+                # Net loss: debit retained earnings
+                move_lines.append({
+                    'name': 'Retained Earnings Adjustment',
+                    'account_id': self.retained_earnings_account_id.id,
+                    'debit': abs(self.net_amount),
+                    'credit': 0.0,
+                    'currency_id': self.currency_id.id,
+                })
         
         # Create journal entry
         journal = self.env['account.journal'].search([
