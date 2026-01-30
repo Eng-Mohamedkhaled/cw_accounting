@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_equity_ownership_user,equity.ownership.user,model_equity_ownership,base.group_user,1,1,1,1
+access_equity_ownership_master_user,equity.ownership.master.user,model_equity_ownership_master,base.group_user,1,1,1,1
+access_equity_ownership_line_user,equity.ownership.line.user,model_equity_ownership_line,base.group_user,1,1,1,1
+access_equity_transaction_user,equity.transaction.user,model_equity_transaction,base.group_user,1,1,1,1
+access_equity_allocation_user,equity.allocation.user,model_equity_allocation,base.group_user,1,1,1,1
+access_equity_allocation_line_user,equity.allocation.line.user,model_equity_allocation_line,base.group_user,1,1,1,1

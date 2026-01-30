@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sequence for Equity Allocation -->
+    <record id="seq_equity_allocation" model="ir.sequence">
+        <field name="name">Equity Allocation</field>
+        <field name="code">equity.allocation</field>
+        <field name="prefix">EQ-ALLOC-</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Equity Ownership List View -->
+    <record id="view_equity_ownership_tree" model="ir.ui.view">
+        <field name="name">equity.ownership.tree</field>
+        <field name="model">equity.ownership</field>
+        <field name="arch" type="xml">
+            <list string="Equity Ownership">
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="percentage"/>
+                <field name="equity_account_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Equity Ownership Form View -->
+    <record id="view_equity_ownership_form" model="ir.ui.view">
+        <field name="name">equity.ownership.form</field>
+        <field name="model">equity.ownership</field>
+        <field name="arch" type="xml">
+            <form string="Equity Ownership">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="active"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_equity_transactions"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-exchange"
+                                invisible="not partner_id">
+                            <field name="total_contributions" string="Contributions" widget="statinfo"/>
+                            <field name="total_withdrawals" string="Withdrawals" widget="statinfo"/>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="percentage"/>
+                        </group>
+                        <group>
+                            <field name="equity_account_id" options="{'no_create': True}"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="master_id" invisible="master_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <field name="currency_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Equity Ownership -->
+    <record id="action_equity_ownership" model="ir.actions.act_window">
+        <field name="name">Equity Ownership</field>
+        <field name="res_model">equity.ownership</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first equity ownership record
+            </p><p>
+                Define equity ownership for partners in your companies.
+            </p>
+        </field>
+    </record>
+</odoo>

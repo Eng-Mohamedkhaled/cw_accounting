@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend partner form view -->
+    <record id="view_partner_form_inherit_equity" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.equity</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page string="Equity Ownership" invisible="not is_company and not is_equity_owner">
+                    <group>
+                        <group>
+                            <field name="is_equity_owner"/>
+                            <field name="current_equity_percentage" invisible="not is_equity_owner"/>
+                        </group>
+                    </group>
+                    
+                    <field name="equity_ownership_ids"
+                           invisible="not is_equity_owner"
+                           context="{'default_partner_id': id, 'default_company_id': company_id}">
+                        <list string="Equity Ownership Records" editable="bottom">
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="percentage"/>
+                            <field name="equity_account_id" options="{'no_create': True}"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="status"/>
+                        </list>
+                        <form string="Equity Ownership Record">
+                            <group>
+                                <field name="company_id" options="{'no_create': True}"/>
+                                <field name="percentage"/>
+                                <field name="equity_account_id" options="{'no_create': True}"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Equity Allocation List View -->
+    <record id="view_equity_allocation_tree" model="ir.ui.view">
+        <field name="name">equity.allocation.tree</field>
+        <field name="model">equity.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Profit &amp; Loss Allocations" decoration-info="state == 'calculated'" decoration-success="state == 'posted'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="net_amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Equity Allocation Form View -->
+    <record id="view_equity_allocation_form" model="ir.ui.view">
+        <field name="name">equity.allocation.form</field>
+        <field name="model">equity.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Profit &amp; Loss Allocation">
+                <header>
+                    <button name="action_calculate" type="object" string="Calculate" class="oe_highlight" 
+                            invisible="state != 'draft'"/>
+                    <button name="action_post" type="object" string="Post" class="oe_highlight" 
+                            invisible="state != 'calculated'"/>
+                    <button name="action_cancel" type="object" string="Cancel" 
+                            invisible="state not in ('posted', 'calculated')"/>
+                    <button name="action_draft" type="object" string="Reset to Draft" 
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,calculated,posted"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="allocation_date"/>
+                        </group>
+                        <group>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                            <field name="net_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Accounts">
+                        <field name="retained_earnings_account_id" options="{'no_create': True}"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Allocation Details" invisible="state == 'draft'">
+                            <field name="allocation_line_ids" readonly="state != 'calculated'">
+                                <list editable="bottom">
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="ownership_id" readonly="1"/>
+                                    <field name="percentage" readonly="1"/>
+                                    <field name="amount"/>
+                                    <field name="equity_account_id" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+                    <group string="Generated Entry" invisible="not move_id">
+                        <field name="move_id" readonly="1"/>
+                        <button name="action_view_journal_entry" type="object" string="View Journal Entry"
+                                invisible="not move_id" class="oe_link"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Equity Allocations -->
+    <record id="action_equity_allocation" model="ir.actions.act_window">
+        <field name="name">Profit &amp; Loss Allocations</field>
+        <field name="res_model">equity.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first profit &amp; loss allocation
+            </p><p>
+                Allocate profits and losses to equity owners.
+            </p>
+        </field>
+    </record>
+</odoo>

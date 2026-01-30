@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu Item -->
+    <menuitem id="menu_equity_root" 
+              name="Owners' Equity" 
+              sequence="10" 
+              web_icon="cw_equity_management,static/description/icon.png"/>
+
+    <!-- Equity Ownership Menu -->
+    <menuitem id="menu_equity_ownership"
+              name="Equity Ownership"
+              parent="menu_equity_root"
+              sequence="10"/>
+
+    <menuitem id="menu_equity_ownership_master_list"
+              name="Master Ownership Structures"
+              parent="menu_equity_ownership"
+              action="action_equity_ownership_master"
+              sequence="5"/>
+
+    <menuitem id="menu_equity_ownership_list"
+              name="Ownership Records"
+              parent="menu_equity_ownership"
+              action="action_equity_ownership"
+              sequence="10"/>
+
+    <!-- Equity Transactions Menu -->
+    <menuitem id="menu_equity_transactions" 
+              name="Transactions" 
+              parent="menu_equity_root" 
+              sequence="20"/>
+              
+    <menuitem id="menu_equity_transaction_list" 
+              name="Capital Transactions" 
+              parent="menu_equity_transactions" 
+              action="action_equity_transaction" 
+              sequence="10"/>
+
+    <!-- Profit &amp; Loss Allocation Menu -->
+    <menuitem id="menu_equity_allocation"
+              name="P&amp;L Allocation"
+              parent="menu_equity_root"
+              sequence="30"/>
+              
+    <menuitem id="menu_equity_allocation_list" 
+              name="Allocations" 
+              parent="menu_equity_allocation" 
+              action="action_equity_allocation" 
+              sequence="10"/>
+</odoo>
