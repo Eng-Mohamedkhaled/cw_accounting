@@ -30,7 +30,7 @@ class EquityAllocation(models.Model):
     allocation_date = fields.Date(
         string='Allocation Date',
         required=True,
-        default=fields.Date.context_today,
+        default=lambda self: fields.Date.context_today(self),
         help='Date of the allocation'
     )
     
@@ -47,7 +47,7 @@ class EquityAllocation(models.Model):
     period_end = fields.Date(
         string='Period End',
         required=True,
-        default=lambda self: date(date.today().year, 12, 31),
+        default=lambda self: fields.Date.context_today(self),
         help='End date of the period for profit/loss calculation'
     )
     
