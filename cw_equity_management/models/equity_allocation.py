@@ -118,15 +118,23 @@ class EquityAllocation(models.Model):
     
     def _calculate_net_profit_loss(self):
         """Calculate net profit/loss for the period using the existing custom P&L report"""
+        from datetime import timedelta
+
         # Call the existing report to get the net profit/loss
         report_model = self.env['report.custom_account_move_line.profit_loss_report']
 
         # Prepare the data for the report
+        # Format dates to ensure they include the full end date
+        date_from_str = fields.Date.to_string(self.period_start)
+        date_to_str = fields.Date.to_string(self.period_end)
+
         report_data = {
-            'date_from': self.period_start,
-            'date_to': self.period_end,
+            'date_from': date_from_str,
+            'date_to': date_to_str,
             'company_id': self.company_id.id
         }
+
+        print(f"DEBUG: Calling P&L report with date_from={date_from_str}, date_to={date_to_str}")
 
         # Get the report values
         report_values = report_model._get_report_values([], data=report_data)
@@ -135,16 +143,23 @@ class EquityAllocation(models.Model):
         # The report returns a 'lines' list, and the last line should be the net profit
         lines = report_values.get('lines', [])
 
-        # Find the net profit line (usually the last one with 'Net Profit' in the name)
+        print(f"DEBUG: P&L report returned {len(lines)} lines")
+
+        # Find the net profit line (the one with 'Net Profit' in the name)
         net_profit_line = None
-        for line in reversed(lines):  # Iterate backwards to find the last line
+        for line in lines:  # Look through all lines to find the Net Profit line
+            print(f"DEBUG: Checking line: {line.get('account_name', 'N/A')} with balance: {line.get('balance', 0)}")
             if 'Net Profit' in str(line.get('account_name', '')) or 'net profit' in str(line.get('account_name', '')).lower():
                 net_profit_line = line
+                print(f"DEBUG: Found Net Profit line: {line}")
                 break
 
         if net_profit_line:
-            return net_profit_line.get('balance', 0.0)
+            result = net_profit_line.get('balance', 0.0)
+            print(f"DEBUG: Returning net profit balance: {result}")
+            return result
         else:
+            print("DEBUG: Net Profit line not found, calculating manually")
             # If we can't find the net profit line, calculate it manually from the lines
             # Find all income and expense lines
             income_total = 0.0
@@ -152,11 +167,17 @@ class EquityAllocation(models.Model):
 
             for line in lines:
                 if line.get('key') in ['income', 'other_income']:
-                    income_total += line.get('balance', 0.0)
+                    income_value = line.get('balance', 0.0)
+                    income_total += income_value
+                    print(f"DEBUG: Income line '{line.get('account_name', 'N/A')}': {income_value}")
                 elif line.get('key') in ['cogs', 'opex', 'other_exp', 'depr']:
-                    expense_total += line.get('balance', 0.0)
+                    expense_value = line.get('balance', 0.0)
+                    expense_total += expense_value
+                    print(f"DEBUG: Expense line '{line.get('account_name', 'N/A')}': {expense_value}")
 
-            return income_total - expense_total
+            manual_result = income_total - expense_total
+            print(f"DEBUG: Manual calculation - Income: {income_total}, Expenses: {expense_total}, Result: {manual_result}")
+            return manual_result
     
     def action_calculate(self):
         """Calculate profit/loss allocation"""
