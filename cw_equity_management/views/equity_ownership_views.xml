@@ -45,7 +45,7 @@
                             <field name="percentage"/>
                         </group>
                         <group>
-                            <field name="equity_account_id" options="{'no_create': True}"/>
+                            <field name="equity_account_id"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="master_id" invisible="master_id"/>

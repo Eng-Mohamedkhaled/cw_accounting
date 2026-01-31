@@ -51,7 +51,7 @@
                     <notebook>
                         <page string="Ownership Lines">
                             <field name="owners_line_ids">
-                                <list editable="bottom">
+                                <list >
                                     <field name="sequence" widget="handle"/>
                                     <field name="partner_id"/>
                                     <field name="percentage"/>
