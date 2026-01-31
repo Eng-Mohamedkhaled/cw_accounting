@@ -369,7 +369,7 @@ class EquityOwnershipMaster(models.Model):
     )
     
     owners_line_ids = fields.One2many(
-        'equity.ownership.line',
+        'equity.ownership',
         'master_id',
         string='Ownership Lines',
         help='Individual ownership records for this structure'
@@ -483,66 +483,6 @@ class EquityOwnershipMaster(models.Model):
             result.append((record.id, name))
         return result
 
-
-class EquityOwnershipLine(models.Model):
-    _name = 'equity.ownership.line'
-    _description = 'Equity Ownership Line'
-    _order = 'sequence, id'
-    
-    master_id = fields.Many2one(
-        'equity.ownership.master',
-        string='Master Structure',
-        required=True,
-        ondelete='cascade',
-        help='Parent ownership structure'
-    )
-    
-    sequence = fields.Integer(
-        string='Sequence',
-        default=10,
-        help='Order of this ownership line in the structure'
-    )
-    
-    partner_id = fields.Many2one(
-        'res.partner',
-        string='Partner',
-        required=True,
-        domain=[('is_equity_owner', '=', True)],
-        help='The partner who owns the equity'
-    )
-    
-    percentage = fields.Float(
-        string='Ownership Percentage (%)',
-        required=True,
-        default=0.0,
-        digits=(16, 4),
-        help='Percentage of ownership (0-100%)'
-    )
-    
-    equity_account_id = fields.Many2one(
-        'account.account',
-        string='Equity Account',
-        required=True,
-        help='The equity account where this ownership is recorded'
-    )
-    
-    @api.constrains('percentage')
-    def _check_percentage_range(self):
-        """Ensure percentage is between 0 and 100"""
-        for record in self:
-            if record.percentage < 0 or record.percentage > 100:
-                raise ValidationError(_("Ownership percentage must be between 0 and 100%."))
-    
-    @api.constrains('master_id', 'percentage')
-    def _check_master_percentage_limit(self):
-        """Ensure the sum of percentages in the master doesn't exceed 100%"""
-        for record in self:
-            total = sum(line.percentage for line in record.master_id.owners_line_ids)
-            if total > 100:
-                raise ValidationError(_(
-                    "Total ownership percentage in the structure exceeds 100%%. "
-                    "Current total: %.2f%%") % total)
-```
 
 ### 4. Equity Transactions (`models/equity_transaction.py`)
 Handles capital contributions and withdrawals.
@@ -1367,9 +1307,9 @@ class AccountMove(models.Model):
 
 ### For Multiple Owners (Recommended):
 1. Create a master ownership structure
-2. Add multiple owners with their respective percentages
+2. Add multiple owners with their respective percentages directly in the ownership lines
 3. Confirm when total reaches 100%
-4. Create individual records from master structure
+4. Ownership records are now directly linked to the master structure
 5. Perform transactions and allocations normally
 
 ### For Single Owners (Legacy Support):
