@@ -6,13 +6,13 @@
         <field name="model">equity.transaction</field>
         <field name="arch" type="xml">
             <list string="Equity Transactions" decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
-                <field name="transaction_type"/>
-                <field name="partner_id"/>
-                <field name="company_id"/>
-                <field name="amount"/>
-                <field name="date"/>
-                <field name="reference"/>
-                <field name="state"/>
+                <field name="transaction_type" string="Type"/>
+                <field name="partner_id" string="Partner"/>
+                <field name="company_id" string="Company"/>
+                <field name="amount" string="Amount"/>
+                <field name="date" string="Date"/>
+                <field name="reference" string="Reference"/>
+                <field name="state" string="Status"/>
             </list>
         </field>
     </record>
@@ -34,12 +34,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group>
+                        <group string="Transaction Info">
                             <field name="transaction_type"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group>
+                        <group string="Financial Info">
                             <field name="amount"/>
                             <field name="date"/>
                             <field name="reference"/>

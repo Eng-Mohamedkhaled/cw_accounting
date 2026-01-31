@@ -6,13 +6,13 @@
         <field name="model">equity.ownership</field>
         <field name="arch" type="xml">
             <list string="Equity Ownership">
-                <field name="partner_id"/>
-                <field name="company_id"/>
-                <field name="percentage"/>
-                <field name="equity_account_id"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
-                <field name="status"/>
+                <field name="partner_id" string="Partner"/>
+                <field name="company_id" string="Company"/>
+                <field name="percentage" string="Percentage (%)"/>
+                <field name="equity_account_id" string="Equity Account"/>
+                <field name="date_from" string="From"/>
+                <field name="date_to" string="To"/>
+                <field name="status" string="Status"/>
             </list>
         </field>
     </record>
@@ -39,16 +39,15 @@
                     </div>
 
                     <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="partner_id"  context="{'default_is_equity_owner': True}" />
+                        <group string="Basic Information">
+                            <field name="partner_id" context="{'default_is_equity_owner': True}" />
                             <field name="company_id" options="{'no_create': True}"/>
                             <field name="percentage"/>
                         </group>
-                        <group>
-                            <field name="equity_account_id"/>
+                        <group string="Dates &amp; Accounts">
                             <field name="date_from"/>
                             <field name="date_to"/>
+                            <field name="equity_account_id"/>
                             <field name="master_id" invisible="master_id"/>
                         </group>
                     </group>

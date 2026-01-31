@@ -406,27 +406,46 @@ class EquityOwnershipMaster(models.Model):
                         "Total ownership percentage must equal 100%% when structure is confirmed. "
                         "Current total: %.2f%%") % record.total_percentage)
     
+    @api.constrains('owners_line_ids')
+    def _check_ownership_lines_validity(self):
+        """Ensure ownership lines have valid data"""
+        for record in self:
+            for line in record.owners_line_ids:
+                if line.percentage < 0 or line.percentage > 100:
+                    raise ValidationError(_(
+                        "Ownership percentage must be between 0 and 100%%. "
+                        "Partner: %s has invalid percentage: %.2f%%") %
+                        (line.partner_id.name, line.percentage))
+
+                if not line.partner_id:
+                    raise ValidationError(_(
+                        "Each ownership line must have a partner assigned."))
+
+                if not line.equity_account_id:
+                    raise ValidationError(_(
+                        "Each ownership line must have an equity account assigned. Partner: %s") %
+                        line.partner_id.name)
+
     @api.constrains('date_from', 'date_to', 'company_id')
     def _check_date_overlap(self):
-        """Ensure no overlapping ownership structures for the same company"""
+        """Ensure only one master ownership structure per company"""
         for record in self:
             if record.date_to and record.date_from > record.date_to:
                 raise ValidationError(_("Start date must be before end date."))
-            
-            # Find overlapping master structures
-            overlapping_structures = self.search([
+
+            # Find other master structures for the same company
+            other_structures = self.search([
                 ('id', '!=', record.id),
                 ('company_id', '=', record.company_id.id),
-                ('date_from', '<=', record.date_to or fields.Date.context_today(record)),
-                ('date_to', '>=', record.date_from or fields.Date.context_today(record)),
-                ('status', 'in', ['confirmed', 'active']),
             ])
-            
-            if overlapping_structures:
+
+            if other_structures:
                 raise ValidationError(_(
-                    "There is an overlapping ownership structure for this company.\n"
-                    "Conflicting structure(s): %s") % ', '.join(overlapping_structures.mapped('name')))
-    
+                    "A master ownership structure already exists for company '%s'.\n"
+                    "Only one master structure is allowed per company.\n"
+                    "Existing structure(s): %s") %
+                    (record.company_id.name, ', '.join(other_structures.mapped('name'))))
+
     def action_confirm(self):
         """Confirm the ownership structure"""
         for record in self:
@@ -435,6 +454,11 @@ class EquityOwnershipMaster(models.Model):
                 raise ValidationError(_(
                     "Total ownership percentage must equal 100%% before confirming. "
                     "Current total: %.2f%%") % record.total_percentage)
+
+            # Ensure there are ownership lines
+            if not record.owners_line_ids:
+                raise ValidationError(_("Cannot confirm a master structure without any ownership lines."))
+
             record.status = 'confirmed'
     
     def action_activate(self):
@@ -453,27 +477,10 @@ class EquityOwnershipMaster(models.Model):
             record.status = 'archived'
     
     def action_create_individual_ownerships(self):
-        """Create individual ownership records from this master structure"""
-        for record in self:
-            if record.status not in ['confirmed', 'active']:
-                raise ValidationError(_("Cannot create individual ownerships from a draft structure."))
-            
-            # Check if individual records already exist for this master structure
-            existing_records = self.env['equity.ownership'].search([('master_id', '=', record.id)])
-            if existing_records:
-                raise ValidationError(_("Individual ownership records already exist for this master structure."))
-            
-            # Create individual ownership records and link them to the master structure
-            for line in record.owners_line_ids:
-                self.env['equity.ownership'].create({
-                    'partner_id': line.partner_id.id,
-                    'company_id': record.company_id.id,
-                    'percentage': line.percentage,
-                    'equity_account_id': line.equity_account_id.id,
-                    'date_from': record.date_from,
-                    'date_to': record.date_to,
-                    'master_id': record.id,  # Link to master structure to bypass validation
-                })
+        """This method is no longer needed since ownership records are now directly linked to master."""
+        # In the new design, the ownership records are already linked to the master structure
+        # This method is kept for compatibility but doesn't need to do anything
+        pass
     
     def name_get(self):
         """Custom name display"""
@@ -1275,9 +1282,10 @@ class AccountMove(models.Model):
 
 ### 1. Master Ownership Structure
 - Centralized management of multiple owners for a company
-- Flexible setup with draft stage (no validation)
-- Validation only when confirming (requires 100% total)
-- Prevents duplicate individual record creation
+- Direct One2Many relationship to equity ownership records (no intermediate model)
+- Flexible setup with draft stage (validates data but not 100% total)
+- Validation when confirming (requires 100% total)
+- Only one master structure allowed per company
 - Links individual records to master structure to bypass individual validation
 
 ### 2. Individual Ownership Management
@@ -1308,9 +1316,10 @@ class AccountMove(models.Model):
 ### For Multiple Owners (Recommended):
 1. Create a master ownership structure
 2. Add multiple owners with their respective percentages directly in the ownership lines
-3. Confirm when total reaches 100%
-4. Ownership records are now directly linked to the master structure
-5. Perform transactions and allocations normally
+3. Each ownership line is validated for proper data (partner, equity account, percentage range)
+4. Confirm when total reaches 100% and structure is ready for use
+5. Only one master structure is allowed per company
+6. Perform transactions and allocations normally
 
 ### For Single Owners (Legacy Support):
 1. Create individual ownership record directly

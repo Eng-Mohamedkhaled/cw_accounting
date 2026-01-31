@@ -6,12 +6,12 @@
         <field name="model">equity.allocation</field>
         <field name="arch" type="xml">
             <list string="Profit &amp; Loss Allocations" decoration-info="state == 'calculated'" decoration-success="state == 'posted'" decoration-muted="state == 'cancelled'">
-                <field name="name"/>
-                <field name="company_id"/>
-                <field name="period_start"/>
-                <field name="period_end"/>
-                <field name="net_amount"/>
-                <field name="state"/>
+                <field name="name" string="Allocation Name"/>
+                <field name="company_id" string="Company"/>
+                <field name="period_start" string="Period Start"/>
+                <field name="period_end" string="Period End"/>
+                <field name="net_amount" string="Net Amount"/>
+                <field name="state" string="Status"/>
             </list>
         </field>
     </record>
@@ -35,12 +35,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group>
+                        <group string="Basic Information">
                             <field name="name"/>
                             <field name="company_id" options="{'no_create': True}"/>
                             <field name="allocation_date"/>
                         </group>
-                        <group>
+                        <group string="Period &amp; Amount">
                             <field name="period_start"/>
                             <field name="period_end"/>
                             <field name="net_amount" readonly="1"/>
@@ -55,11 +55,11 @@
                         <page string="Allocation Details" invisible="state == 'draft'">
                             <field name="allocation_line_ids" readonly="state != 'calculated'">
                                 <list editable="bottom">
-                                    <field name="partner_id" readonly="1"/>
-                                    <field name="ownership_id" readonly="1"/>
-                                    <field name="percentage" readonly="1"/>
-                                    <field name="amount"/>
-                                    <field name="equity_account_id" readonly="1"/>
+                                    <field name="partner_id" readonly="1" string="Partner"/>
+                                    <field name="ownership_id" readonly="1" string="Ownership"/>
+                                    <field name="percentage" readonly="1" string="Percentage (%)"/>
+                                    <field name="amount" string="Amount"/>
+                                    <field name="equity_account_id" readonly="1" string="Equity Account"/>
                                 </list>
                             </field>
                         </page>

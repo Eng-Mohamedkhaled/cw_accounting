@@ -6,12 +6,12 @@
         <field name="model">equity.ownership.master</field>
         <field name="arch" type="xml">
             <list string="Master Ownership Structures">
-                <field name="name"/>
-                <field name="company_id"/>
-                <field name="total_percentage"/>
-                <field name="status"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
+                <field name="name" string="Structure Name"/>
+                <field name="company_id" string="Company"/>
+                <field name="total_percentage" string="Total %"/>
+                <field name="status" string="Status"/>
+                <field name="date_from" string="From"/>
+                <field name="date_to" string="To"/>
             </list>
         </field>
     </record>
@@ -36,12 +36,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group>
+                        <group string="Basic Information">
                             <field name="name"/>
                             <field name="company_id"/>
                             <field name="total_percentage"/>
                         </group>
-                        <group>
+                        <group string="Validity Period">
                             <field name="date_from"/>
                             <field name="date_to"/>
                         </group>
@@ -50,10 +50,10 @@
                     <notebook>
                         <page string="Ownership Lines">
                             <field name="owners_line_ids">
-                                <list >
-                                    <field name="partner_id" options="{'no_create': True}"/>
-                                    <field name="percentage"/>
-                                    <field name="equity_account_id" domain="[('company_ids', 'in', parent.company_id), ('account_type', '=', 'equity')]"/>
+                                <list editable="bottom">
+                                    <field name="partner_id" options="{'no_create': True}" string="Partner"/>
+                                    <field name="percentage" string="Percentage (%)"/>
+                                    <field name="equity_account_id" domain="[('company_ids', 'in', parent.company_id), ('account_type', '=', 'equity')]" string="Equity Account"/>
                                 </list>
                             </field>
                         </page>
