@@ -9,6 +9,12 @@ class EquityOwnership(models.Model):
     _description = 'Equity Ownership Record'
     _order = 'date_from desc, partner_id'
     
+
+        
+    name = fields.Char(
+        string='Ownership Name',
+    
+    )
     # Partner who owns the equity
     partner_id = fields.Many2one(
         'res.partner',
