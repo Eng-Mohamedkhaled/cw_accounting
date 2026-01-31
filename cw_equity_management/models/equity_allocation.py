@@ -96,6 +96,7 @@ class EquityAllocation(models.Model):
     undistributed_profit_account_id = fields.Many2one(
         'account.account',
         string='Undistributed Profit Account',
+        required=True,
         domain="[('company_ids', 'in', company_id), ('account_type', '=', 'equity_unaffected')]",
         help='Account for undistributed profit'
     )

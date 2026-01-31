@@ -31,8 +31,7 @@
                             invisible="status == 'draft'"/>
                     <button name="action_archive" type="object" string="Archive" 
                             invisible="status == 'archived'"/>
-                    <button name="action_create_individual_ownerships" type="object" string="Create Individual Records" 
-                            invisible="status not in ('confirmed', 'active')" class="oe_highlight"/>
+               
                     <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,active"/>
                 </header>
                 <sheet>
@@ -51,7 +50,7 @@
                     <notebook>
                         <page string="Ownership Lines">
                             <field name="owners_line_ids">
-                                <list editable="bottom">
+                                <list >
                                     <field name="partner_id" options="{'no_create': True}"/>
                                     <field name="percentage"/>
                                     <field name="equity_account_id" domain="[('company_ids', 'in', parent.company_id), ('account_type', '=', 'equity')]"/>

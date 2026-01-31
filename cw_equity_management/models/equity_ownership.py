@@ -30,7 +30,7 @@ class EquityOwnership(models.Model):
     
     # Ownership percentage
     percentage = fields.Float(
-        string='Ownership Percentage (%)',
+        string='Ownership Percentage',
         required=True,
         default=0.0,
         digits=(16, 4),

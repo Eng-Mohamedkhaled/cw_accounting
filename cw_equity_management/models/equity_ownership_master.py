@@ -124,11 +124,6 @@ class EquityOwnershipMaster(models.Model):
         for record in self:
             record.status = 'archived'
 
-    def action_create_individual_ownerships(self):
-        """This method is no longer needed since ownership records are now directly linked to master."""
-        # In the new design, the ownership records are already linked to the master structure
-        # This method is kept for compatibility but doesn't need to do anything
-        pass
     
     def name_get(self):
         """Custom name display"""

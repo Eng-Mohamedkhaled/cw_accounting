@@ -38,7 +38,7 @@
 
     <!-- Profit &amp; Loss Allocation Menu -->
     <menuitem id="menu_equity_allocation"
-              name="P&amp;L Allocation"
+              name="Allocation"
               parent="menu_equity_root"
               sequence="30"/>
               
