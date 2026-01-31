@@ -50,13 +50,26 @@
                     
                     <notebook>
                         <page string="Ownership Lines">
-                            <field name="owners_line_ids">
+                            <field name="owners_line_ids" widget="many2many" >
                                 <list >
                                     <field name="sequence" widget="handle"/>
                                     <field name="partner_id"/>
                                     <field name="percentage"/>
                                     <field name="equity_account_id" domain="[('company_ids', 'in', parent.company_id), ('account_type', '=', 'equity')]"/>
                                 </list>
+                                <form string="Equity Ownership Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="percentage"/>
+                        </group>
+                        <group>
+                            <field name="equity_account_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
                             </field>
                         </page>
                         

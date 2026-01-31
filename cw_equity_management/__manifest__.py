@@ -17,8 +17,9 @@
         'security/ir.model.access.csv',
         'security/equity_security.xml',
         'views/partner_views.xml',
-        'views/equity_ownership_master_views.xml',
         'views/equity_ownership_views.xml',
+        'views/equity_ownership_master_views.xml',
+        
         'views/equity_transaction_views.xml',
         'views/equity_allocation_views.xml',
         'views/menu.xml',
