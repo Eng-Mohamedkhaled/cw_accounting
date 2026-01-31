@@ -80,24 +80,23 @@ class EquityOwnershipMaster(models.Model):
 
     @api.constrains('date_from', 'date_to', 'company_id')
     def _check_date_overlap(self):
-        """Ensure no overlapping ownership structures for the same company"""
+        """Ensure only one master ownership structure per company"""
         for record in self:
             if record.date_to and record.date_from > record.date_to:
                 raise ValidationError(_("Start date must be before end date."))
 
-            # Find overlapping master structures
-            overlapping_structures = self.search([
+            # Find other master structures for the same company
+            other_structures = self.search([
                 ('id', '!=', record.id),
                 ('company_id', '=', record.company_id.id),
-                ('date_from', '<=', record.date_to or fields.Date.context_today(record)),
-                ('date_to', '>=', record.date_from or fields.Date.context_today(record)),
-                ('status', 'in', ['confirmed', 'active']),
             ])
 
-            if overlapping_structures:
+            if other_structures:
                 raise ValidationError(_(
-                    "There is an overlapping ownership structure for this company.\n"
-                    "Conflicting structure(s): %s") % ', '.join(overlapping_structures.mapped('name')))
+                    "A master ownership structure already exists for company '%s'.\n"
+                    "Only one master structure is allowed per company.\n"
+                    "Existing structure(s): %s") %
+                    (record.company_id.name, ', '.join(other_structures.mapped('name'))))
 
     def action_confirm(self):
         """Confirm the ownership structure"""

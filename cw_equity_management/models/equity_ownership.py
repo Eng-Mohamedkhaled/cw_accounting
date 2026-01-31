@@ -13,6 +13,7 @@ class EquityOwnership(models.Model):
         
     name = fields.Char(
         string='Ownership Name',
+        required=True
     
     )
     # Partner who owns the equity
