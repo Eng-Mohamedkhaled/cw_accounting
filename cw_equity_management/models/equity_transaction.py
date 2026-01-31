@@ -207,11 +207,15 @@ class EquityTransaction(models.Model):
                 }
             ])
         else:  # withdrawal
-            # For withdrawal: debit shared equity account, credit cash
+            # For withdrawal: debit shared drawing account, credit cash
+            drawing_account = self.company_id.drawing_shared_account_id
+            if not drawing_account:
+                raise ValidationError(_("Please configure the shared drawing account for company %s") % self.company_id.name)
+
             move_lines.extend([
                 {
                     'name': f'Capital Withdrawal to {self.partner_id.name}',
-                    'account_id': equity_account.id,
+                    'account_id': drawing_account.id,
                     'debit': self.amount,
                     'credit': 0.0,
                     'partner_id': self.partner_id.id,
