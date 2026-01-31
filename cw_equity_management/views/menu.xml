@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Main Menu Item -->
-    <menuitem id="menu_equity_root" 
-              name="Equity" 
-              sequence="10" 
+    <menuitem id="menu_equity_root"
+              name="Equity"
+              sequence="10"
               web_icon="cw_equity_management,static/description/icon.png"/>
 
-    <!-- Equity Ownership Menu -->
+      <!-- Equity Ownership Menu -->
     <menuitem id="menu_equity_ownership"
               name="Equity Ownership"
               parent="menu_equity_root"

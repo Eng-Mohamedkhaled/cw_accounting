@@ -13,9 +13,21 @@ class EquityOwnership(models.Model):
         
     name = fields.Char(
         string='Ownership Name',
-        required=True
-    
+        compute='_compute_name',
+        store=True
+
     )
+
+    @api.depends('partner_id', 'percentage', 'date_from', 'date_to')
+    def _compute_name(self):
+        """Compute the name based on partner and percentage"""
+        for record in self:
+            name = f"{record.partner_id.name} - {record.percentage}%"
+            if record.date_to:
+                name += f" ({record.date_from} to {record.date_to})"
+            else:
+                name += f" (since {record.date_from})"
+            record.name = name
     # Partner who owns the equity
     partner_id = fields.Many2one(
         'res.partner',
@@ -42,15 +54,6 @@ class EquityOwnership(models.Model):
         default=0.0,
         digits=(16, 4),
         help='Percentage of ownership (0-100%)'
-    )
-    
-    # Equity account where the ownership is recorded
-    equity_account_id = fields.Many2one(
-        'account.account',
-        string='Equity Account',
-        required=True,
-        domain="[('company_ids', 'in', company_id), ('account_type', '=', 'equity')]",
-        help='The equity account where this ownership is recorded'
     )
     
     # Time period for the ownership
@@ -176,14 +179,6 @@ class EquityOwnership(models.Model):
                     "Current total: %.2f%%") % (record.company_id.name, total_percentage)
                 )
     
-    @api.constrains('equity_account_id', 'company_id')
-    def _check_equity_account_company(self):
-        """Ensure equity account belongs to the same company"""
-        for record in self:
-            if record.company_id not in record.equity_account_id.company_ids:
-                raise ValidationError(_(
-                    "The equity account must belong to the same company as the ownership record."
-                ))
     
     @api.depends('date_from', 'date_to')
     def _compute_status(self):

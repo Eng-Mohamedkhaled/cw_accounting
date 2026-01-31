@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend the company form view to add equity configuration -->
+    <record id="view_company_equity_config_form" model="ir.ui.view">
+        <field name="name">res.company.equity.config.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//notebook" position="inside">
+                <!-- <notebook> -->
+                <page string ="Equity Management">
+
+                <group string="Equity Management Configuration" name="equity_config">
+                    <field name="equity_shared_account_id"
+                           domain="[('company_ids', 'in', id), ('account_type', '=', 'equity')]"
+                           context="{'default_account_type': 'equity', 'default_company_ids': [(4, id)]}"/>
+                    <field name="drawing_shared_account_id"
+                           domain="[('company_ids', 'in', id), ('account_type', '=', 'equity')]"
+                           context="{'default_account_type': 'equity', 'default_company_ids': [(4, id)]}"/>
+                </group>
+                </page>
+                <!-- </notebook> -->
+            </xpath>
+        </field>
+    </record>
+
+ 
+</odoo>

@@ -127,13 +127,13 @@ class EquityTransaction(models.Model):
             if record.ownership_id:
                 if record.date < record.ownership_id.date_from:
                     raise ValidationError(_(
-                        "Transaction date must be after the ownership start date (%s).") % 
+                        "Transaction date must be after the ownership start date (%s).") %
                         record.ownership_id.date_from)
-                
-                if (record.ownership_id.date_to and 
+
+                if (record.ownership_id.date_to and
                     record.date > record.ownership_id.date_to):
                     raise ValidationError(_(
-                        "Transaction date must be before the ownership end date (%s).") % 
+                        "Transaction date must be before the ownership end date (%s).") %
                         record.ownership_id.date_to)
     
     @api.constrains('cash_account_id', 'company_id')
@@ -175,16 +175,19 @@ class EquityTransaction(models.Model):
     def _prepare_journal_entry_vals(self):
         """Prepare journal entry values for the transaction"""
         self.ensure_one()
-        
-        # Determine accounts based on transaction type
-        equity_account = self.ownership_id.equity_account_id
+
+        # Get the shared equity account from company settings
+        equity_account = self.company_id.equity_shared_account_id
+        if not equity_account:
+            raise ValidationError(_("Please configure the shared equity account for company %s") % self.company_id.name)
+
         cash_account = self.cash_account_id
-        
+
         # Prepare move lines
         move_lines = []
-        
+
         if self.transaction_type == 'contribution':
-            # For contribution: debit cash, credit equity
+            # For contribution: debit cash, credit shared equity account
             move_lines.extend([
                 {
                     'name': f'Capital Contribution from {self.partner_id.name}',
@@ -204,7 +207,7 @@ class EquityTransaction(models.Model):
                 }
             ])
         else:  # withdrawal
-            # For withdrawal: debit equity, credit cash
+            # For withdrawal: debit shared equity account, credit cash
             move_lines.extend([
                 {
                     'name': f'Capital Withdrawal to {self.partner_id.name}',
@@ -223,13 +226,13 @@ class EquityTransaction(models.Model):
                     'currency_id': self.currency_id.id,
                 }
             ])
-        
+
         # Create journal entry
         journal = self.env['account.journal'].search([
             ('type', 'in', ['general']),
             ('company_id', '=', self.company_id.id)
         ], limit=1)
-        
+
         return {
             'ref': f'{self.transaction_type.title()} - {self.partner_id.name}',
             'date': self.date,

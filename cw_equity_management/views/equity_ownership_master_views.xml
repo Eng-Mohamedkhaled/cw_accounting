@@ -51,9 +51,8 @@
                         <page string="Ownership Lines">
                             <field name="owners_line_ids">
                                 <list editable="bottom">
-                                    <field name="partner_id" options="{'no_create': True}" string="Partner"/>
+                                    <field name="partner_id"   context="{'default_is_equity_owner': True}" string="Owner"/>
                                     <field name="percentage" string="Percentage (%)"/>
-                                    <field name="equity_account_id" domain="[('company_ids', 'in', parent.company_id), ('account_type', '=', 'equity')]" string="Equity Account"/>
                                 </list>
                             </field>
                         </page>

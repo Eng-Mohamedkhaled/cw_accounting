@@ -1288,7 +1288,13 @@ class AccountMove(models.Model):
 - Only one master structure allowed per company
 - Links individual records to master structure to bypass individual validation
 
-### 2. Individual Ownership Management
+### 2. Shared Equity Accounts
+- Single shared equity account for all owners in a company
+- Single shared drawing account for all owners in a company
+- Individual owner transactions differentiated by partner field in accounting entries
+- Configuration accessible through Equity Management > Configuration menu
+
+### 3. Individual Ownership Management
 - Traditional approach for single owners
 - Strict 100% validation for standalone records
 - Date range management
@@ -1303,7 +1309,8 @@ class AccountMove(models.Model):
 ### 4. Profit & Loss Allocation
 - Period-based allocation
 - Automatic distribution by ownership percentage
-- Journal entry generation
+- Journal entry generation using shared equity account
+- Differentiated by partner field in accounting entries
 - Retained earnings handling
 
 ### 5. Security & Access Control

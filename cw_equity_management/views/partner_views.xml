@@ -21,7 +21,6 @@
                         <list string="Equity Ownership Records" editable="bottom">
                             <field name="company_id" options="{'no_create': True}"/>
                             <field name="percentage"/>
-                            <field name="equity_account_id" options="{'no_create': True}"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="status"/>
@@ -30,7 +29,6 @@
                             <group>
                                 <field name="company_id" options="{'no_create': True}"/>
                                 <field name="percentage"/>
-                                <field name="equity_account_id" options="{'no_create': True}"/>
                                 <field name="date_from"/>
                                 <field name="date_to"/>
                             </group>

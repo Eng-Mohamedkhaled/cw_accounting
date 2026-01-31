@@ -59,7 +59,6 @@
                                     <field name="ownership_id" readonly="1" string="Ownership"/>
                                     <field name="percentage" readonly="1" string="Percentage (%)"/>
                                     <field name="amount" string="Amount"/>
-                                    <field name="equity_account_id" readonly="1" string="Equity Account"/>
                                 </list>
                             </field>
                         </page>

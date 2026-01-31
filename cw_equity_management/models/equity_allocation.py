@@ -282,7 +282,6 @@ class EquityAllocation(models.Model):
                 'ownership_id': ownership.id,
                 'percentage': ownership.percentage,
                 'amount': amount,
-                'equity_account_id': ownership.equity_account_id.id,
             }))
 
         print(f"DEBUG: Total allocation lines to create: {len(allocation_lines)}")
@@ -317,22 +316,27 @@ class EquityAllocation(models.Model):
 
         move_lines = []
 
-        # Allocate net profit/loss to equity accounts
+        # Get the shared equity account from company settings
+        shared_equity_account = self.company_id.equity_shared_account_id
+        if not shared_equity_account:
+            raise ValidationError(_("Please configure the shared equity account for company %s") % self.company_id.name)
+
+        # Allocate net profit/loss to shared equity account with partner differentiation
         for line in self.allocation_line_ids:
             if line.amount != 0:
-                if line.amount > 0:  # Profit allocation (credit equity account)
+                if line.amount > 0:  # Profit allocation (credit shared equity account)
                     move_lines.append({
                         'name': f'Profit Allocation to {line.partner_id.name}',
-                        'account_id': line.equity_account_id.id,
+                        'account_id': shared_equity_account.id,
                         'debit': 0.0,
                         'credit': line.amount,
                         'partner_id': line.partner_id.id,
                         'currency_id': self.currency_id.id,
                     })
-                else:  # Loss allocation (debit equity account)
+                else:  # Loss allocation (debit shared equity account)
                     move_lines.append({
                         'name': f'Loss Allocation to {line.partner_id.name}',
-                        'account_id': line.equity_account_id.id,
+                        'account_id': shared_equity_account.id,
                         'debit': abs(line.amount),
                         'credit': 0.0,
                         'partner_id': line.partner_id.id,
@@ -465,14 +469,6 @@ class EquityAllocationLine(models.Model):
         string='Amount',
         currency_field='currency_id',
         help='Calculated amount allocated to this owner'
-    )
-    
-    # Equity account where the allocation is recorded
-    equity_account_id = fields.Many2one(
-        'account.account',
-        string='Equity Account',
-        required=True,
-        help='The equity account where this allocation is recorded'
     )
     
     # Currency for monetary fields
