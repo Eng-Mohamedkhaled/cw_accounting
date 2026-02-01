@@ -6,6 +6,7 @@
               sequence="10"
               web_icon="cw_equity_management,static/description/icon.png"/>
 
+
       <!-- Equity Ownership Menu -->
     <menuitem id="menu_equity_ownership"
               name="Equity Ownership"
@@ -25,16 +26,22 @@
               sequence="10"/>
 
     <!-- Equity Transactions Menu -->
-    <menuitem id="menu_equity_transactions" 
-              name="Transactions" 
-              parent="menu_equity_root" 
+    <menuitem id="menu_equity_transactions"
+              name="Transactions"
+              parent="menu_equity_root"
               sequence="20"/>
-              
-    <menuitem id="menu_equity_transaction_list" 
-              name="Capital Transactions" 
-              parent="menu_equity_transactions" 
-              action="action_equity_transaction" 
+
+    <menuitem id="menu_equity_capital_transaction_list"
+              name="Capital Transactions"
+              parent="menu_equity_transactions"
+              action="action_equity_capital_transaction"
               sequence="10"/>
+
+    <menuitem id="menu_equity_drawing_transaction_list"
+              name="Owner Drawings"
+              parent="menu_equity_transactions"
+              action="action_equity_drawing_transaction"
+              sequence="20"/>
 
     <!-- Profit &amp; Loss Allocation Menu -->
     <menuitem id="menu_equity_allocation"

@@ -17,6 +17,38 @@
         </field>
     </record>
 
+    <!-- Capital Transaction List View -->
+    <record id="view_equity_capital_transaction_tree" model="ir.ui.view">
+        <field name="name">equity.capital.transaction.tree</field>
+        <field name="model">equity.transaction</field>
+        <field name="arch" type="xml">
+            <list string="Capital Transactions" decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+                <field name="partner_id" string="Partner"/>
+                <field name="company_id" string="Company"/>
+                <field name="amount" string="Amount"/>
+                <field name="date" string="Date"/>
+                <field name="reference" string="Reference"/>
+                <field name="state" string="Status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Drawing Transaction List View -->
+    <record id="view_equity_drawing_transaction_tree" model="ir.ui.view">
+        <field name="name">equity.drawing.transaction.tree</field>
+        <field name="model">equity.transaction</field>
+        <field name="arch" type="xml">
+            <list string="Owner Drawings" decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+                <field name="partner_id" string="Partner"/>
+                <field name="company_id" string="Company"/>
+                <field name="amount" string="Amount"/>
+                <field name="date" string="Date"/>
+                <field name="reference" string="Reference"/>
+                <field name="state" string="Status"/>
+            </list>
+        </field>
+    </record>
+
     <!-- Equity Transaction Form View -->
     <record id="view_equity_transaction_form" model="ir.ui.view">
         <field name="name">equity.transaction.form</field>
@@ -24,11 +56,11 @@
         <field name="arch" type="xml">
             <form string="Equity Transaction">
                 <header>
-                    <button name="action_post" type="object" string="Post" class="oe_highlight" 
+                    <button name="action_post" type="object" string="Post" class="oe_highlight"
                             invisible="state != 'draft'"/>
-                    <button name="action_cancel" type="object" string="Cancel" 
+                    <button name="action_cancel" type="object" string="Cancel"
                             invisible="state != 'posted'"/>
-                    <button name="action_draft" type="object" string="Reset to Draft" 
+                    <button name="action_draft" type="object" string="Reset to Draft"
                             invisible="state != 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
                 </header>
@@ -45,12 +77,12 @@
                             <field name="reference"/>
                         </group>
                     </group>
-                    
+
                     <group string="Accounts">
                         <field name="cash_account_id" options="{'no_create': True}"/>
                         <field name="ownership_id" readonly="1"/>
                     </group>
-                    
+
                     <group string="Details">
                         <field name="description" nolabel="1"/>
                     </group>
@@ -65,16 +97,132 @@
         </field>
     </record>
 
-    <!-- Action for Equity Transactions -->
-    <record id="action_equity_transaction" model="ir.actions.act_window">
-        <field name="name">Equity Transactions</field>
+    <!-- Capital Transaction Form View -->
+    <record id="view_equity_capital_transaction_form" model="ir.ui.view">
+        <field name="name">equity.capital.transaction.form</field>
+        <field name="model">equity.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Capital Transaction">
+                <header>
+                    <button name="action_post" type="object" string="Post" class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'posted'"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Transaction Info">
+                            <field name="transaction_type" invisible="1"/>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Financial Info">
+                            <field name="amount"/>
+                            <field name="date"/>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+
+                    <group string="Accounts">
+                        <field name="cash_account_id" options="{'no_create': True}"/>
+                        <field name="ownership_id" readonly="1"/>
+                    </group>
+
+                    <group string="Details">
+                        <field name="description" nolabel="1"/>
+                    </group>
+
+                    <group string="Generated Entry" invisible="not move_id">
+                        <field name="move_id" readonly="1"/>
+                        <button name="action_view_journal_entry" type="object" string="View Journal Entry"
+                                invisible="not move_id" class="oe_link"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Drawing Transaction Form View -->
+    <record id="view_equity_drawing_transaction_form" model="ir.ui.view">
+        <field name="name">equity.drawing.transaction.form</field>
+        <field name="model">equity.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Drawing Transaction">
+                <header>
+                    <button name="action_post" type="object" string="Post" class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'posted'"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Transaction Info">
+                            <field name="transaction_type" invisible="1"/>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Financial Info">
+                            <field name="amount"/>
+                            <field name="date"/>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+
+                    <group string="Accounts">
+                        <field name="cash_account_id" options="{'no_create': True}"/>
+                        <field name="ownership_id" readonly="1"/>
+                    </group>
+
+                    <group string="Details">
+                        <field name="description" nolabel="1"/>
+                    </group>
+
+                    <group string="Generated Entry" invisible="not move_id">
+                        <field name="move_id" readonly="1"/>
+                        <button name="action_view_journal_entry" type="object" string="View Journal Entry"
+                                invisible="not move_id" class="oe_link"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Capital Transactions -->
+    <record id="action_equity_capital_transaction" model="ir.actions.act_window">
+        <field name="name">Capital Transactions</field>
         <field name="res_model">equity.transaction</field>
         <field name="view_mode">list,form</field>
+        <field name="domain">[('transaction_type', '=', 'contribution')]</field>
+        <field name="context">{'default_transaction_type': 'contribution'}</field>
+        <field name="view_id" ref="view_equity_capital_transaction_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create your first equity transaction
+                Create your first capital transaction
             </p><p>
-                Record capital contributions and withdrawals.
+                Record capital contributions.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for Drawing Transactions -->
+    <record id="action_equity_drawing_transaction" model="ir.actions.act_window">
+        <field name="name">Owner Drawings</field>
+        <field name="res_model">equity.transaction</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('transaction_type', '=', 'withdrawal')]</field>
+        <field name="context">{'default_transaction_type': 'withdrawal'}</field>
+        <field name="view_id" ref="view_equity_drawing_transaction_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first drawing transaction
+            </p><p>
+                Record owner withdrawals.
             </p>
         </field>
     </record>
