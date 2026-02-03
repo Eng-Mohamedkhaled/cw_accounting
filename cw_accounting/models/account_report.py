@@ -41,6 +41,22 @@ class CWAccountReport(models.Model):
         ('cw_account_report_company_unique', 'unique(company_id)', 'Only one record per company is allowed.'),
     ]
 
+    @api.model
+    def action_open_settings(self):
+        record = self.search([('company_id', '=', self.env.company.id)], limit=1)
+        if not record:
+            record = self.create({'company_id': self.env.company.id})
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'CW Account Report',
+            'res_model': 'cw.account.report',
+            'view_mode': 'form',
+            'res_id': record.id,
+            'target': 'current',
+            'context': {'create': False},
+        }
+
     def _get_base_codes(self):
         self.ensure_one()
         return {

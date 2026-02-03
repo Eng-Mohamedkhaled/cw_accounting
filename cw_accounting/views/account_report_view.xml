@@ -5,7 +5,7 @@
         <field name="name">cw.account.report.form</field>
         <field name="model">cw.account.report</field>
         <field name="arch" type="xml">
-            <form string="Account Report">
+            <form string="Account Report" create="0">
                 <header>
                     <button name="read_accounts" string="Print Accounts by Type" type="object" class="btn-primary"/>
                     <button name="apply_account_codes" string="Apply Account Codes" type="object" class="btn-secondary"/>
@@ -43,15 +43,15 @@
     </record>
 
     <!-- Action to open the account report -->
-    <record id="action_cw_account_report" model="ir.actions.act_window">
+    <record id="action_cw_account_report_server" model="ir.actions.server">
         <field name="name">CW Account Report</field>
-        <field name="res_model">cw.account.report</field>
-        <field name="view_mode">form</field>
-        <field name="target">current</field>
+        <field name="model_id" ref="model_cw_account_report"/>
+        <field name="state">code</field>
+        <field name="code">action = env['cw.account.report'].action_open_settings()</field>
     </record>
 
     <menuitem id="menu_account_codes" name="Account Codes" parent="account.account_account_menu"
     sequence="9"
-    action="action_cw_account_report" groups="custom_account_move_line.cw_group_accounting_manager"/>
+    action="cw_accounting.action_cw_account_codes_settings" groups="custom_account_move_line.cw_group_accounting_manager"/>
               
 </odoo>
