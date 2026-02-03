@@ -77,6 +77,11 @@ class EquityTransaction(models.Model):
         copy=False,
         help='Generated journal entry for this transaction'
     )
+    move_name = fields.Char(
+        string='Journal Entry Number',
+        related='move_id.name',
+        readonly=True
+    )
     
     # State of the transaction
     state = fields.Selection([
