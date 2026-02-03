@@ -9,6 +9,7 @@ class EquityAllocation(models.Model):
     _description = 'Profit & Loss Allocation to Equity Owners'
     _order = 'allocation_date desc, id desc'
     _rec_name = 'name'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     
     # Name of the allocation
     name = fields.Char(

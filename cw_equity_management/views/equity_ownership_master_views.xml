@@ -63,6 +63,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter reload_on_attachment="True"/>
             </form>
         </field>
     </record>

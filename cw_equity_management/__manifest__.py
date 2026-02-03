@@ -12,7 +12,7 @@
         - Full integration with Odoo's accounting system
     ''',
     'author': 'Senior Odoo Architect',
-    'depends': ['account', 'base'],
+    'depends': ['account', 'base', 'mail'],
     'data': [
         'security/ir.model.access.csv',
         'security/equity_security.xml',

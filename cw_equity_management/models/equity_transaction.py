@@ -8,6 +8,7 @@ class EquityTransaction(models.Model):
     _description = 'Equity Transaction (Capital Contribution/Withdrawal)'
     _order = 'date desc, id desc'
     _rec_name = 'name'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(
         string='Reference',
@@ -41,7 +42,9 @@ class EquityTransaction(models.Model):
     # Amount of the transaction
     amount = fields.Monetary(
         string='Amount',
-        required=True,
+        compute='_compute_amount',
+        store=True,
+        readonly=True,
         currency_field='currency_id',
         help='The amount of the transaction'
     )
@@ -105,12 +108,16 @@ class EquityTransaction(models.Model):
     )
     
     # Account mapping for the transaction
-    cash_account_id = fields.Many2one(
-        'account.account',
-        string='Cash/Bank Account',
-        domain="[('company_ids', 'in', company_id), ('account_type', 'in', ['asset_cash', 'asset_current', 'liability_current'])]",
-        help='Account where cash is received from (for contributions) or paid to (for withdrawals)'
+    line_ids = fields.One2many(
+        'equity.transaction.line',
+        'transaction_id',
+        string='Cash/Bank Lines'
     )
+
+    @api.depends('line_ids.amount')
+    def _compute_amount(self):
+        for record in self:
+            record.amount = sum(record.line_ids.mapped('amount'))
     
     @api.depends('partner_id', 'transaction_type', 'amount', 'date', 'reference')
     def _compute_name(self):
@@ -158,15 +165,11 @@ class EquityTransaction(models.Model):
                         "Transaction date must be before the ownership end date (%s).") %
                         record.ownership_id.date_to)
     
-    @api.constrains('cash_account_id', 'company_id')
-    def _check_cash_account_company(self):
-        """Ensure cash account belongs to the same company"""
+    @api.constrains('line_ids')
+    def _check_lines_present(self):
         for record in self:
-            if (record.cash_account_id and
-                record.company_id not in record.cash_account_id.company_ids):
-                raise ValidationError(_(
-                    "The cash account must belong to the same company as the transaction."
-                ))
+            if not record.line_ids:
+                raise ValidationError(_("Please add at least one cash/bank line."))
     
     def action_post(self):
         """Post the transaction and create the journal entry"""
@@ -175,8 +178,8 @@ class EquityTransaction(models.Model):
                 continue
                 
             # Validate required fields
-            if not record.cash_account_id:
-                raise ValidationError(_("Please specify a cash/bank account for this transaction."))
+            if not record.line_ids:
+                raise ValidationError(_("Please add at least one cash/bank line for this transaction."))
             
             if not record.ownership_id:
                 raise ValidationError(_("No active equity ownership found for this partner on the transaction date."))
@@ -203,55 +206,52 @@ class EquityTransaction(models.Model):
         if not equity_account:
             raise ValidationError(_("Please configure the shared equity account for company %s") % self.company_id.name)
 
-        cash_account = self.cash_account_id
-
         # Prepare move lines
         move_lines = []
+        total_amount = sum(self.line_ids.mapped('amount'))
 
         if self.transaction_type == 'contribution':
-            # For contribution: debit cash, credit shared equity account
-            move_lines.extend([
-                {
+            # For contribution: debit each cash/bank line, credit shared equity account (total)
+            for line in self.line_ids:
+                move_lines.append({
                     'name': f'Capital Contribution from {self.partner_id.name}',
-                    'account_id': cash_account.id,
-                    'debit': self.amount,
+                    'account_id': line.account_id.id,
+                    'debit': line.amount,
                     'credit': 0.0,
                     'partner_id': self.partner_id.id,
                     'currency_id': self.currency_id.id,
-                },
-                {
-                    'name': f'Capital Contribution from {self.partner_id.name}',
-                    'account_id': equity_account.id,
-                    'debit': 0.0,
-                    'credit': self.amount,
-                    'partner_id': self.partner_id.id,
-                    'currency_id': self.currency_id.id,
-                }
-            ])
+                })
+            move_lines.append({
+                'name': f'Capital Contribution from {self.partner_id.name}',
+                'account_id': equity_account.id,
+                'debit': 0.0,
+                'credit': total_amount,
+                'partner_id': self.partner_id.id,
+                'currency_id': self.currency_id.id,
+            })
         else:  # withdrawal
             # For withdrawal: debit shared drawing account, credit cash
             drawing_account = self.company_id.drawing_shared_account_id
             if not drawing_account:
                 raise ValidationError(_("Please configure the shared drawing account for company %s") % self.company_id.name)
 
-            move_lines.extend([
-                {
+            move_lines.append({
+                'name': f'Capital Withdrawal to {self.partner_id.name}',
+                'account_id': drawing_account.id,
+                'debit': total_amount,
+                'credit': 0.0,
+                'partner_id': self.partner_id.id,
+                'currency_id': self.currency_id.id,
+            })
+            for line in self.line_ids:
+                move_lines.append({
                     'name': f'Capital Withdrawal to {self.partner_id.name}',
-                    'account_id': drawing_account.id,
-                    'debit': self.amount,
-                    'credit': 0.0,
-                    'partner_id': self.partner_id.id,
-                    'currency_id': self.currency_id.id,
-                },
-                {
-                    'name': f'Capital Withdrawal to {self.partner_id.name}',
-                    'account_id': cash_account.id,
+                    'account_id': line.account_id.id,
                     'debit': 0.0,
-                    'credit': self.amount,
+                    'credit': line.amount,
                     'partner_id': self.partner_id.id,
                     'currency_id': self.currency_id.id,
-                }
-            ])
+                })
 
         # Create journal entry
         journal = self.env['account.journal'].search([

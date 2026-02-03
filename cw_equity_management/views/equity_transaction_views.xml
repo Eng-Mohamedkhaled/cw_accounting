@@ -89,7 +89,7 @@
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
                         <group>
-                            <field name="amount"/>
+                            <field name="amount" readonly="1"/>
                             <field name="date"/>
                         </group>
                     </group>
@@ -97,9 +97,14 @@
                     <notebook>
                         <page string="Accounts">
                             <group>
-                                <field name="cash_account_id" options="{'no_create': True}"/>
                                 <!-- <field name="ownership_id" readonly="1"/> -->
                             </group>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="account_id" options="{'no_create': True}"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Notes">
                             <group>
@@ -109,6 +114,7 @@
                     </notebook>
 
                 </sheet>
+                <chatter reload_on_attachment="True"/>
             </form>
         </field>
     </record>
@@ -147,7 +153,7 @@
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
                         <group>
-                            <field name="amount"/>
+                            <field name="amount" readonly="1"/>
                             <field name="date"/>
                         </group>
                     </group>
@@ -155,9 +161,14 @@
                     <notebook>
                         <page string="Accounts">
                             <group>
-                                <field name="cash_account_id" options="{'no_create': True}"/>
                                 <!-- <field name="ownership_id" readonly="1"/> -->
                             </group>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="account_id" options="{'no_create': True}"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Notes">
                             <group>
@@ -167,6 +178,7 @@
                     </notebook>
 
                 </sheet>
+                <chatter reload_on_attachment="True"/>
             </form>
         </field>
     </record>
@@ -205,7 +217,7 @@
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
                         <group>
-                            <field name="amount"/>
+                            <field name="amount" readonly="1"/>
                             <field name="date"/>
                         </group>
                     </group>
@@ -213,9 +225,14 @@
                     <notebook>
                         <page string="Accounts">
                             <group>
-                                <field name="cash_account_id" options="{'no_create': True}"/>
-                                <field name="ownership_id" readonly="1"/>
+                                <!-- <field name="ownership_id" readonly="1"/> -->
                             </group>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="account_id" options="{'no_create': True}"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Notes">
                             <group>
@@ -225,6 +242,7 @@
                     </notebook>
 
                 </sheet>
+                <chatter reload_on_attachment="True"/>
             </form>
         </field>
     </record>

@@ -9,6 +9,7 @@ class EquityOwnershipMaster(models.Model):
     _description = 'Master Equity Ownership Structure'
     _order = 'name, id'
     _rec_name = 'name'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     
     name = fields.Char(
         string='Structure Name',

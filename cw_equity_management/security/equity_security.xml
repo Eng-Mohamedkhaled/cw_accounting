@@ -15,6 +15,13 @@
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         </record>
+
+        <record id="equity_transaction_line_rule" model="ir.rule">
+            <field name="name">Equity Transaction Line Multi-Company Rule</field>
+            <field name="model_id" ref="model_equity_transaction_line"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
         
         <record id="equity_allocation_rule" model="ir.rule">
             <field name="name">Equity Allocation Multi-Company Rule</field>
