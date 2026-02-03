@@ -41,6 +41,7 @@
                         </group>
                     </group>
                     <div class="mt12 d-flex gap-2">
+                        <button name="action_apply_account_codes" type="object" class="btn-primary" string="Apply Account Codes"/>
                         <button name="action_reset_account_code_defaults" type="object" class="btn-secondary" string="Reset to Defaults"/>
                     </div>
                 </sheet>

@@ -94,16 +94,29 @@ class ResCompany(models.Model):
         base_codes = self._cw_base_codes()
         Account = self.env['account.account'].with_company(self)
 
+        print(f"CW Account Codes: applying prefixes for company={self.name} (id={self.id})")
+
         for account_type, base_code in base_codes.items():
             if not base_code:
+                print(f"CW Account Codes: skip account_type={account_type} (empty prefix)")
                 continue
 
-            accounts = Account.search([('account_type', '=', account_type), ('company_id', '=', self.id)])
+            accounts = Account.search([('account_type', '=', account_type), ('company_ids', 'in', self.id)])
             accounts = accounts.sorted(lambda a: (a.code or "", a.name or ""))
+
+            print(
+                f"CW Account Codes: account_type={account_type} "
+                f"prefix={base_code} accounts_found={len(accounts)}"
+            )
 
             for idx, account in enumerate(accounts):
                 new_code = self._cw_build_code(base_code, idx)
                 if new_code:
+                    old_code = account.code or ""
+                    print(
+                        f"CW Account Codes: {account.display_name} "
+                        f"(id={account.id}) {old_code} -> {new_code}"
+                    )
                     account.code = new_code
 
         return True
