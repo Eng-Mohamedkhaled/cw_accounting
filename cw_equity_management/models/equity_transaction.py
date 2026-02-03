@@ -7,7 +7,13 @@ class EquityTransaction(models.Model):
     _name = 'equity.transaction'
     _description = 'Equity Transaction (Capital Contribution/Withdrawal)'
     _order = 'date desc, id desc'
-    name= "Transaction" 
+    _rec_name = 'name'
+
+    name = fields.Char(
+        string='Reference',
+        compute='_compute_name',
+        store=True
+    )
     # Transaction type
     transaction_type = fields.Selection([
         ('contribution', 'Capital Contribution'),
@@ -106,6 +112,17 @@ class EquityTransaction(models.Model):
         help='Account where cash is received from (for contributions) or paid to (for withdrawals)'
     )
     
+    @api.depends('partner_id', 'transaction_type', 'amount', 'date', 'reference')
+    def _compute_name(self):
+        for record in self:
+            if record.reference:
+                record.name = record.reference
+                continue
+            if record.partner_id and record.amount and record.date:
+                record.name = f"{record.transaction_type.title()} - {record.partner_id.name} - {record.amount}"
+            else:
+                record.name = _("Draft")
+
     @api.depends('partner_id', 'company_id', 'date')
     def _compute_ownership_id(self):
         """Compute the related equity ownership record"""
@@ -279,15 +296,8 @@ class EquityTransaction(models.Model):
                 record.state = 'draft'
     
     def name_get(self):
-        """Custom name display"""
-        result = []
-        for record in self:
-            if not record.id:
-                name = _("Draft")
-            else:
-                name = f"{record.transaction_type.title()} - {record.partner_id.name} - {record.amount}"
-            result.append((record.id, name))
-        return result
+        """Use the computed name for display"""
+        return super().name_get()
 
     def action_view_journal_entry(self):
         """Action to view the generated journal entry"""

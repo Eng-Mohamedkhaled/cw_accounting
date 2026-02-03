@@ -82,26 +82,31 @@
                         </button>
                     </div>
                     <group>
-                        <group string="Transaction">
+                        <group>
                             <field name="transaction_type"/>
+                            <field name="reference"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group string="Amounts">
+                        <group>
                             <field name="amount"/>
                             <field name="date"/>
-                            <field name="reference"/>
                         </group>
                     </group>
 
-                    <group string="Accounts">
-                        <field name="cash_account_id" options="{'no_create': True}"/>
-                        <field name="ownership_id" readonly="1"/>
-                    </group>
-
-                    <group string="Notes">
-                        <field name="description" nolabel="1" placeholder="Optional notes..."/>
-                    </group>
+                    <notebook>
+                        <page string="Accounts">
+                            <group>
+                                <field name="cash_account_id" options="{'no_create': True}"/>
+                                <!-- <field name="ownership_id" readonly="1"/> -->
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <group>
+                                <field name="description" nolabel="1" placeholder="Optional notes..."/>
+                            </group>
+                        </page>
+                    </notebook>
 
                 </sheet>
             </form>
@@ -135,26 +140,31 @@
                         </button>
                     </div>
                     <group>
-                        <group string="Transaction">
+                        <group>
                             <field name="transaction_type" invisible="1"/>
+                            <field name="reference"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group string="Amounts">
+                        <group>
                             <field name="amount"/>
                             <field name="date"/>
-                            <field name="reference"/>
                         </group>
                     </group>
 
-                    <group string="Accounts">
-                        <field name="cash_account_id" options="{'no_create': True}"/>
-                        <field name="ownership_id" readonly="1"/>
-                    </group>
-
-                    <group string="Notes">
-                        <field name="description" nolabel="1" placeholder="Optional notes..."/>
-                    </group>
+                    <notebook>
+                        <page string="Accounts">
+                            <group>
+                                <field name="cash_account_id" options="{'no_create': True}"/>
+                                <!-- <field name="ownership_id" readonly="1"/> -->
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <group>
+                                <field name="description" nolabel="1" placeholder="Optional notes..."/>
+                            </group>
+                        </page>
+                    </notebook>
 
                 </sheet>
             </form>
@@ -188,26 +198,31 @@
                         </button>
                     </div>
                     <group>
-                        <group string="Transaction">
+                        <group>
                             <field name="transaction_type" invisible="1"/>
+                            <field name="reference"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group string="Amounts">
+                        <group>
                             <field name="amount"/>
                             <field name="date"/>
-                            <field name="reference"/>
                         </group>
                     </group>
 
-                    <group string="Accounts">
-                        <field name="cash_account_id" options="{'no_create': True}"/>
-                        <field name="ownership_id" readonly="1"/>
-                    </group>
-
-                    <group string="Notes">
-                        <field name="description" nolabel="1" placeholder="Optional notes..."/>
-                    </group>
+                    <notebook>
+                        <page string="Accounts">
+                            <group>
+                                <field name="cash_account_id" options="{'no_create': True}"/>
+                                <field name="ownership_id" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <group>
+                                <field name="description" nolabel="1" placeholder="Optional notes..."/>
+                            </group>
+                        </page>
+                    </notebook>
 
                 </sheet>
             </form>

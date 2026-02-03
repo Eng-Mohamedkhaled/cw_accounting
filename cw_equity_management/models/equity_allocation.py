@@ -8,6 +8,7 @@ class EquityAllocation(models.Model):
     _name = 'equity.allocation'
     _description = 'Profit & Loss Allocation to Equity Owners'
     _order = 'allocation_date desc, id desc'
+    _rec_name = 'name'
     
     # Name of the allocation
     name = fields.Char(
@@ -436,6 +437,7 @@ class EquityAllocation(models.Model):
 class EquityAllocationLine(models.Model):
     _name = 'equity.allocation.line'
     _description = 'Profit & Loss Allocation Line'
+    _rec_name = 'partner_id'
     
     # Parent allocation
     allocation_id = fields.Many2one(

@@ -8,6 +8,7 @@ class EquityOwnershipMaster(models.Model):
     _name = 'equity.ownership.master'
     _description = 'Master Equity Ownership Structure'
     _order = 'name, id'
+    _rec_name = 'name'
     
     name = fields.Char(
         string='Structure Name',
@@ -131,4 +132,3 @@ class EquityOwnershipMaster(models.Model):
             name = f"{record.name} - {record.company_id.name} ({record.total_percentage}%)"
             result.append((record.id, name))
         return result
-

@@ -8,6 +8,7 @@ class EquityOwnership(models.Model):
     _name = 'equity.ownership'
     _description = 'Equity Ownership Record'
     _order = 'date_from desc, partner_id'
+    _rec_name = 'name'
     
 
         
