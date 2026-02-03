@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- View for the account report model -->
+    <record id="view_cw_account_report" model="ir.ui.view">
+        <field name="name">cw.account.report.form</field>
+        <field name="model">cw.account.report</field>
+        <field name="arch" type="xml">
+            <form string="Account Report">
+                <header>
+                    <button name="read_accounts" string="Print Accounts by Type" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <p>This tool allows you to print all accounts organized by type to the console.</p>
+                        <p>Click the "Print Accounts by Type" button above to run the report.</p>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the account report -->
+    <record id="action_cw_account_report" model="ir.actions.act_window">
+        <field name="name">CW Account Report</field>
+        <field name="res_model">cw.account.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_account_codes" name="Account Codes" parent="account.account_account_menu"
+    sequence="9"
+    action="action_cw_account_report" groups="custom_account_move_line.cw_group_accounting_manager"/>
+              
+</odoo>
