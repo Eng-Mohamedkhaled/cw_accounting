@@ -26,7 +26,6 @@
         <field name="arch" type="xml">
             <form string="Equity Ownership">
                 <header>
-                    <field name="status" widget="statusbar" statusbar_visible="active"/>
                 </header>
                 <sheet>
                     <widget name="web_ribbon" title="Active" invisible="status != 'active'"/>
@@ -42,25 +41,25 @@
                     </div>
 
                     <group>
-                        <group string="Basic Information">
+                        <group>
                             <field name="partner_id" context="{'default_is_equity_owner': True}" />
                                 <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                             <field name="percentage"/>
                         </group>
-                        <group string="Dates &amp; Accounts">
+                        <group>
                             <field name="date_from"/>
                             <field name="date_to"/>
                                         <field name="master_id" invisible="master_id"/>
                         </group>
                     </group>
 
-                    <notebook>
+                    <!-- <notebook>
                         <page string="Details">
                             <group>
                                 <field name="currency_id"/>
                             </group>
                         </page>
-                    </notebook>
+                    </notebook> -->
                 </sheet>
             </form>
         </field>
