@@ -11,7 +11,10 @@
                 <field name="percentage" string="Percentage (%)"/>
                 <field name="date_from" string="From"/>
                 <field name="date_to" string="To"/>
-                <field name="status" string="Status"/>
+                <field name="status" string="Status" widget="badge"
+                       decoration-success="status == 'active'"
+                       decoration-danger="status == 'expired'"
+                       decoration-info="status == 'future'"/>
             </list>
         </field>
     </record>

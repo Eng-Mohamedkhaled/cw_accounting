@@ -5,14 +5,16 @@
         <field name="name">equity.transaction.tree</field>
         <field name="model">equity.transaction</field>
         <field name="arch" type="xml">
-            <list string="Equity Transactions" decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+            <list string="Equity Transactions">
                 <field name="transaction_type" string="Type"/>
                 <field name="partner_id" string="Partner"/>
                 <field name="company_id" string="Company"/>
                 <field name="amount" string="Amount"/>
                 <field name="date" string="Date"/>
                 <field name="reference" string="Reference"/>
-                <field name="state" string="Status"/>
+                <field name="state" string="Status" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-danger="state == 'cancelled'"/>
             </list>
         </field>
     </record>
@@ -22,13 +24,15 @@
         <field name="name">equity.capital.transaction.tree</field>
         <field name="model">equity.transaction</field>
         <field name="arch" type="xml">
-            <list string="Capital Transactions" decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+            <list string="Capital Transactions">
                 <field name="partner_id" string="Partner"/>
                 <field name="company_id" string="Company"/>
                 <field name="amount" string="Amount"/>
                 <field name="date" string="Date"/>
                 <field name="reference" string="Reference"/>
-                <field name="state" string="Status"/>
+                <field name="state" string="Status" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-danger="state == 'cancelled'"/>
             </list>
         </field>
     </record>
@@ -38,13 +42,15 @@
         <field name="name">equity.drawing.transaction.tree</field>
         <field name="model">equity.transaction</field>
         <field name="arch" type="xml">
-            <list string="Owner Drawings" decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+            <list string="Owner Drawings">
                 <field name="partner_id" string="Partner"/>
                 <field name="company_id" string="Company"/>
                 <field name="amount" string="Amount"/>
                 <field name="date" string="Date"/>
                 <field name="reference" string="Reference"/>
-                <field name="state" string="Status"/>
+                <field name="state" string="Status" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-danger="state == 'cancelled'"/>
             </list>
         </field>
     </record>

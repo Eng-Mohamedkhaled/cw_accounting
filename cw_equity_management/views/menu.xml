@@ -13,12 +13,6 @@
               parent="menu_equity_root"
               sequence="10"/>
 
-    <menuitem id="menu_equity_ownership_master_list"
-              name="Master Ownership Structures"
-              parent="menu_equity_ownership"
-              action="action_equity_ownership_master"
-              sequence="5"/>
-
     <menuitem id="menu_equity_ownership_list"
               name="Ownership Records"
               parent="menu_equity_ownership"
@@ -53,5 +47,17 @@
               name="Allocations" 
               parent="menu_equity_allocation" 
               action="action_equity_allocation" 
+              sequence="10"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_equity_configuration"
+              name="Configuration"
+              parent="menu_equity_root"
+              sequence="40"/>
+
+    <menuitem id="menu_equity_ownership_master_list"
+              name="Master Ownership Structures"
+              parent="menu_equity_configuration"
+              action="action_equity_ownership_master"
               sequence="10"/>
 </odoo>
