@@ -7,7 +7,7 @@ class EquityTransaction(models.Model):
     _name = 'equity.transaction'
     _description = 'Equity Transaction (Capital Contribution/Withdrawal)'
     _order = 'date desc, id desc'
-    
+    name= "Transaction" 
     # Transaction type
     transaction_type = fields.Selection([
         ('contribution', 'Capital Contribution'),
@@ -282,7 +282,10 @@ class EquityTransaction(models.Model):
         """Custom name display"""
         result = []
         for record in self:
-            name = f"{record.transaction_type.title()} - {record.partner_id.name} - {record.amount}"
+            if not record.id:
+                name = _("Draft")
+            else:
+                name = f"{record.transaction_type.title()} - {record.partner_id.name} - {record.amount}"
             result.append((record.id, name))
         return result
 

@@ -52,7 +52,7 @@ class EquityOwnership(models.Model):
         string='Ownership Percentage',
         required=True,
         default=0.0,
-        digits=(16, 4),
+        digits=(16, 2),
         help='Percentage of ownership (0-100%)'
     )
     

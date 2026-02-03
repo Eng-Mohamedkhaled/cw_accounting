@@ -25,6 +25,7 @@ class ResPartner(models.Model):
         compute='_compute_current_equity_percentage',
         string='Current Equity Percentage',
         store=False,
+        digits=(16, 2),
         help='Current equity percentage in the current company'
     )
     

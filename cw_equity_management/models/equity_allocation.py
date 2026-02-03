@@ -465,7 +465,7 @@ class EquityAllocationLine(models.Model):
     percentage = fields.Float(
         string='Percentage (%)',
         required=True,
-        digits=(16, 4),
+        digits=(16, 2),
         help='Percentage of profit/loss allocated to this owner'
     )
     

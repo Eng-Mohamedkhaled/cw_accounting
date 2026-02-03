@@ -36,7 +36,7 @@ class EquityOwnershipMaster(models.Model):
         compute='_compute_total_percentage',
         string='Total Percentage',
         store=True,
-        digits=(16, 4),
+        digits=(16, 2),
         help='Total ownership percentage for this structure'
     )
     
@@ -131,5 +131,4 @@ class EquityOwnershipMaster(models.Model):
             name = f"{record.name} - {record.company_id.name} ({record.total_percentage}%)"
             result.append((record.id, name))
         return result
-
 
