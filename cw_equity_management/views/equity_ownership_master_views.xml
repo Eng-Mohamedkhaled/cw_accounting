@@ -9,7 +9,8 @@
                 <field name="name" string="Structure Name"/>
                 <field name="company_id" string="Company"/>
                 <field name="total_percentage" string="Total %"/>
-                <field name="status" string="Status"/>
+                <field name="status" string="Status" widget="badge"
+                       decoration-success="status == 'active'"/>
                 <field name="date_from" string="From"/>
                 <field name="date_to" string="To"/>
             </list>
