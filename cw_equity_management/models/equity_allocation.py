@@ -83,6 +83,11 @@ class EquityAllocation(models.Model):
         copy=False,
         help='Generated journal entry for this allocation'
     )
+    move_name = fields.Char(
+        string='Journal Entry Number',
+        related='move_id.name',
+        readonly=True
+    )
     
     # Allocation lines showing how profit/loss is distributed
     allocation_line_ids = fields.One2many(
@@ -371,7 +376,7 @@ class EquityAllocation(models.Model):
         ], limit=1)
 
         return {
-            'ref': f'P&L Allocation for {self.period_start} to {self.period_end}',
+            'ref': f'Profit and Loss Allocation for {self.period_start} to {self.period_end}',
             'date': self.allocation_date,
             'journal_id': journal.id,
             'company_id': self.company_id.id,

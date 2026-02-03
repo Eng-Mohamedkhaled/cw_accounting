@@ -36,12 +36,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group string="Basic Information">
+                        <group string="Structure">
                             <field name="name"/>
                             <field name="company_id"/>
-                            <field name="total_percentage"/>
                         </group>
-                        <group string="Validity Period">
+                        <group string="Status">
+                            <field name="total_percentage" readonly="1"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
                         </group>
@@ -51,14 +51,13 @@
                         <page string="Ownership Lines">
                             <field name="owners_line_ids">
                                 <list editable="bottom">
-                                    <field name="partner_id"   context="{'default_is_equity_owner': True}" string="Owner"/>
+                                    <field name="partner_id" context="{'default_is_equity_owner': True}" string="Owner"/>
                                     <field name="percentage" string="Percentage (%)"/>
                                 </list>
                             </field>
                         </page>
-                        
                         <page string="Notes">
-                            <field name="notes" nolabel="1"/>
+                            <field name="notes" nolabel="1" placeholder="Add notes for this structure..."/>
                         </page>
                     </notebook>
                 </sheet>

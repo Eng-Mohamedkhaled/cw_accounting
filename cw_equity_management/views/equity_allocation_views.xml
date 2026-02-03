@@ -34,19 +34,28 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,calculated,posted"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_journal_entry"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-book"
+                                invisible="not move_id">
+                            <field name="move_name" string="Journal Entry" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
-                        <group string="Basic Information">
+                        <group string="Allocation">
                             <field name="name"/>
                             <field name="company_id" options="{'no_create': True}"/>
                             <field name="allocation_date"/>
                         </group>
-                        <group string="Period &amp; Amount">
+                        <group string="Period">
                             <field name="period_start"/>
                             <field name="period_end"/>
                             <field name="net_amount" readonly="1"/>
                         </group>
                     </group>
-                    
+
                     <group string="Accounts">
                         <field name="undistributed_profit_account_id" options="{'no_create': True}"/>
                     </group>
@@ -63,12 +72,6 @@
                             </field>
                         </page>
                     </notebook>
-                    
-                    <group string="Generated Entry" invisible="not move_id">
-                        <field name="move_id" readonly="1"/>
-                        <button name="action_view_journal_entry" type="object" string="View Journal Entry"
-                                invisible="not move_id" class="oe_link"/>
-                    </group>
                 </sheet>
             </form>
         </field>

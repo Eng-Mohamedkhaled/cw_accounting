@@ -66,12 +66,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group string="Transaction Info">
+                        <group string="Transaction">
                             <field name="transaction_type"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group string="Financial Info">
+                        <group string="Amounts">
                             <field name="amount"/>
                             <field name="date"/>
                             <field name="reference"/>
@@ -83,11 +83,11 @@
                         <field name="ownership_id" readonly="1"/>
                     </group>
 
-                    <group string="Details">
-                        <field name="description" nolabel="1"/>
+                    <group string="Notes">
+                        <field name="description" nolabel="1" placeholder="Optional notes..."/>
                     </group>
 
-                    <group string="Generated Entry" invisible="not move_id">
+                    <group string="Journal Entry" invisible="not move_id">
                         <field name="move_id" readonly="1"/>
                         <button name="action_view_journal_entry" type="object" string="View Journal Entry"
                                 invisible="not move_id" class="oe_link"/>
@@ -114,12 +114,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group string="Transaction Info">
+                        <group string="Transaction">
                             <field name="transaction_type" invisible="1"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group string="Financial Info">
+                        <group string="Amounts">
                             <field name="amount"/>
                             <field name="date"/>
                             <field name="reference"/>
@@ -131,11 +131,11 @@
                         <field name="ownership_id" readonly="1"/>
                     </group>
 
-                    <group string="Details">
-                        <field name="description" nolabel="1"/>
+                    <group string="Notes">
+                        <field name="description" nolabel="1" placeholder="Optional notes..."/>
                     </group>
 
-                    <group string="Generated Entry" invisible="not move_id">
+                    <group string="Journal Entry" invisible="not move_id">
                         <field name="move_id" readonly="1"/>
                         <button name="action_view_journal_entry" type="object" string="View Journal Entry"
                                 invisible="not move_id" class="oe_link"/>
@@ -162,12 +162,12 @@
                 </header>
                 <sheet>
                     <group>
-                        <group string="Transaction Info">
+                        <group string="Transaction">
                             <field name="transaction_type" invisible="1"/>
                             <field name="partner_id" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
                         </group>
-                        <group string="Financial Info">
+                        <group string="Amounts">
                             <field name="amount"/>
                             <field name="date"/>
                             <field name="reference"/>
@@ -179,11 +179,11 @@
                         <field name="ownership_id" readonly="1"/>
                     </group>
 
-                    <group string="Details">
-                        <field name="description" nolabel="1"/>
+                    <group string="Notes">
+                        <field name="description" nolabel="1" placeholder="Optional notes..."/>
                     </group>
 
-                    <group string="Generated Entry" invisible="not move_id">
+                    <group string="Journal Entry" invisible="not move_id">
                         <field name="move_id" readonly="1"/>
                         <button name="action_view_journal_entry" type="object" string="View Journal Entry"
                                 invisible="not move_id" class="oe_link"/>
