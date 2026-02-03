@@ -8,7 +8,7 @@
             <list string="Equity Ownership">
                 <field name="partner_id" string="Partner"/>
                 <field name="company_id" string="Company"/>
-                <field name="percentage" string="Percentage (%)"/>
+                <field name="percentage" string="Percentage"/>
                 <field name="date_from" string="From"/>
                 <field name="date_to" string="To"/>
                 <field name="status" string="Status" widget="badge"
