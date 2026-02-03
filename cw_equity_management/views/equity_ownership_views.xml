@@ -29,6 +29,7 @@
                     <field name="status" widget="statusbar" statusbar_visible="active"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Active" invisible="status != 'active'"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_equity_transactions"
                                 type="object"

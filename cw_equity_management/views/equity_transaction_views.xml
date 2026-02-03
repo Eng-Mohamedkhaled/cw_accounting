@@ -71,6 +71,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Posted" invisible="state != 'posted'"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_journal_entry"
                                 type="object"
@@ -123,6 +124,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Posted" invisible="state != 'posted'"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_journal_entry"
                                 type="object"
@@ -175,6 +177,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Posted" invisible="state != 'posted'"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_journal_entry"
                                 type="object"

@@ -36,6 +36,7 @@
                     <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,active"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Active" invisible="status != 'active'"/>
                     <group>
                         <group string="Structure">
                             <field name="name"/>

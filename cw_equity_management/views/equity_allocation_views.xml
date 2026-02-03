@@ -36,6 +36,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,calculated,posted"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Posted" invisible="state != 'posted'"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_journal_entry"
                                 type="object"
@@ -68,7 +69,7 @@
                                 <list editable="bottom">
                                     <field name="partner_id" readonly="1" string="Partner"/>
                                     <field name="ownership_id" readonly="1" string="Ownership"/>
-                                    <field name="percentage" readonly="1" string="Percentage (%)"/>
+                                    <field name="percentage" readonly="1" string="Percentage"/>
                                     <field name="amount" string="Amount"/>
                                 </list>
                             </field>
