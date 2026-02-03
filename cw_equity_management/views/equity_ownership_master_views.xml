@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <list string="Master Ownership Structures">
                 <field name="name" string="Structure Name"/>
-                <field name="company_id" string="Company"/>
+                <field name="company_id" string="Company" groups="base.group_system"/>
                 <field name="total_percentage" string="Total %"/>
                 <field name="status" string="Status" widget="badge"
                        decoration-success="status == 'active'"/>
@@ -40,7 +40,7 @@
                     <group>
                         <group string="Structure">
                             <field name="name"/>
-                            <field name="company_id"/>
+                            <field name="company_id" groups="base.group_system"/>
                         </group>
                         <group string="Status">
                             <field name="total_percentage" readonly="1"/>

@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <list string="Equity Ownership">
                 <field name="partner_id" string="Partner"/>
-                <field name="company_id" string="Company"/>
+                <field name="company_id" string="Company" groups="base.group_system"/>
                 <field name="percentage" string="Percentage"/>
                 <field name="date_from" string="From"/>
                 <field name="date_to" string="To"/>
@@ -44,7 +44,7 @@
                     <group>
                         <group string="Basic Information">
                             <field name="partner_id" context="{'default_is_equity_owner': True}" />
-                            <field name="company_id" options="{'no_create': True}"/>
+                                <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                             <field name="percentage"/>
                         </group>
                         <group string="Dates &amp; Accounts">

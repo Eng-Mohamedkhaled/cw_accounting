@@ -19,7 +19,7 @@
                            invisible="not is_equity_owner"
                            context="{'default_partner_id': id, 'default_company_id': company_id}">
                         <list string="Equity Ownership Records" editable="bottom">
-                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                             <field name="percentage"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
@@ -27,7 +27,7 @@
                         </list>
                         <form string="Equity Ownership Record">
                             <group>
-                                <field name="company_id" options="{'no_create': True}"/>
+                                <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                                 <field name="percentage"/>
                                 <field name="date_from"/>
                                 <field name="date_to"/>

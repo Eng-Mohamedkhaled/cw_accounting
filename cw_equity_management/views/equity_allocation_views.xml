@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <list string="Profit &amp; Loss Allocations">
                 <field name="name" string="Allocation Name"/>
-                <field name="company_id" string="Company"/>
+                <field name="company_id" string="Company" groups="base.group_system"/>
                 <field name="period_start" string="Period Start"/>
                 <field name="period_end" string="Period End"/>
                 <field name="net_amount" string="Net Amount"/>
@@ -49,7 +49,7 @@
                     <group>
                         <group string="Allocation">
                             <field name="name"/>
-                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                             <field name="allocation_date"/>
                         </group>
                         <group string="Period">
