@@ -66,11 +66,85 @@ class EquityTransactionReport(models.AbstractModel):
                 'description': transaction.description or '',
             })
 
+        # Calculate equity information for each partner based on actual account move lines
+        equity_info = []
+        partners_to_show = []
+
+        # Get company's shared equity and drawing accounts
+        company_record = self.env['res.company'].browse(company_id)
+        equity_account = company_record.equity_shared_account_id
+        drawing_account = company_record.drawing_shared_account_id
+
+        if not equity_account and not drawing_account:
+            # If no equity or drawing accounts are configured, skip equity calculation
+            equity_info = []
+        else:
+            # Determine which partners to include in equity calculation
+            if partner_id:
+                # If a specific partner is selected, only show that partner's equity
+                partners_to_show = [int(partner_id)]
+            else:
+                # Otherwise, show equity for all equity owners
+                all_equity_partners = self.env['res.partner'].search([('is_equity_owner', '=', True)])
+                partners_to_show = [p.id for p in all_equity_partners]
+
+            for partner_id_calc in partners_to_show:
+                partner = self.env['res.partner'].browse(partner_id_calc)
+
+                # Calculate balance from equity account (contributions increase equity)
+                equity_balance = 0.0
+                if equity_account:
+                    # Query account move lines for this partner in the equity account
+                    self.env.cr.execute("""
+                        SELECT SUM(aml.balance)
+                        FROM account_move_line aml
+                        JOIN account_move am ON aml.move_id = am.id
+                        WHERE aml.partner_id = %s
+                          AND aml.account_id = %s
+                          AND aml.date <= %s
+                          AND aml.company_id = %s
+                          AND am.state = 'posted'
+                    """, (partner_id_calc, equity_account.id, date_to, company_id))
+
+                    result = self.env.cr.fetchone()[0]
+                    equity_balance = result or 0.0
+
+                # Calculate balance from drawing account (withdrawals decrease equity)
+                drawing_balance = 0.0
+                if drawing_account:
+                    # Query account move lines for this partner in the drawing account
+                    self.env.cr.execute("""
+                        SELECT SUM(aml.balance)
+                        FROM account_move_line aml
+                        JOIN account_move am ON aml.move_id = am.id
+                        WHERE aml.partner_id = %s
+                          AND aml.account_id = %s
+                          AND aml.date <= %s
+                          AND aml.company_id = %s
+                          AND am.state = 'posted'
+                    """, (partner_id_calc, drawing_account.id, date_to, company_id))
+
+                    result = self.env.cr.fetchone()[0]
+                    drawing_balance = result or 0.0
+
+                # Calculate current equity: Equity account balance - Drawing account balance
+                # (drawing account typically has credit balances that reduce equity)
+                current_equity = equity_balance - drawing_balance
+
+                equity_info.append({
+                    'partner_name': partner.name,
+                    'partner_id': partner.id,
+                    'equity_account_balance': equity_balance,
+                    'drawing_account_balance': drawing_balance,
+                    'current_equity': current_equity,
+                })
+
         # Get company information
         company = self.env['res.company'].browse(company_id)
 
         return {
             'transactions': transaction_data,
+            'equity_info': equity_info,
             'date_from': date_from,
             'date_to': date_to,
             'partner_id': partner_id,

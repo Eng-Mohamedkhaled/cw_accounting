@@ -24,28 +24,40 @@
                             font-size: 11px;
                         }
 
+                        table.es {
+                            width: 100%;
+                            margin-top: 10px;
+                            margin-bottom: 20px;  /* Space between tables */
+                            border-collapse: collapse;
+                        }
+
                         table.et {
                             width: 100%;
                             margin-top: 10px;
                             border-collapse: collapse;
                         }
 
+                        table.es td,
+                        table.es th,
                         table.et td,
                         table.et th {
                             border: 1px solid #000;
                             padding: 5px;
                         }
 
+                        table.es th,
                         table.et th {
                             background-color: #e6e6e6;
                             font-weight: bold;
                             text-align: center;
                         }
 
+                        table.es td,
                         table.et td {
                             vertical-align: middle;
                         }
 
+                        table.es td.num,
                         table.et td.num {
                             text-align: right;
                             white-space: nowrap;
@@ -63,7 +75,12 @@
                             border-top: 2px solid #000;
                         }
 
-                        table.et tr:nth-child(even) {
+                        /* Equity summary specific styles */
+                        .equity-positive { color: #28a745; font-weight: bold; }
+                        .equity-negative { color: #dc3545; font-weight: bold; }
+
+                        table.et tr:nth-child(even),
+                        table.es tr:nth-child(even) {
                             background-color: #f9f9f9;
                         }
 
@@ -86,6 +103,60 @@
                         }
                     </style>
 
+                    <!-- Equity Summary Table -->
+                    <t t-if="equity_info">
+                        <h3>Current Equity Summary</h3>
+                        <table class="es">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">Partner</th>
+                                    <th style="width: 20%;">Capital Account</th>
+                                    <th style="width: 20%;">Drawing Account</th>
+                                    <th style="width: 30%;">Current Equity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="equity_info" t-as="equity">
+                                    <tr>
+                                        <td class="wrap">
+                                            <t t-esc="equity['partner_name']"/>
+                                        </td>
+                                        <td class="num">
+                                            <t t-esc="equity['equity_account_balance']"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
+                                        <td class="num">
+                                            <t t-esc="equity['drawing_account_balance']"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
+                                        <td class="num" t-attf-class="equity-#{'positive' if equity['current_equity'] >= 0 else 'negative'}">
+                                            <t t-esc="equity['current_equity']"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+
+                                <!-- Summary row for equity -->
+                                <tr class="total-row">
+                                    <td class="wrap"><strong>Total</strong></td>
+                                    <td class="num">
+                                        <t t-esc="sum([e['equity_account_balance'] for e in equity_info])"
+                                           t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                    <td class="num">
+                                        <t t-esc="sum([e['drawing_account_balance'] for e in equity_info])"
+                                           t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                    <td class="num">
+                                        <t t-esc="sum([e['current_equity'] for e in equity_info])"
+                                           t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <!-- Transaction Details Table -->
                     <table class="et">
                         <thead>
                             <tr>
@@ -125,7 +196,7 @@
                                     </td>
                                 </tr>
                             </t>
-                            
+
                             <!-- Summary row -->
                             <tr class="total-row">
                                 <td class="wrap"><strong>Total</strong></td>
