@@ -8,7 +8,7 @@ from datetime import datetime
 class EquityTransactionExcelController(http.Controller):
 
     @http.route('/report/equity_transaction/excel', type='http', auth='user')
-    def equity_transaction_excel(self, date_from=None, date_to=None, company_id=None):
+    def equity_transaction_excel(self, date_from=None, date_to=None, partner_id=None, company_id=None):
 
         report = request.env['report.cw_equity_management.equity_transaction_report']
         data = report._get_report_values(
@@ -16,6 +16,7 @@ class EquityTransactionExcelController(http.Controller):
             data={
                 'date_from': date_from if date_from and date_from != 'False' else None,
                 'date_to': date_to if date_to and date_to != 'False' else None,
+                'partner_id': int(partner_id) if partner_id and partner_id != 'None' and partner_id != 'False' else None,
                 'company_id': int(company_id) if company_id else request.env.user.company_id.id,
             }
         )

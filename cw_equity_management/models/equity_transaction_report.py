@@ -13,8 +13,9 @@ class EquityTransactionReport(models.AbstractModel):
 
         date_from = data.get('date_from') or self.env.context.get('date_from')
         date_to = data.get('date_to') or self.env.context.get('date_to')
+        partner_id = data.get('partner_id') or self.env.context.get('partner_id')
         company_id = data.get('company_id') or self.env.context.get('company_id') or self.env.company.id
-        
+
         from odoo import fields
         if not date_from:
             date_from = fields.Date.context_today(self)
@@ -30,13 +31,20 @@ class EquityTransactionReport(models.AbstractModel):
         # Get current language for translation
         current_lang = self.env.context.get('lang', 'en_US')
 
-        # Get equity transactions within the date range
-        transactions = self.env['equity.transaction'].search([
+        # Build domain for equity transactions
+        domain = [
             ('date', '>=', date_from),
             ('date', '<=', date_to),
             ('company_id', '=', company_id),
             ('state', 'in', ['posted', 'draft']),  # Include both posted and draft transactions
-        ])
+        ]
+
+        # Add partner filter if specified
+        if partner_id:
+            domain.append(('partner_id', '=', int(partner_id)))
+
+        # Get equity transactions within the date range (and optionally filtered by partner)
+        transactions = self.env['equity.transaction'].search(domain)
 
         # Prepare transaction data
         transaction_data = []
@@ -60,6 +68,7 @@ class EquityTransactionReport(models.AbstractModel):
             'transactions': transaction_data,
             'date_from': date_from,
             'date_to': date_to,
+            'partner_id': partner_id,
             'res_company': company,
             'company': company,
         }

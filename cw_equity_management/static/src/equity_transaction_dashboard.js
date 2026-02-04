@@ -4,6 +4,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { session } from "@web/session";
 import { rpc } from "@web/core/network/rpc";
+import { Dropdown } from "@web/core/dropdown/dropdown";
 
 class EquityTransactionDashboard extends Component {
     setup() {
@@ -24,16 +25,55 @@ class EquityTransactionDashboard extends Component {
 
         this.state = useState({
             selectedDateFrom: firstDayStr,
-            selectedDateTo: today
+            selectedDateTo: today,
+            partners: [],               // Available partners for selection
+            selectedPartnerId: null,    // Selected partner ID (null means all partners)
+            selectedPartnerName: '',    // Selected partner name for display (empty means all partners)
+            filteredPartners: [],       // Filtered partners based on search
+            showPartnerDropdown: false  // Flag to show/hide the dropdown
         });
 
         onMounted(async () => {
             // Load session info first
             this.sessionInfo = await rpc("/web/session/get_session_info");
-            this.loadReport();
+            await this.loadPartners();  // Load partners first
+            this.loadReport();          // Then load the report
         });
     }
 
+
+    async loadPartners() {
+        try {
+            // Get the current company ID from the stored session info
+            const currentCompanyId = this.sessionInfo.user_companies?.current_company;
+
+            // Query equity owners only
+            const partners = await this.orm.searchRead(
+                'res.partner',
+                [
+                    ['is_equity_owner', '=', true],
+                    ['active', '=', true]  // Only active partners
+                ],
+                [
+                    'id',
+                    'name',
+                    'ref'
+                ],
+                {
+                    context: this.sessionInfo.user_context,
+                    order: 'name'
+                }
+            );
+            // Update the state with the partners
+            this.state.partners = partners;
+
+            return partners;
+        } catch (error) {
+            console.error('Error loading equity partners for company:', error);
+            console.error('Error details:', error.message);
+            throw error;
+        }
+    }
 
     buildContext() {
         const ctx = this.env.context || {};
@@ -59,10 +99,16 @@ class EquityTransactionDashboard extends Component {
 
     async loadReport() {
         try {
-            const options = { 
+            const options = {
                 date_from: this.state.selectedDateFrom,
                 date_to: this.state.selectedDateTo
             };
+
+            // Add partner_id to options if a specific partner is selected
+            if (this.state.selectedPartnerId) {
+                options.partner_id = parseInt(this.state.selectedPartnerId);
+            }
+
             const context = this.buildContext();
 
             const params = new URLSearchParams({
@@ -99,6 +145,12 @@ class EquityTransactionDashboard extends Component {
                 date_from: this.state.selectedDateFrom,
                 date_to: this.state.selectedDateTo
             };
+
+            // Add partner_id to options if a specific partner is selected
+            if (this.state.selectedPartnerId) {
+                options.partner_id = parseInt(this.state.selectedPartnerId);
+            }
+
             const context = this.buildContext();
 
             const params = new URLSearchParams({
@@ -118,8 +170,15 @@ class EquityTransactionDashboard extends Component {
 
     exportReport() {
         try {
+            let excelUrl = `/report/equity_transaction/excel?date_from=${this.state.selectedDateFrom}&date_to=${this.state.selectedDateTo}`;
+
+            // Add partner_id to URL if a specific partner is selected
+            if (this.state.selectedPartnerId) {
+                excelUrl += `&partner_id=${this.state.selectedPartnerId}`;
+            }
+
             const ctx = encodeURIComponent(JSON.stringify(this.buildContext()));
-            const excelUrl = `/report/equity_transaction/excel?date_from=${this.state.selectedDateFrom}&date_to=${this.state.selectedDateTo}&context=${ctx}`;
+            excelUrl += `&context=${ctx}`;
             // Use hidden link approach for direct download
             const link = document.createElement('a');
             link.href = excelUrl;
@@ -200,10 +259,69 @@ class EquityTransactionDashboard extends Component {
             }
         }, 3000);
     }
+
+    onPartnerSearchInput(ev) {
+        const searchTerm = ev.target.value;
+        this.state.selectedPartnerName = searchTerm;
+
+        if (searchTerm.trim() === '') {
+            this.state.filteredPartners = [];
+            this.state.showPartnerDropdown = false;
+        } else {
+            // Filter partners based on search term (case-insensitive)
+            const lowerSearchTerm = searchTerm.toLowerCase();
+            this.state.filteredPartners = this.state.partners.filter(partner => {
+                // Check name match
+                const nameMatch = partner.name.toLowerCase().includes(lowerSearchTerm);
+
+                // Check ref match (only if ref exists)
+                const refMatch = partner.ref && partner.ref.toLowerCase().includes(lowerSearchTerm);
+
+                // Check combined match (only if ref exists)
+                let combinedMatch = false;
+                if (partner.ref) {
+                    combinedMatch = `${partner.ref} - ${partner.name}`.toLowerCase().includes(lowerSearchTerm);
+                } else {
+                    combinedMatch = partner.name.toLowerCase().includes(lowerSearchTerm);
+                }
+
+                return nameMatch || refMatch || combinedMatch;
+            });
+
+            this.state.showPartnerDropdown = this.state.filteredPartners.length > 0;
+        }
+    }
+
+    onPartnerSelect(ev) {
+        ev.preventDefault();
+
+        const partnerId = ev.target.getAttribute('data-partner-id');
+        const selectedPartner = this.state.partners.find(part => part.id.toString() === partnerId);
+
+        if (selectedPartner) {
+            this.state.selectedPartnerId = partnerId;
+            // Format the partner name properly - only show ref if it exists
+            if (selectedPartner.ref) {
+                this.state.selectedPartnerName = `${selectedPartner.ref} - ${selectedPartner.name}`;
+            } else {
+                this.state.selectedPartnerName = selectedPartner.name;
+            }
+            this.state.showPartnerDropdown = false;
+            this.loadReport();
+        }
+    }
+
+    clearPartnerSelection() {
+        this.state.selectedPartnerId = null;
+        this.state.selectedPartnerName = '';
+        this.state.filteredPartners = [];
+        this.state.showPartnerDropdown = false;
+        this.loadReport();
+    }
 }
 
 EquityTransactionDashboard.template = "cw_equity_management.EquityTransactionDashboard";
-EquityTransactionDashboard.components = { Layout };
+EquityTransactionDashboard.components = { Layout, Dropdown };
 registry.category("actions").add("cw_equity_management.equity_transaction_dashboard", EquityTransactionDashboard);
 
 export default EquityTransactionDashboard;
