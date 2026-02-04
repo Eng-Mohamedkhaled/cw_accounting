@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="cw_equity_management.EquityTransactionDashboard">
+        <Layout display="{controlPanel: {}}" className="'o_dashboard h-100'">
+            <t t-set-slot="control-panel-create-button">
+                <div class="d-flex align-items-center gap-2">
+                    <button t-on-click="printReport" type="button" class="btn btn-primary" title="Print">Print</button>
+                    <button t-on-click="exportReport" type="button" class="btn btn-success" title="Export">Export</button>
+                </div>
+            </t>
+            <t t-set-slot="layout-actions">
+                <div class="d-flex gap-1 flex-wrap">
+                    <div class="filter_date">
+                        <label class="form-label mb-0 me-1">From:</label>
+                        <input type="date" t-on-change="onDateFromChange" t-att-value="state.selectedDateFrom" class="form-control d-inline-block" style="width: auto;"/>
+                    </div>
+                    <div class="filter_date">
+                        <label class="form-label mb-0 me-1">To:</label>
+                        <input type="date" t-on-change="onDateToChange" t-att-value="state.selectedDateTo" class="form-control d-inline-block" style="width: auto;"/>
+                    </div>
+                </div>
+            </t>
+            <t t-set-slot="control-panel-navigation-additional">
+                <button t-on-click="refreshReport" type="button" class="btn btn-outline-secondary" title="Refresh">
+                    <i class="fa fa-refresh"></i> Refresh
+                </button>
+            </t>
+            <div t-ref="report_target" class="o_content o_dashboard_container h-100 w-100"/>
+        </Layout>
+    </t>
+
+</templates>

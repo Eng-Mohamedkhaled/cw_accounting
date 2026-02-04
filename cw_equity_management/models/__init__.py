@@ -6,3 +6,4 @@ from . import equity_ownership_master
 from . import equity_transaction
 from . import equity_transaction_line
 from . import equity_allocation
+from . import equity_transaction_report

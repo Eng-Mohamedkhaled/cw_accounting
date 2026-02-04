@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="equity_transaction_report_pdf">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+
+                    <!-- ================= HEADER ================= -->
+                    <h2 class="text-center" style="color: #243742;">
+                        <span t-esc="res_company.name"/> – Equity Transactions Report
+                    </h2>
+
+                    <div class="row mt16 mb16">
+                        <div class="col-12">
+                            <strong>Period:</strong>
+                            <p><t t-esc="date_from"/> to <t t-esc="date_to"/></p>
+                        </div>
+                    </div>
+
+                    <!-- ================= STYLES ================= -->
+                    <style>
+                        .page {
+                            font-family: Arial, sans-serif;
+                            font-size: 11px;
+                        }
+
+                        table.et {
+                            width: 100%;
+                            margin-top: 10px;
+                            border-collapse: collapse;
+                        }
+
+                        table.et td,
+                        table.et th {
+                            border: 1px solid #000;
+                            padding: 5px;
+                        }
+
+                        table.et th {
+                            background-color: #e6e6e6;
+                            font-weight: bold;
+                            text-align: center;
+                        }
+
+                        table.et td {
+                            vertical-align: middle;
+                        }
+
+                        table.et td.num {
+                            text-align: right;
+                            white-space: nowrap;
+                        }
+
+                        /* STATUS COLORS */
+                        .status-draft { color: #888888; }
+                        .status-posted { color: #28a745; font-weight: bold; }
+                        .status-cancelled { color: #dc3545; }
+
+                        /* TOTAL ROW */
+                        .total-row {
+                            background: #f0f0f0;
+                            font-weight: bold;
+                            border-top: 2px solid #000;
+                        }
+
+                        table.et tr:nth-child(even) {
+                            background-color: #f9f9f9;
+                        }
+
+                        /* Repeat header on every PDF page */
+                        thead {
+                            display: table-header-group;
+                        }
+
+                        tbody {
+                            display: table-row-group;
+                        }
+
+                        .wrap {
+                            white-space: normal;
+                        }
+
+                        /* Prevent row splitting */
+                        tr {
+                            page-break-inside: avoid;
+                        }
+                    </style>
+
+                    <table class="et">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Date</th>
+                                <th style="width: 20%;">Partner</th>
+                                <th style="width: 15%;">Type</th>
+                                <th style="width: 15%;">Amount</th>
+                                <th style="width: 10%;">Status</th>
+                                <th style="width: 30%;">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="transactions" t-as="trans">
+                                <tr>
+                                    <td class="wrap">
+                                        <t t-esc="trans['date']"/>
+                                    </td>
+                                    <td class="wrap">
+                                        <t t-esc="trans['partner_name']"/>
+                                    </td>
+                                    <td class="wrap">
+                                        <t t-if="trans['transaction_type'] == 'contribution'">Contribution</t>
+                                        <t t-elif="trans['transaction_type'] == 'withdrawal'">Withdrawal</t>
+                                        <t t-else=""><t t-esc="trans['transaction_type']"/></t>
+                                    </td>
+                                    <td class="num">
+                                        <t t-esc="trans['amount']"
+                                           t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                    <td class="wrap">
+                                        <span t-attf-class="status-#{trans['state']}">
+                                            <t t-esc="trans['state'].title()"/>
+                                        </span>
+                                    </td>
+                                    <td class="wrap">
+                                        <t t-esc="trans['description']"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            
+                            <!-- Summary row -->
+                            <tr class="total-row">
+                                <td class="wrap"><strong>Total</strong></td>
+                                <td></td>
+                                <td></td>
+                                <td class="num">
+                                    <t t-esc="sum([t['amount'] for t in transactions])"
+                                       t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ================= FOOTER ================= -->
+                    <div class="mt24">
+                        <p>
+                            <strong>Report generated on:</strong>
+                            <t t-esc="time.strftime('%Y-%m-%d %H:%M:%S')"/>
+                        </p>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

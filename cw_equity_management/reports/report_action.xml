@@ -1,0 +1,37 @@
+<odoo>
+    <!-- Client action for the equity transaction dashboard -->
+    <record id="action_equity_transaction_dashboard" model="ir.actions.client">
+        <field name="name">Equity Transactions</field>
+        <field name="tag">cw_equity_management.equity_transaction_dashboard</field>
+        <field name="params">{}</field>
+    </record>
+
+    <record id="action_report_equity_transaction" model="ir.actions.report">
+        <field name="name">Equity Transaction Report</field>
+        <field name="model">equity.transaction</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">cw_equity_management.equity_transaction_report</field>
+        <field name="report_file">cw_equity_management.equity_transaction_report</field>
+        <field name="binding_model_id" ref="account.model_account_account"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_equity_transaction_pdf" model="ir.actions.report">
+        <field name="name">Equity Transaction Report (PDF)</field>
+        <field name="model">equity.transaction</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">cw_equity_management.equity_transaction_report_pdf</field>
+        <field name="report_file">cw_equity_management.equity_transaction_report_pdf</field>
+        <field name="binding_model_id" ref="account.model_account_account"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Menu item for Equity Transactions Report -->
+    <menuitem id="menu_equity_transaction_report"
+              name="Equity Transactions Report"
+              parent="menu_equity_transactions"
+              action="action_equity_transaction_dashboard"
+              groups="account.group_account_user,account.group_account_manager"
+              sequence="30"/>
+
+</odoo>

@@ -25,9 +25,20 @@
         'views/equity_allocation_views.xml',
         'views/menu.xml',
         'data/account_data.xml',
+
+        # Equity transaction report
+        'reports/equity_transaction_report.xml',
+        'reports/equity_transaction_report_pdf.xml',
+        'reports/report_action.xml',
     ],
     'demo': [
     ],
+    "assets": {
+        'web.assets_backend': [
+            'cw_equity_management/static/src/equity_transaction_dashboard.js',
+            'cw_equity_management/static/src/equity_transaction_dashboard.xml',
+        ],
+    },
     'installable': True,
     'auto_install': False,
     'application': True,
