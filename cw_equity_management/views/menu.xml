@@ -37,6 +37,14 @@
               action="action_equity_drawing_transaction"
               sequence="20"/>
 
+    
+    <menuitem id="menu_equity_transaction_report_js"
+              name="Equity Transactions Dashboard (JS)"
+              parent="menu_equity_transactions"
+              action="action_equity_transaction_dashboard_js"
+              sequence="30"/>
+   
+
     <!-- Profit &amp; Loss Allocation Menu -->
     <menuitem id="menu_equity_allocation"
               name="Allocation"

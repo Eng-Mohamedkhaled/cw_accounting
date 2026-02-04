@@ -312,3 +312,34 @@ class EquityTransaction(models.Model):
                 'target': 'current',
             }
         return {'type': 'ir.actions.act_window.close'}
+
+    @api.model
+    def get_dashboard_data(self, dummy_records, date_from=None, date_to=None, partner_id=None, transaction_type=None, company_id=None):
+        """
+        Method to get dashboard data directly for the JavaScript dashboard
+        The first parameter is the recordset (even if empty for @api.model methods)
+        """
+        # Get the report model
+        report_model = self.env['report.cw_equity_management.equity_transaction_report']
+
+        data = {
+            'date_from': date_from,
+            'date_to': date_to,
+            'partner_id': partner_id,
+            'transaction_type': transaction_type,
+            'company_id': company_id or self.env.company.id,
+        }
+
+        report_values = report_model._get_report_values(None, data=data)
+
+        return {
+            'transactions': report_values.get('transactions', []),
+            'equity_info': report_values.get('equity_info', []),
+            'date_from': report_values.get('date_from'),
+            'date_to': report_values.get('date_to'),
+            'partner_id': report_values.get('partner_id'),
+            'transaction_type': report_values.get('transaction_type'),
+            'company': {
+                'name': report_values.get('company', {}).name if report_values.get('company') else '',
+            }
+        }

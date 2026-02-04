@@ -1,0 +1,1 @@
+# This file is no longer needed as we'll add the method to the equity.transaction model directly
