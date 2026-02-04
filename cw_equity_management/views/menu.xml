@@ -35,14 +35,26 @@
               name="Owner Drawings"
               parent="menu_equity_transactions"
               action="action_equity_drawing_transaction"
-              sequence="20"/>
+              sequence="10"/>
 
-    
+    <!-- Reports Menu (Top Level) -->
+    <menuitem id="menu_equity_reports"
+              name="Reports"
+              parent="menu_equity_root"
+              sequence="35"/>
+
+    <menuitem id="menu_equity_transaction_report"
+              name="Equity Transactions Report"
+              parent="menu_equity_reports"
+              action="action_equity_transaction_dashboard"
+              groups="account.group_account_user,account.group_account_manager"
+              sequence="10"/>
+
     <menuitem id="menu_equity_transaction_report_js"
               name="Equity Transactions Dashboard (JS)"
-              parent="menu_equity_transactions"
+              parent="menu_equity_reports"
               action="action_equity_transaction_dashboard_js"
-              sequence="30"/>
+              sequence="20"/>
    
 
     <!-- Profit &amp; Loss Allocation Menu -->
