@@ -91,6 +91,15 @@ class EquityTransactionReport(models.AbstractModel):
                 query += " AND aml.partner_id = %s"
                 params.append(partner_id)
 
+            # Add transaction type filter if specified
+            if transaction_type and transaction_type != 'all':
+                if transaction_type == 'contribution' and equity_account:
+                    query += " AND aml.account_id = %s"
+                    params.append(equity_account.id)
+                elif transaction_type == 'withdrawal' and drawing_account:
+                    query += " AND aml.account_id = %s"
+                    params.append(drawing_account.id)
+
             query += " ORDER BY aml.date, aml.id"
 
             self.env.cr.execute(query, params)
@@ -98,11 +107,11 @@ class EquityTransactionReport(models.AbstractModel):
 
             for result in results:
                 # Determine transaction type based on account
-                transaction_type = 'other'
+                transaction_type_result = 'other'
                 if equity_account and result['account_id'] == equity_account.id:
-                    transaction_type = 'contribution'
+                    transaction_type_result = 'contribution'
                 elif drawing_account and result['account_id'] == drawing_account.id:
-                    transaction_type = 'withdrawal'
+                    transaction_type_result = 'withdrawal'
 
                 # Determine amount based on debit/credit
                 amount = result['debit'] - result['credit']  # Positive for debits (contributions), negative for credits (withdrawals)
@@ -110,7 +119,7 @@ class EquityTransactionReport(models.AbstractModel):
                 actual_entries.append({
                     'id': result['id'],
                     'name': result['name'] or result['move_name'],
-                    'transaction_type': transaction_type,
+                    'transaction_type': transaction_type_result,
                     'partner_name': result['partner_name'],
                     'amount': abs(amount),  # Always show absolute value in the amount column
                     'sign': amount,  # Keep sign for determining type
