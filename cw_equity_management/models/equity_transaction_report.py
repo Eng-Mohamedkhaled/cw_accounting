@@ -53,18 +53,98 @@ class EquityTransactionReport(models.AbstractModel):
 
         # Prepare transaction data
         transaction_data = []
-        for transaction in transactions:
-            transaction_data.append({
-                'id': transaction.id,
-                'name': transaction.name,
-                'transaction_type': transaction.transaction_type,
-                'partner_name': transaction.partner_id.name,
-                'amount': transaction.amount,
-                'date': transaction.date,
-                'state': transaction.state,
-                'reference': transaction.reference or '',
-                'description': transaction.description or '',
-            })
+        # Get actual journal entries from equity and drawing accounts
+        actual_entries = []
+
+        # Get company's shared equity and drawing accounts
+        company_record = self.env['res.company'].browse(company_id)
+        equity_account = company_record.equity_shared_account_id
+        drawing_account = company_record.drawing_shared_account_id
+
+        account_ids = []
+        if equity_account:
+            account_ids.append(equity_account.id)
+        if drawing_account:
+            account_ids.append(drawing_account.id)
+
+        if account_ids:
+            # Query account move lines for the equity/drawing accounts within the date range
+            query = """
+                SELECT aml.id, aml.date, aml.name, aml.debit, aml.credit, aml.balance,
+                       aml.partner_id, aml.ref, rp.name as partner_name,
+                       am.name as move_name, am.state as move_state,
+                       aa.name as account_name, aa.id as account_id
+                FROM account_move_line aml
+                JOIN account_move am ON aml.move_id = am.id
+                JOIN res_partner rp ON aml.partner_id = rp.id
+                JOIN account_account aa ON aml.account_id = aa.id
+                WHERE aml.account_id IN %s
+                  AND aml.date >= %s
+                  AND aml.date <= %s
+                  AND aml.company_id = %s
+                  AND am.state = 'posted'
+            """
+
+            # Add partner filter if specified
+            params = [tuple(account_ids), date_from, date_to, company_id]
+            if partner_id:
+                query += " AND aml.partner_id = %s"
+                params.append(partner_id)
+
+            query += " ORDER BY aml.date, aml.id"
+
+            self.env.cr.execute(query, params)
+            results = self.env.cr.dictfetchall()
+
+            for result in results:
+                # Determine transaction type based on account
+                transaction_type = 'other'
+                if equity_account and result['account_id'] == equity_account.id:
+                    transaction_type = 'contribution'
+                elif drawing_account and result['account_id'] == drawing_account.id:
+                    transaction_type = 'withdrawal'
+
+                # Determine amount based on debit/credit
+                amount = result['debit'] - result['credit']  # Positive for debits (contributions), negative for credits (withdrawals)
+
+                actual_entries.append({
+                    'id': result['id'],
+                    'name': result['name'] or result['move_name'],
+                    'transaction_type': transaction_type,
+                    'partner_name': result['partner_name'],
+                    'amount': abs(amount),  # Always show absolute value in the amount column
+                    'sign': amount,  # Keep sign for determining type
+                    'date': result['date'],
+                    'state': result['move_state'],
+                    'reference': result['ref'] or result['move_name'],
+                    'description': result['name'] or result['ref'] or '',
+                    'account_name': result['account_name'],
+                })
+
+        # Combine manual transactions with actual journal entries
+        transaction_data = actual_entries  # Using only actual journal entries as requested
+
+        # If we want to include manual equity transactions as well, uncomment the following:
+        # transaction_data = []
+        # for transaction in transactions:
+        #     transaction_data.append({
+        #         'id': transaction.id,
+        #         'name': transaction.name,
+        #         'transaction_type': transaction.transaction_type,
+        #         'partner_name': transaction.partner_id.name,
+        #         'amount': transaction.amount,
+        #         'date': transaction.date,
+        #         'state': transaction.state,
+        #         'reference': transaction.reference or '',
+        #         'description': transaction.description or '',
+        #         'source': 'manual'  # Mark as manual transaction
+        #     })
+        #
+        # # Add actual journal entries
+        # transaction_data.extend(actual_entries)
+        #
+        # # Sort by date and ID
+        # transaction_data.sort(key=lambda x: (x['date'], x['id']))
 
         # Calculate equity information for each partner based on actual account move lines
         equity_info = []
