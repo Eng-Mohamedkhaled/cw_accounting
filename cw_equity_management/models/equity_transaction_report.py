@@ -14,6 +14,7 @@ class EquityTransactionReport(models.AbstractModel):
         date_from = data.get('date_from') or self.env.context.get('date_from')
         date_to = data.get('date_to') or self.env.context.get('date_to')
         partner_id = data.get('partner_id') or self.env.context.get('partner_id')
+        transaction_type = data.get('transaction_type') or self.env.context.get('transaction_type')
         company_id = data.get('company_id') or self.env.context.get('company_id') or self.env.company.id
 
         from odoo import fields
@@ -43,7 +44,11 @@ class EquityTransactionReport(models.AbstractModel):
         if partner_id:
             domain.append(('partner_id', '=', int(partner_id)))
 
-        # Get equity transactions within the date range (and optionally filtered by partner)
+        # Add transaction type filter if specified
+        if transaction_type and transaction_type != 'all':
+            domain.append(('transaction_type', '=', transaction_type))
+
+        # Get equity transactions within the date range (and optionally filtered by partner and transaction type)
         transactions = self.env['equity.transaction'].search(domain)
 
         # Prepare transaction data
@@ -69,6 +74,7 @@ class EquityTransactionReport(models.AbstractModel):
             'date_from': date_from,
             'date_to': date_to,
             'partner_id': partner_id,
+            'transaction_type': transaction_type,
             'res_company': company,
             'company': company,
         }

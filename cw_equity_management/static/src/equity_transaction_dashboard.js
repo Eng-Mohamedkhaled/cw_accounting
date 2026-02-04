@@ -26,6 +26,7 @@ class EquityTransactionDashboard extends Component {
         this.state = useState({
             selectedDateFrom: firstDayStr,
             selectedDateTo: today,
+            transactionType: 'withdrawal', // Default to withdrawal transactions
             partners: [],               // Available partners for selection
             selectedPartnerId: null,    // Selected partner ID (null means all partners)
             selectedPartnerName: '',    // Selected partner name for display (empty means all partners)
@@ -109,6 +110,11 @@ class EquityTransactionDashboard extends Component {
                 options.partner_id = parseInt(this.state.selectedPartnerId);
             }
 
+            // Add transaction_type to options if not 'all'
+            if (this.state.transactionType && this.state.transactionType !== 'all') {
+                options.transaction_type = this.state.transactionType;
+            }
+
             const context = this.buildContext();
 
             const params = new URLSearchParams({
@@ -151,6 +157,11 @@ class EquityTransactionDashboard extends Component {
                 options.partner_id = parseInt(this.state.selectedPartnerId);
             }
 
+            // Add transaction_type to options if not 'all'
+            if (this.state.transactionType && this.state.transactionType !== 'all') {
+                options.transaction_type = this.state.transactionType;
+            }
+
             const context = this.buildContext();
 
             const params = new URLSearchParams({
@@ -175,6 +186,11 @@ class EquityTransactionDashboard extends Component {
             // Add partner_id to URL if a specific partner is selected
             if (this.state.selectedPartnerId) {
                 excelUrl += `&partner_id=${this.state.selectedPartnerId}`;
+            }
+
+            // Add transaction_type to URL if not 'all'
+            if (this.state.transactionType && this.state.transactionType !== 'all') {
+                excelUrl += `&transaction_type=${this.state.transactionType}`;
             }
 
             const ctx = encodeURIComponent(JSON.stringify(this.buildContext()));
@@ -309,6 +325,11 @@ class EquityTransactionDashboard extends Component {
             this.state.showPartnerDropdown = false;
             this.loadReport();
         }
+    }
+
+    onTransactionTypeChange(ev) {
+        this.state.transactionType = ev.target.value;
+        this.loadReport();
     }
 
     clearPartnerSelection() {

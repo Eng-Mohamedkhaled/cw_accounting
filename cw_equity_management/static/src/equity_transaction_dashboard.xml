@@ -25,6 +25,14 @@
                         </button>
                         <t t-set-slot="content">
                             <div class="p-3">
+                                <div class="mb-3">
+                                    <label class="form-label mb-2">Transaction Type:</label>
+                                    <select t-on-change="onTransactionTypeChange" t-att-value="state.transactionType" class="form-control">
+                                        <option value="all">All Transactions</option>
+                                        <option value="contribution">Capital Contributions</option>
+                                        <option value="withdrawal">Withdrawals</option>
+                                    </select>
+                                </div>
                                 <div class="mb-0">
                                     <label class="form-label mb-2">Partner:</label>
                                     <div class="input-group">
