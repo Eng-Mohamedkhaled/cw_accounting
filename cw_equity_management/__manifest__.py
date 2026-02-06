@@ -23,13 +23,12 @@
 
         'views/equity_transaction_views.xml',
         'views/equity_allocation_views.xml',
-        'views/menu.xml',
-        'data/account_data.xml',
-
-        # Equity transaction report
+        # Equity transaction report actions must be loaded before menu
+        'reports/report_action.xml',
         'reports/equity_transaction_report.xml',
         'reports/equity_transaction_report_pdf.xml',
-        'reports/report_action.xml',
+        'views/menu.xml',
+        'data/account_data.xml',
     ],
     'demo': [
     ],

@@ -37,9 +37,10 @@ class CWAccountReport(models.Model):
     base_code_expense_direct_cost = fields.Char(string="Expense Direct Cost", default="5300")
     base_code_off_balance = fields.Char(string="Off Balance", default="9000")
 
-    _sql_constraints = [
-        ('cw_account_report_company_unique', 'unique(company_id)', 'Only one record per company is allowed.'),
-    ]
+    _constraint_company_unique = models.Constraint(
+        'UNIQUE (company_id)',
+        'Only one record per company is allowed.',
+    )
 
     @api.model
     def action_open_settings(self):
