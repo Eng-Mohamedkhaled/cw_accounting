@@ -236,12 +236,12 @@ class EquityTransactionReport(models.AbstractModel):
 
                 # Calculate current equity: Equity account balance - Drawing account balance
                 # (drawing account typically has credit balances that reduce equity)
-                current_equity = equity_balance - drawing_balance
+                current_equity = -(equity_balance + drawing_balance)
 
                 equity_info.append({
                     'partner_name': partner.name,
                     'partner_id': partner.id,
-                    'equity_account_balance': equity_balance,
+                    'equity_account_balance': -(equity_balance),
                     'drawing_account_balance': drawing_balance,
                     'current_equity': current_equity,
                 })
