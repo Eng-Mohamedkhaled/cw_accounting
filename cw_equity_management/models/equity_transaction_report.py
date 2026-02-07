@@ -73,7 +73,8 @@ class EquityTransactionReport(models.AbstractModel):
                 SELECT aml.id, aml.date, aml.name, aml.debit, aml.credit, aml.balance,
                        aml.partner_id, aml.ref, rp.name as partner_name,
                        am.name as move_name, am.state as move_state,
-                       aa.name as account_name, aa.id as account_id
+                       aa.name as account_name, aa.id as account_id,
+                       am.id as move_id
                 FROM account_move_line aml
                 JOIN account_move am ON aml.move_id = am.id
                 JOIN res_partner rp ON aml.partner_id = rp.id
@@ -142,6 +143,7 @@ class EquityTransactionReport(models.AbstractModel):
                     'reference': result['ref'] or result['move_name'],
                     'description': result['name'] or result['ref'] or '',
                     'account_name': result['account_name'],
+                    'move_id': result.get('move_id'),  # Add move ID for linking to journal entry
                 })
 
         # Combine manual transactions with actual journal entries

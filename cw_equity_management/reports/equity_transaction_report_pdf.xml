@@ -190,7 +190,14 @@
                                         </span>
                                     </td>
                                     <td class="wrap">
-                                        <t t-esc="trans['description']"/>
+                                        <t t-if="trans['move_id']">
+                                            <a t-att-href="'/web#id=' + trans['move_id'] + '&amp;model=account.move'">
+                                                <t t-esc="trans['description']"/>
+                                            </a>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="trans['description']"/>
+                                        </t>
                                     </td>
                                 </tr>
                             </t>
