@@ -85,7 +85,7 @@
                         <group>
                             <field name="transaction_type"/>
                             <field name="reference"/>
-                            <field name="partner_id" invisible="transaction_type == 'asset_contribution'" options="{'no_create': True}"/>
+                            <field name="partner_id" invisible="transaction_type == 'asset_contribution'" required="transaction_type in ['contribution', 'withdrawal']" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
                         <group>
@@ -118,7 +118,7 @@
                                 <list editable="bottom" decoration-danger="percentage &lt; 0 or percentage &gt; 100 or manual_amount &lt; 0">
                                     <field name="partner_id" options="{'no_create': True}"/>
                                     <field name="split_type" widget="radio"/>
-                                    <field name="percentage" string= "Percentage" invisible="split_type != 'percentage'" required="split_type == 'percentage'"/>
+                                    <field name="percentage" invisible="split_type != 'percentage'" required="split_type == 'percentage'"/>
                                     <field name="manual_amount" invisible="split_type != 'manual'" required="split_type == 'manual'"/>
                                     <field name="calculated_amount" readonly="1"/>
                                 </list>
@@ -167,7 +167,7 @@
                         <group>
                             <field name="transaction_type" invisible="1"/>
                             <field name="reference"/>
-                            <field name="partner_id" invisible="transaction_type == 'asset_contribution'" options="{'no_create': True}"/>
+                            <field name="partner_id" invisible="transaction_type == 'asset_contribution'" required="transaction_type in ['contribution', 'withdrawal']" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
                         <group>
@@ -330,7 +330,7 @@
                         <group>
                             <field name="transaction_type" invisible="1"/>
                             <field name="reference"/>
-                            <field name="partner_id" invisible="transaction_type == 'asset_contribution'" options="{'no_create': True}"/>
+                            <field name="partner_id" invisible="transaction_type == 'asset_contribution'" required="transaction_type in ['contribution', 'withdrawal']" options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
                         <group>
@@ -447,6 +447,14 @@
         </field>
     </record>
 
+    <!-- View Mode for Drawing Transaction Form -->
+    <record id="view_equity_drawing_transaction_mode" model="ir.actions.act_window.view">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="act_window_id" ref="action_equity_drawing_transaction"/>
+        <field name="view_id" ref="view_equity_drawing_transaction_form"/>
+    </record>
+
     <!-- Action for Asset Contribution Transactions -->
     <record id="action_equity_asset_contribution" model="ir.actions.act_window">
         <field name="name">Capital Contributions</field>
@@ -457,10 +465,18 @@
         <field name="view_id" ref="view_equity_asset_contribution_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create your first asset contribution
+                Create your first capital contribution
             </p><p>
-                Record asset contributions from equity owners.
+                Record capital contributions from equity owners.
             </p>
         </field>
+    </record>
+
+    <!-- View Mode for Asset Contribution Form -->
+    <record id="view_equity_asset_contribution_mode" model="ir.actions.act_window.view">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="act_window_id" ref="action_equity_asset_contribution"/>
+        <field name="view_id" ref="view_equity_asset_contribution_form"/>
     </record>
 </odoo>
