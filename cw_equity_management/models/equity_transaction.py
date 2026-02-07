@@ -26,10 +26,17 @@ class EquityTransaction(models.Model):
     partner_id = fields.Many2one(
         'res.partner',
         string='Partner',
-        required=True,
         domain=[('is_equity_owner', '=', True)],
         help='The equity owner involved in this transaction'
     )
+
+    @api.onchange('transaction_type')
+    def _onchange_transaction_type(self):
+        """Make partner_id not required for asset contributions"""
+        if self.transaction_type == 'asset_contribution':
+            # For asset contributions, partner_id is not used directly
+            # Splits are configured separately
+            pass  # We'll handle this in constraints instead
     
     # Company where the transaction applies
     company_id = fields.Many2one(
@@ -158,13 +165,17 @@ class EquityTransaction(models.Model):
     def _compute_ownership_id(self):
         """Compute the related equity ownership record"""
         for record in self:
-            ownership = self.env['equity.ownership'].search([
-                ('partner_id', '=', record.partner_id.id),
-                ('company_id', '=', record.company_id.id),
-                ('date_from', '<=', record.date),
-                '|', ('date_to', '=', False), ('date_to', '>=', record.date)
-            ], limit=1)
-            record.ownership_id = ownership
+            # Only compute ownership for transaction types that require it
+            if record.transaction_type in ['contribution', 'withdrawal'] and record.partner_id:
+                ownership = self.env['equity.ownership'].search([
+                    ('partner_id', '=', record.partner_id.id),
+                    ('company_id', '=', record.company_id.id),
+                    ('date_from', '<=', record.date),
+                    '|', ('date_to', '=', False), ('date_to', '>=', record.date)
+                ], limit=1)
+                record.ownership_id = ownership
+            else:
+                record.ownership_id = None
     
     @api.constrains('amount')
     def _check_positive_amount(self):
@@ -196,6 +207,13 @@ class EquityTransaction(models.Model):
                 raise ValidationError(_("Please add at least one cash/bank line."))
             elif record.transaction_type == 'asset_contribution' and not record.line_ids:
                 raise ValidationError(_("Please add at least one asset account line for asset contributions."))
+
+    @api.constrains('partner_id', 'transaction_type')
+    def _check_partner_required_for_transaction_types(self):
+        """Ensure partner is required for certain transaction types"""
+        for record in self:
+            if record.transaction_type in ['contribution', 'withdrawal'] and not record.partner_id:
+                raise ValidationError(_("Partner is required for this transaction type."))
     
     def action_post(self):
         """Post the transaction and create the journal entry"""
@@ -213,7 +231,7 @@ class EquityTransaction(models.Model):
                     raise ValidationError(_("Please configure how to split the asset contribution among owners."))
                 record._validate_splits()
 
-            if record.transaction_type != 'asset_contribution' and not record.ownership_id:
+            if record.transaction_type in ['contribution', 'withdrawal'] and not record.ownership_id:
                 raise ValidationError(_("No active equity ownership found for this partner on the transaction date."))
 
             # Create the journal entry
