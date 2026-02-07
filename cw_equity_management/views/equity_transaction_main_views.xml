@@ -63,7 +63,7 @@
                         <page string="Accounts">
                             <field name="line_ids">
                                 <list editable="bottom">
-                                    <field name="account_id" options="{'no_create': True}"/>
+                                    <field name="account_id"/>
                                     <field name="amount"/>
                                 </list>
                             </field>
