@@ -24,6 +24,7 @@
   background-color: #ffffff; /* White background to match report style */
   min-height: 100vh;
   margin-top: 15px;
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
 
 /* Card styling - match the report table style */
@@ -79,6 +80,7 @@
   border-radius: 0 0 var(--equity-card-radius) var(--equity-card-radius); /* Bottom rounded corners */
   background-color: #ffffff; /* White background inside the box */
   box-shadow: var(--equity-card-shadow); /* Subtle shadow */
+  table-layout: fixed; /* Fixed table layout to handle long content */
 }
 
 .cw-equity-summary-table th,
@@ -87,7 +89,8 @@
   padding: 6px 12px !important; /* Match report padding */
   text-align: left; /* Left aligned like in report */
   font-weight: bold; /* Bold header like in report */
-  background-color: #f2f2f2; /* Light gray background for headers */
+  background-color: transparent; /* No background to match report */
+  color: #000000; /* Black text like in report */
 }
 
 .cw-equity-summary-table td,
@@ -239,14 +242,20 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .cw-equity-summary-header,
+  .cw-equity-transactions-header {
+    width: 90% !important; /* Wider on smaller screens */
+  }
+  
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
-    padding: 15px;
+    width: 90% !important; /* Wider on smaller screens */
   }
   
   .cw-equity-summary-table,
   .cw-equity-transactions-table {
     font-size: 0.9em;
+    width: 100% !important; /* Full width on small screens */
   }
   
   .cw-equity-summary-table th,
@@ -275,15 +284,16 @@
   .cw-equity-summary-header,
   .cw-equity-transactions-header {
     padding: 8px 12px;
+    width: 100% !important; /* Full width on very small screens */
   }
   
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
-    padding: 10px;
+    width: 100% !important; /* Full width on very small screens */
   }
   
-  .cw-equity-summary-table .table-responsive,
-  .cw-equity-transactions-table .table-responsive {
+  .cw-equity-summary-table,
+  .cw-equity-transactions-table {
     font-size: 0.85em;
   }
 }
