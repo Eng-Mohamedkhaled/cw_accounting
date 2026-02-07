@@ -44,12 +44,12 @@
               parent="menu_equity_root"
               sequence="35"/>
 
-    <menuitem id="menu_equity_transaction_report"
+    <!-- <menuitem id="menu_equity_transaction_report"
               name="Equity Transactions Report"
               parent="menu_equity_reports"
               action="action_equity_transaction_dashboard"
               groups="account.group_account_user,account.group_account_manager"
-              sequence="10"/>
+              sequence="10"/> -->
 
     <menuitem id="menu_equity_transaction_report_js"
               name="Equity Transactions Dashboard (JS)"

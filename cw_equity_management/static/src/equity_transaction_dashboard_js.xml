@@ -158,9 +158,7 @@
                                                 <td><t t-esc="trans.date"/></td>
                                                 <td><t t-esc="trans.partner_name"/></td>
                                                 <td>
-                                                    <t t-if="trans.sign &gt; 0">Contribution</t>
-                                                    <t t-elif="trans.sign &lt; 0">Withdrawal</t>
-                                                    <t t-else="">Other</t>
+                                                    <t t-esc="trans.transaction_type.charAt(0).toUpperCase() + trans.transaction_type.slice(1)" />
                                                 </td>
                                                 <td class="text-end">
                                                     <t t-esc="formatCurrency(trans.amount)"/>

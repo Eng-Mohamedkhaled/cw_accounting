@@ -114,15 +114,29 @@ class EquityTransactionReport(models.AbstractModel):
                     transaction_type_result = 'withdrawal'
 
                 # Determine amount based on debit/credit
-                amount = result['debit'] - result['credit']  # Positive for debits (contributions), negative for credits (withdrawals)
+                raw_amount = result['debit'] - result['credit']
+
+                # Adjust sign based on account type for proper interpretation
+                # For equity account: debits are reductions (negative), credits are increases (positive)
+                # For drawing account: debits are increases in drawings (negative impact on equity), credits are reductions (positive impact)
+                if result['account_id'] == equity_account.id:
+                    # Equity account: credits increase equity (positive), debits decrease equity (negative)
+                    adjusted_sign = raw_amount  # Keep original sign
+                elif result['account_id'] == drawing_account.id:
+                    # Drawing account: debits increase drawings (negative impact on equity), credits decrease drawings (positive impact)
+                    # So we invert the sign to represent the impact on equity
+                    adjusted_sign = -raw_amount
+                else:
+                    # Other accounts: keep original sign
+                    adjusted_sign = raw_amount
 
                 actual_entries.append({
                     'id': result['id'],
                     'name': result['name'] or result['move_name'],
                     'transaction_type': transaction_type_result,
                     'partner_name': result['partner_name'],
-                    'amount': abs(amount),  # Always show absolute value in the amount column
-                    'sign': amount,  # Keep sign for determining type
+                    'amount': abs(raw_amount),  # Always show absolute value in the amount column
+                    'sign': adjusted_sign,  # Use adjusted sign for dashboard interpretation
                     'date': result['date'],
                     'state': result['move_state'],
                     'reference': result['ref'] or result['move_name'],
@@ -184,6 +198,7 @@ class EquityTransactionReport(models.AbstractModel):
                 equity_balance = 0.0
                 if equity_account:
                     # Query account move lines for this partner in the equity account
+                    print(f"DEBUG: Calculating equity balance for partner {partner_id_calc}, account {equity_account.id}")
                     self.env.cr.execute("""
                         SELECT SUM(aml.balance)
                         FROM account_move_line aml
@@ -197,6 +212,7 @@ class EquityTransactionReport(models.AbstractModel):
 
                     result = self.env.cr.fetchone()[0]
                     equity_balance = result or 0.0
+                    print(f"DEBUG: Equity balance result: {equity_balance}")
 
                 # Calculate balance from drawing account (withdrawals decrease equity)
                 drawing_balance = 0.0

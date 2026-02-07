@@ -178,9 +178,7 @@
                                         <t t-esc="trans['partner_name']"/>
                                     </td>
                                     <td class="wrap">
-                                        <t t-if="trans['sign'] &gt; 0">Contribution</t>
-                                        <t t-elif="trans['sign'] &lt; 0">Withdrawal</t>
-                                        <t t-else="">Other</t>
+                                        <t t-esc="trans['transaction_type'].title()"/>
                                     </td>
                                     <td class="num">
                                         <t t-esc="trans['amount']"

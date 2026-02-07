@@ -27,7 +27,7 @@
         'views/equity_allocation_views.xml',
         # Equity transaction report actions must be loaded before menu
         'reports/report_action.xml',
-        'reports/equity_transaction_report.xml',
+        # 'reports/equity_transaction_report.xml',
         'reports/equity_transaction_report_pdf.xml',
         'views/menu.xml',
         'data/account_data.xml',
@@ -36,8 +36,8 @@
     ],
     "assets": {
         'web.assets_backend': [
-            'cw_equity_management/static/src/equity_transaction_dashboard.js',
-            'cw_equity_management/static/src/equity_transaction_dashboard.xml',
+            # 'cw_equity_management/static/src/equity_transaction_dashboard.js',
+            # 'cw_equity_management/static/src/equity_transaction_dashboard.xml',
             'cw_equity_management/static/src/equity_transaction_dashboard_js.js',
             'cw_equity_management/static/src/equity_transaction_dashboard_js.xml',
         ],
