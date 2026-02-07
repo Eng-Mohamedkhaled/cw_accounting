@@ -23,7 +23,9 @@
   padding: 20px;
   background-color: #ffffff; /* White background to match report style */
   min-height: auto; /* Reduce minimum height */
+  max-height: 90vh; /* Limit height to prevent taking too much space */
   margin-top: 15px;
+  overflow-y: auto; /* Enable vertical scrolling for all content */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
   margin-bottom: 20px; /* Add bottom margin for better spacing */
 }
@@ -67,8 +69,7 @@
 .cw-equity-transactions-body {
   padding: 0; /* Remove body padding since table has its own */
   width: 40%; /* Same width as table */
-  max-height: 40vh;
-   overflow-y: auto;
+
 }
 
 /* Table styling for equity info and transactions - match report style */
