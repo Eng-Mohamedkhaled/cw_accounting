@@ -17,9 +17,8 @@ class EquityTransaction(models.Model):
     )
     # Transaction type
     transaction_type = fields.Selection([
-        ('contribution', 'Capital Contribution'),
         ('withdrawal', 'Capital Withdrawal'),
-        ('asset_contribution', 'Asset Contribution'),
+        ('asset_contribution', 'Capital Contribution'),
     ], string='Transaction Type', required=True, default='contribution')
     
     # Partner involved in the transaction
