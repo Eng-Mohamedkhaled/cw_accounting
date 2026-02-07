@@ -377,8 +377,16 @@ class EquityTransaction(models.Model):
             ('company_id', '=', self.company_id.id)
         ], limit=1)
 
+        # Customize the reference based on transaction type
+        if self.transaction_type == 'asset_contribution':
+            ref_label = 'Capital Contribution'
+            ref_detail = self.reference or 'Asset Contribution'
+        else:
+            ref_detail = self.reference or (self.partner_id.name if self.partner_id else self.transaction_type.title())
+            ref_label = self.transaction_type.title()
+
         return {
-            'ref': f'{self.transaction_type.title()} - {self.partner_id.name if self.transaction_type != "asset_contribution" else "Asset Contribution"}',
+            'ref': f'{ref_label} - {ref_detail}',
             'date': self.date,
             'journal_id': journal.id,
             'company_id': self.company_id.id,

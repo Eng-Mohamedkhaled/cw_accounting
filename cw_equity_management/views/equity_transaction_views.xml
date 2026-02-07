@@ -224,7 +224,7 @@
         <field name="name">equity.asset.contribution.form</field>
         <field name="model">equity.transaction</field>
         <field name="arch" type="xml">
-            <form string="Asset Contribution">
+            <form string="Capital Contribution">
                 <header>
                     <button name="action_post" type="object" string="Post" class="oe_highlight"
                             invisible="state != 'draft' or transaction_type == 'asset_contribution' and not splits_configured"/>
@@ -418,7 +418,7 @@
         <field name="name">equity.asset.contribution.tree</field>
         <field name="model">equity.transaction</field>
         <field name="arch" type="xml">
-            <list string="Asset Contributions">
+            <list string="Capital Contributions">
                 <field name="company_id" string="Company" groups="base.group_system"/>
                 <field name="amount" string="Amount"/>
                 <field name="date" string="Date"/>
@@ -449,7 +449,7 @@
 
     <!-- Action for Asset Contribution Transactions -->
     <record id="action_equity_asset_contribution" model="ir.actions.act_window">
-        <field name="name">Asset Contributions</field>
+        <field name="name">Capital Contributions</field>
         <field name="res_model">equity.transaction</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[('transaction_type', '=', 'asset_contribution')]</field>
