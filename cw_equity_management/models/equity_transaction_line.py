@@ -24,9 +24,9 @@ class EquityTransactionLine(models.Model):
     )
     account_id = fields.Many2one(
         'account.account',
-        string='Cash/Bank Account',
+        string='Account',
         required=True,
-        domain="[('company_ids', 'in', company_id), ('account_type', 'in', ['asset_cash', 'asset_current', 'liability_current'])]"
+        domain="[('company_ids', 'in', company_id), ('account_type', 'in', ['asset_cash', 'asset_current', 'asset_fixed', 'asset_non_current', 'liability_current'])]"
     )
     amount = fields.Monetary(
         string='Amount',

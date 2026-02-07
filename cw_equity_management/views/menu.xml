@@ -31,6 +31,12 @@
               action="action_equity_capital_transaction"
               sequence="10"/>
 
+    <menuitem id="menu_equity_asset_contribution_list"
+              name="Asset Contributions"
+              parent="menu_equity_transactions"
+              action="action_equity_asset_contribution"
+              sequence="15"/>
+
     <menuitem id="menu_equity_drawing_transaction_list"
               name="Owner Drawings"
               parent="menu_equity_transactions"

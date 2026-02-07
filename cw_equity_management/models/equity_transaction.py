@@ -19,6 +19,7 @@ class EquityTransaction(models.Model):
     transaction_type = fields.Selection([
         ('contribution', 'Capital Contribution'),
         ('withdrawal', 'Capital Withdrawal'),
+        ('asset_contribution', 'Asset Contribution'),
     ], string='Transaction Type', required=True, default='contribution')
     
     # Partner involved in the transaction
@@ -111,13 +112,36 @@ class EquityTransaction(models.Model):
     line_ids = fields.One2many(
         'equity.transaction.line',
         'transaction_id',
-        string='Cash/Bank Lines'
+        string='Asset/Cash/Bank Lines'
+    )
+
+    # Split lines for asset contributions
+    split_line_ids = fields.One2many(
+        'equity.asset.contribution.split',
+        'transaction_id',
+        string='Asset Contribution Splits'
+    )
+
+    # Flag to indicate if splits are configured
+    splits_configured = fields.Boolean(
+        string='Splits Configured',
+        compute='_compute_splits_configured',
+        store=True
     )
 
     @api.depends('line_ids.amount')
     def _compute_amount(self):
         for record in self:
             record.amount = sum(record.line_ids.mapped('amount'))
+
+    @api.depends('transaction_type', 'split_line_ids')
+    def _compute_splits_configured(self):
+        """Compute if splits are configured for asset contributions"""
+        for record in self:
+            if record.transaction_type == 'asset_contribution':
+                record.splits_configured = bool(record.split_line_ids)
+            else:
+                record.splits_configured = True  # Not applicable for other types
     
     @api.depends('partner_id', 'transaction_type', 'amount', 'date', 'reference')
     def _compute_name(self):
@@ -168,49 +192,100 @@ class EquityTransaction(models.Model):
     @api.constrains('line_ids')
     def _check_lines_present(self):
         for record in self:
-            if not record.line_ids:
+            if record.transaction_type in ['contribution', 'withdrawal'] and not record.line_ids:
                 raise ValidationError(_("Please add at least one cash/bank line."))
+            elif record.transaction_type == 'asset_contribution' and not record.line_ids:
+                raise ValidationError(_("Please add at least one asset account line for asset contributions."))
     
     def action_post(self):
         """Post the transaction and create the journal entry"""
         for record in self:
             if record.state != 'draft':
                 continue
-                
+
             # Validate required fields
-            if not record.line_ids:
+            if record.transaction_type in ['contribution', 'withdrawal'] and not record.line_ids:
                 raise ValidationError(_("Please add at least one cash/bank line for this transaction."))
-            
-            if not record.ownership_id:
+            elif record.transaction_type == 'asset_contribution':
+                if not record.line_ids:
+                    raise ValidationError(_("Please add at least one asset account line for asset contributions."))
+                if not record.split_line_ids:
+                    raise ValidationError(_("Please configure how to split the asset contribution among owners."))
+                record._validate_splits()
+
+            if record.transaction_type != 'asset_contribution' and not record.ownership_id:
                 raise ValidationError(_("No active equity ownership found for this partner on the transaction date."))
-            
+
             # Create the journal entry
             move_vals = record._prepare_journal_entry_vals()
             move = self.env['account.move'].create(move_vals)
-            
+
             # Post the journal entry
             move.action_post()
-            
+
             # Update transaction record
             record.write({
                 'move_id': move.id,
                 'state': 'posted'
             })
+
+    def _validate_splits(self):
+        """Validate that splits are properly configured for asset contributions"""
+        self.ensure_one()
+
+        if self.transaction_type != 'asset_contribution':
+            return
+
+        if not self.split_line_ids:
+            raise ValidationError(_("Asset contributions must have at least one split allocation."))
+
+        # Check for duplicate partners in split lines
+        partner_ids = [split_line.partner_id.id for split_line in self.split_line_ids]
+        if len(partner_ids) != len(set(partner_ids)):
+            raise ValidationError(_("Each partner can only appear once in the split allocations."))
+
+        # Calculate total based on split type
+        total_split_amount = 0.0
+        total_asset_value = sum(self.line_ids.mapped('amount'))
+
+        for split_line in self.split_line_ids:
+            if split_line.split_type == 'percentage':
+                if split_line.percentage < 0 or split_line.percentage > 100:
+                    raise ValidationError(_("Split percentage must be between 0 and 100%."))
+                total_split_amount += total_asset_value * (split_line.percentage / 100.0)
+            elif split_line.split_type == 'manual':
+                if split_line.manual_amount < 0:
+                    raise ValidationError(_("Manual split amount must be positive."))
+                total_split_amount += split_line.manual_amount
+
+        # Allow for small rounding differences
+        if abs(total_split_amount - total_asset_value) > 0.01:
+            raise ValidationError(_(
+                "The total split allocation (%.2f) does not match the total asset value (%.2f). "
+                "Please adjust the splits so they sum to the total asset value.") %
+                (total_split_amount, total_asset_value))
+
+    @api.constrains('transaction_type', 'split_line_ids')
+    def _check_asset_contribution_splits(self):
+        """Validate splits for asset contributions"""
+        for record in self:
+            if record.transaction_type == 'asset_contribution':
+                record._validate_splits()
     
     def _prepare_journal_entry_vals(self):
         """Prepare journal entry values for the transaction"""
         self.ensure_one()
-
-        # Get the shared equity account from company settings
-        equity_account = self.company_id.equity_shared_account_id
-        if not equity_account:
-            raise ValidationError(_("Please configure the shared equity account for company %s") % self.company_id.name)
 
         # Prepare move lines
         move_lines = []
         total_amount = sum(self.line_ids.mapped('amount'))
 
         if self.transaction_type == 'contribution':
+            # Get the shared equity account from company settings
+            equity_account = self.company_id.equity_shared_account_id
+            if not equity_account:
+                raise ValidationError(_("Please configure the shared equity account for company %s") % self.company_id.name)
+
             # For contribution: debit each cash/bank line, credit shared equity account (total)
             for line in self.line_ids:
                 move_lines.append({
@@ -229,6 +304,31 @@ class EquityTransaction(models.Model):
                 'partner_id': self.partner_id.id,
                 'currency_id': self.currency_id.id,
             })
+        elif self.transaction_type == 'asset_contribution':
+            # For asset contribution: debit each asset line, credit equity accounts based on splits
+            for line in self.line_ids:
+                move_lines.append({
+                    'name': f'Asset Contribution - {line.account_id.name}',
+                    'account_id': line.account_id.id,
+                    'debit': line.amount,
+                    'credit': 0.0,
+                    'currency_id': self.currency_id.id,
+                })
+
+            # Credit equity accounts based on splits
+            equity_account = self.company_id.equity_shared_account_id
+            if not equity_account:
+                raise ValidationError(_("Please configure the shared equity account for company %s") % self.company_id.name)
+
+            for split_line in self.split_line_ids:
+                move_lines.append({
+                    'name': f'Asset Contribution from {split_line.partner_id.name}',
+                    'account_id': equity_account.id,
+                    'debit': 0.0,
+                    'credit': split_line.calculated_amount,
+                    'partner_id': split_line.partner_id.id,
+                    'currency_id': self.currency_id.id,
+                })
         else:  # withdrawal
             # For withdrawal: debit shared drawing account, credit cash
             drawing_account = self.company_id.drawing_shared_account_id
@@ -260,7 +360,7 @@ class EquityTransaction(models.Model):
         ], limit=1)
 
         return {
-            'ref': f'{self.transaction_type.title()} - {self.partner_id.name}',
+            'ref': f'{self.transaction_type.title()} - {self.partner_id.name if self.transaction_type != "asset_contribution" else "Asset Contribution"}',
             'date': self.date,
             'journal_id': journal.id,
             'company_id': self.company_id.id,
