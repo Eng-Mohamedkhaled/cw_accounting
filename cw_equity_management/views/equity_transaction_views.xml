@@ -118,7 +118,7 @@
                                 <list editable="bottom" decoration-danger="percentage &lt; 0 or percentage &gt; 100 or manual_amount &lt; 0">
                                     <field name="partner_id" options="{'no_create': True}"/>
                                     <field name="split_type" widget="radio"/>
-                                    <field name="percentage" invisible="split_type != 'percentage'" required="split_type == 'percentage'"/>
+                                    <field name="percentage" string= "Percentage" invisible="split_type != 'percentage'" required="split_type == 'percentage'"/>
                                     <field name="manual_amount" invisible="split_type != 'manual'" required="split_type == 'manual'"/>
                                     <field name="calculated_amount" readonly="1"/>
                                 </list>

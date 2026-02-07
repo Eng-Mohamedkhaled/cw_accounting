@@ -38,8 +38,9 @@ class EquityAssetContributionSplit(models.Model):
     ], string='Split Type', required=True, default='manual')
 
     percentage = fields.Float(
-        string='Percentage (%)',
+        string='Percentage',
         digits=(16, 4),
+        related="transaction_id..percentage" 
         help='Percentage of the total asset value allocated to this partner'
     )
 
