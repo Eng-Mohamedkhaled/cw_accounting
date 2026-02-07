@@ -59,6 +59,7 @@
     <record id="view_equity_transaction_form" model="ir.ui.view">
         <field name="name">equity.transaction.form</field>
         <field name="model">equity.transaction</field>
+        <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <form string="Equity Transaction">
                 <header>
@@ -141,6 +142,7 @@
     <record id="view_equity_capital_transaction_form" model="ir.ui.view">
         <field name="name">equity.capital.transaction.form</field>
         <field name="model">equity.transaction</field>
+        <field name="priority" eval="14"/>
         <field name="arch" type="xml">
             <form string="Capital Transaction">
                 <header>
@@ -223,6 +225,7 @@
     <record id="view_equity_asset_contribution_form" model="ir.ui.view">
         <field name="name">equity.asset.contribution.form</field>
         <field name="model">equity.transaction</field>
+        <field name="priority" eval="15"/>
         <field name="arch" type="xml">
             <form string="Capital Contribution">
                 <header>
@@ -304,6 +307,7 @@
     <record id="view_equity_drawing_transaction_form" model="ir.ui.view">
         <field name="name">equity.drawing.transaction.form</field>
         <field name="model">equity.transaction</field>
+        <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <form string="Drawing Transaction">
                 <header>
@@ -447,14 +451,6 @@
         </field>
     </record>
 
-    <!-- View Mode for Drawing Transaction Form -->
-    <record id="view_equity_drawing_transaction_mode" model="ir.actions.act_window.view">
-        <field name="sequence" eval="20"/>
-        <field name="view_mode">form</field>
-        <field name="act_window_id" ref="action_equity_drawing_transaction"/>
-        <field name="view_id" ref="view_equity_drawing_transaction_form"/>
-    </record>
-
     <!-- Action for Asset Contribution Transactions -->
     <record id="action_equity_asset_contribution" model="ir.actions.act_window">
         <field name="name">Capital Contributions</field>
@@ -470,13 +466,5 @@
                 Record capital contributions from equity owners.
             </p>
         </field>
-    </record>
-
-    <!-- View Mode for Asset Contribution Form -->
-    <record id="view_equity_asset_contribution_mode" model="ir.actions.act_window.view">
-        <field name="sequence" eval="20"/>
-        <field name="view_mode">form</field>
-        <field name="act_window_id" ref="action_equity_asset_contribution"/>
-        <field name="view_id" ref="view_equity_asset_contribution_form"/>
     </record>
 </odoo>
