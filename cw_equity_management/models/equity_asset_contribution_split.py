@@ -40,7 +40,8 @@ class EquityAssetContributionSplit(models.Model):
     percentage = fields.Float(
         string='Percentage',
         digits=(16, 4),
-        related="transaction_id..percentage" 
+        compute='_compute_percentage_from_ownership',
+        inverse='_inverse_percentage',
         help='Percentage of the total asset value allocated to this partner'
     )
 
@@ -94,6 +95,61 @@ class EquityAssetContributionSplit(models.Model):
         for record in self:
             if record.split_type == 'manual' and record.manual_amount < 0:
                 raise ValidationError(_("Manual split amount must be positive."))
+
+    @api.depends('partner_id', 'transaction_id.date', 'transaction_id.company_id')
+    def _compute_percentage_from_ownership(self):
+        """Compute percentage based on equity ownership"""
+        for record in self:
+            if record.split_type == 'percentage' and record.partner_id:
+                # Find the equity ownership for this partner in the transaction's company
+                ownership = self.env['equity.ownership'].search([
+                    ('partner_id', '=', record.partner_id.id),
+                    ('company_id', '=', record.transaction_id.company_id.id),
+                    ('date_from', '<=', record.transaction_id.date or fields.Date.context_today(record)),
+                    '|', ('date_to', '=', False), ('date_to', '>=', record.transaction_id.date or fields.Date.context_today(record))
+                ], limit=1)
+
+                record.percentage = ownership.percentage if ownership else 0.0
+            else:
+                record.percentage = 0.0
+
+    def _inverse_percentage(self):
+        """Inverse method to allow manual override of percentage"""
+        for record in self:
+            # Allow manual override when needed
+            pass
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id_set_percentage(self):
+        """Set percentage based on equity ownership when partner is selected"""
+        if self.partner_id and self.split_type == 'percentage':
+            # Find the equity ownership for this partner in the transaction's company
+            ownership = self.env['equity.ownership'].search([
+                ('partner_id', '=', self.partner_id.id),
+                ('company_id', '=', self.transaction_id.company_id.id),
+                ('date_from', '<=', self.transaction_id.date or fields.Date.context_today(self)),
+                '|', ('date_to', '=', False), ('date_to', '>=', self.transaction_id.date or fields.Date.context_today(self))
+            ], limit=1)
+
+            if ownership:
+                self.percentage = ownership.percentage
+
+    @api.onchange('split_type')
+    def _onchange_split_type_set_percentage(self):
+        """Set percentage based on equity ownership when split type is changed to percentage"""
+        if self.split_type == 'percentage' and self.partner_id:
+            # Find the equity ownership for this partner in the transaction's company
+            ownership = self.env['equity.ownership'].search([
+                ('partner_id', '=', self.partner_id.id),
+                ('company_id', '=', self.transaction_id.company_id.id),
+                ('date_from', '<=', self.transaction_id.date or fields.Date.context_today(self)),
+                '|', ('date_to', '=', False), ('date_to', '>=', self.transaction_id.date or fields.Date.context_today(self))
+            ], limit=1)
+
+            if ownership:
+                self.percentage = ownership.percentage
+            else:
+                self.percentage = 0.0
 
     @api.constrains('split_type', 'percentage', 'manual_amount')
     def _check_split_values(self):
