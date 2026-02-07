@@ -46,7 +46,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="transaction_type" invisible="1"/>
+                            <!-- <field name="transaction_type" invisible="1"/> -->
                             <field name="reference"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_system"/>
                         </group>
