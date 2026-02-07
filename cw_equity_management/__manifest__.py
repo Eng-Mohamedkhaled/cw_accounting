@@ -40,6 +40,7 @@
             # 'cw_equity_management/static/src/equity_transaction_dashboard.xml',
             'cw_equity_management/static/src/equity_transaction_dashboard_js.js',
             'cw_equity_management/static/src/equity_transaction_dashboard_js.xml',
+            'cw_equity_management/static/src/equity_transaction_dashboard.css',
         ],
     },
     'installable': True,

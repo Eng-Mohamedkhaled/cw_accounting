@@ -1,0 +1,243 @@
+// Variables for consistent color scheme
+:root {
+  --primary-color: #4a6cf7;
+  --primary-hover: #3a5ce5;
+  --success-color: #28a745;
+  --success-hover: #218838;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-bg: #f8f9fa;
+  --dark-text: #212529;
+  --border-color: #dee2e6;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --card-radius: 8px;
+  --header-bg: #f8f9fa;
+  --table-hover: #f2f2f2;
+}
+
+// Main dashboard layout styling
+.o_dashboard {
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.o_dashboard_container {
+  margin-top: 15px;
+}
+
+.card {
+  border: none;
+  box-shadow: var(--card-shadow);
+  border-radius: var(--card-radius);
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 15px 20px;
+  border-top-left-radius: var(--card-radius);
+  border-top-right-radius: var(--card-radius);
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--dark-text);
+  margin: 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+// Table styling for equity info and transactions
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  color: #495057;
+  border-top: none;
+  padding: 12px 15px;
+}
+
+.table td {
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--table-hover);
+}
+
+.table-dark th {
+  background-color: #343a40;
+  color: white;
+}
+
+.text-success {
+  color: var(--success-color) !important;
+}
+
+.text-danger {
+  color: var(--danger-color) !important;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.fw-bold {
+  font-weight: bold !important;
+}
+
+// Button styling
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  box-shadow: 0 4px 8px rgba(74, 108, 247, 0.3) !important;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+  background-color: var(--success-hover) !important;
+  border-color: var(--success-hover) !important;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3) !important;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #ced4da;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+// Form controls styling
+.form-control {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(74, 108, 247, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 5px;
+}
+
+// Dropdown menu styling
+.dropdown-menu {
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px 0;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  transition: background-color 0.15s;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--light-bg);
+}
+
+// Filter section styling
+.filter_date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter_date label {
+  margin: 0;
+  font-weight: 500;
+  color: #495057;
+  white-space: nowrap;
+}
+
+// Spinner styling
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .card-body {
+    padding: 15px;
+  }
+  
+  .table {
+    font-size: 0.9em;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 10px;
+  }
+  
+  .filter_date {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .d-flex.flex-wrap {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .o_dashboard {
+    padding: 10px;
+  }
+  
+  .card-header {
+    padding: 12px 15px;
+  }
+  
+  .card-body {
+    padding: 15px 10px;
+  }
+  
+  .table-responsive {
+    font-size: 0.85em;
+  }
+}

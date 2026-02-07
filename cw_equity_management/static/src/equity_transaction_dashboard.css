@@ -1,0 +1,266 @@
+/* Equity Transaction Dashboard Specific Styles */
+
+/* Variables for consistent color scheme */
+:root {
+  --equity-primary-color: #4a6cf7;
+  --equity-primary-hover: #3a5ce5;
+  --equity-success-color: #28a745;
+  --equity-success-hover: #218838;
+  --equity-danger-color: #dc3545;
+  --equity-warning-color: #ffc107;
+  --equity-info-color: #17a2b8;
+  --equity-light-bg: #f8f9fa;
+  --equity-dark-text: #212529;
+  --equity-border-color: #dee2e6;
+  --equity-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --equity-card-radius: 8px;
+  --equity-header-bg: #007bff; /* Blue background for testing */
+  --equity-table-hover: #f2f2f2;
+}
+
+/* Main dashboard layout styling */
+.cw-equity-dashboard-container {
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  margin-top: 15px;
+}
+
+/* Card styling */
+.cw-equity-summary-card,
+.cw-equity-transactions-card {
+  border: none;
+  box-shadow: var(--equity-card-shadow);
+  border-radius: var(--equity-card-radius);
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cw-equity-summary-card:hover,
+.cw-equity-transactions-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cw-equity-summary-header,
+.cw-equity-transactions-header {
+  background-color: var(--equity-header-bg);
+  color: white;
+  border-bottom: 1px solid var(--equity-border-color);
+  padding: 15px 20px;
+  border-top-left-radius: var(--equity-card-radius);
+  border-top-right-radius: var(--equity-card-radius);
+}
+
+.cw-equity-summary-header .card-title,
+.cw-equity-transactions-header .card-title {
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.cw-equity-summary-body,
+.cw-equity-transactions-body {
+  padding: 20px;
+}
+
+/* Table styling for equity info and transactions */
+.cw-equity-summary-table,
+.cw-equity-transactions-table {
+  margin-bottom: 0;
+}
+
+.cw-equity-summary-table th,
+.cw-equity-transactions-table th {
+  font-weight: 600;
+  color: #495057;
+  border-top: none;
+  padding: 12px 15px;
+}
+
+.cw-equity-summary-table td,
+.cw-equity-transactions-table td {
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+.cw-equity-summary-table tbody tr:nth-of-type(odd),
+.cw-equity-transactions-table tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.cw-equity-summary-table tbody tr:hover,
+.cw-equity-transactions-table tbody tr:hover {
+  background-color: var(--equity-table-hover);
+}
+
+.cw-equity-summary-table .table-dark th,
+.cw-equity-transactions-table .table-dark th {
+  background-color: #343a40;
+  color: white;
+}
+
+.cw-equity-summary-row .text-success,
+.cw-equity-transaction-row .text-success {
+  color: var(--equity-success-color) !important;
+}
+
+.cw-equity-summary-row .text-danger,
+.cw-equity-transaction-row .text-danger {
+  color: var(--equity-danger-color) !important;
+}
+
+.cw-equity-summary-row .text-muted,
+.cw-equity-transaction-row .text-muted {
+  color: #6c757d !important;
+}
+
+.cw-equity-summary-total-row,
+.cw-equity-transactions-total-row {
+  font-weight: bold !important;
+}
+
+/* Button styling */
+.cw-equity-dashboard-container .btn-primary {
+  background-color: var(--equity-primary-color);
+  border-color: var(--equity-primary-color);
+}
+
+.cw-equity-dashboard-container .btn-primary:hover,
+.cw-equity-dashboard-container .btn-primary:focus,
+.cw-equity-dashboard-container .btn-primary:active {
+  background-color: var(--equity-primary-hover) !important;
+  border-color: var(--equity-primary-hover) !important;
+  box-shadow: 0 4px 8px rgba(74, 108, 247, 0.3) !important;
+}
+
+.cw-equity-dashboard-container .btn-success {
+  background-color: var(--equity-success-color);
+  border-color: var(--equity-success-color);
+}
+
+.cw-equity-dashboard-container .btn-success:hover,
+.cw-equity-dashboard-container .btn-success:focus,
+.cw-equity-dashboard-container .btn-success:active {
+  background-color: var(--equity-success-hover) !important;
+  border-color: var(--equity-success-hover) !important;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3) !important;
+}
+
+.cw-equity-dashboard-container .btn-outline-secondary {
+  color: #6c757d;
+  border-color: #ced4da;
+}
+
+.cw-equity-dashboard-container .btn-outline-secondary:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Form controls styling */
+.cw-equity-dashboard-container .form-control {
+  border: 1px solid var(--equity-border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.cw-equity-dashboard-container .form-control:focus {
+  border-color: var(--equity-primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(74, 108, 247, 0.25);
+}
+
+.cw-equity-dashboard-container .form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 5px;
+}
+
+/* Dropdown menu styling */
+.cw-equity-dashboard-container .dropdown-menu {
+  border: 1px solid var(--equity-border-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px 0;
+}
+
+.cw-equity-dashboard-container .dropdown-item {
+  padding: 8px 16px;
+  transition: background-color 0.15s;
+}
+
+.cw-equity-dashboard-container .dropdown-item:hover,
+.cw-equity-dashboard-container .dropdown-item:focus {
+  background-color: var(--equity-light-bg);
+}
+
+/* Filter section styling */
+.cw-equity-dashboard-container .filter_date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cw-equity-dashboard-container .filter_date label {
+  margin: 0;
+  font-weight: 500;
+  color: #495057;
+  white-space: nowrap;
+}
+
+/* Spinner styling */
+.cw-equity-spinner {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cw-equity-summary-body,
+  .cw-equity-transactions-body {
+    padding: 15px;
+  }
+  
+  .cw-equity-summary-table,
+  .cw-equity-transactions-table {
+    font-size: 0.9em;
+  }
+  
+  .cw-equity-summary-table th,
+  .cw-equity-summary-table td,
+  .cw-equity-transactions-table th,
+  .cw-equity-transactions-table td {
+    padding: 8px 10px;
+  }
+  
+  .cw-equity-dashboard-container .filter_date {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .cw-equity-dashboard-container .d-flex.flex-wrap {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .cw-equity-dashboard-container {
+    padding: 10px;
+  }
+  
+  .cw-equity-summary-header,
+  .cw-equity-transactions-header {
+    padding: 12px 15px;
+  }
+  
+  .cw-equity-summary-body,
+  .cw-equity-transactions-body {
+    padding: 15px 10px;
+  }
+  
+  .cw-equity-summary-table .table-responsive,
+  .cw-equity-transactions-table .table-responsive {
+    font-size: 0.85em;
+  }
+}

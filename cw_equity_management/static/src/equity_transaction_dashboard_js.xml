@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="cw_equity_management.EquityTransactionDashboardJS">
-        <Layout display="{controlPanel: {}}" className="'o_dashboard h-100'">
+        <Layout display="{controlPanel: {}}" className="'o_dashboard h-100 cw-equity-dashboard-container'">
             <t t-set-slot="control-panel-create-button">
                 <div class="d-flex align-items-center gap-2">
                     <button t-on-click="printReport" type="button" class="btn btn-primary" title="Print">Print</button>
@@ -75,22 +75,22 @@
             <div class="o_content o_dashboard_container h-100 w-100">
                 <t t-if="state.isLoading">
                     <div class="d-flex justify-content-center align-items-center h-50">
-                        <div class="spinner-border" role="status">
+                        <div class="spinner-border cw-equity-spinner" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                 </t>
-                
+
                 <t t-if="!state.isLoading">
                     <!-- Equity Summary Section -->
                     <t t-if="state.equityInfo.length > 0">
-                        <div class="card mb-4">
-                            <div class="card-header">
+                        <div class="card mb-4 cw-equity-summary-card">
+                            <div class="card-header cw-equity-summary-header">
                                 <h3 class="card-title mb-0">Current Equity Summary</h3>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body cw-equity-summary-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-hover">
+                                    <table class="table table-striped table-hover cw-equity-summary-table">
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Partner</th>
@@ -101,7 +101,7 @@
                                         </thead>
                                         <tbody>
                                             <t t-foreach="state.equityInfo" t-as="equity" t-key="equity.partner_id">
-                                                <tr>
+                                                <tr class="cw-equity-summary-row">
                                                     <td><t t-esc="equity.partner_name"/></td>
                                                     <td class="text-end">
                                                         <t t-esc="formatCurrency(equity.equity_account_balance)"/>
@@ -115,7 +115,7 @@
                                                 </tr>
                                             </t>
                                             <!-- Summary Row -->
-                                            <tr class="table-active fw-bold">
+                                            <tr class="table-active fw-bold cw-equity-summary-total-row">
                                                 <td>Total</td>
                                                 <td class="text-end">
                                                     <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.equity_account_balance, 0))"/>
@@ -135,13 +135,13 @@
                     </t>
 
                     <!-- Transaction Details Section -->
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card cw-equity-transactions-card">
+                        <div class="card-header cw-equity-transactions-header">
                             <h3 class="card-title mb-0">Transaction Details</h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body cw-equity-transactions-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover cw-equity-transactions-table">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>Date</th>
@@ -154,7 +154,7 @@
                                     </thead>
                                     <tbody>
                                         <t t-foreach="state.transactions" t-as="trans" t-key="trans.id">
-                                            <tr>
+                                            <tr class="cw-equity-transaction-row">
                                                 <td><t t-esc="trans.date"/></td>
                                                 <td><t t-esc="trans.partner_name"/></td>
                                                 <td>
@@ -179,7 +179,7 @@
                                             </tr>
                                         </t>
                                         <!-- Summary Row -->
-                                        <tr class="table-active fw-bold">
+                                        <tr class="table-active fw-bold cw-equity-transactions-total-row">
                                             <td colspan="3">Total</td>
                                             <td class="text-end">
                                                 <t t-esc="formatCurrency(state.transactions.reduce((sum, t) => sum + t.amount, 0))"/>
