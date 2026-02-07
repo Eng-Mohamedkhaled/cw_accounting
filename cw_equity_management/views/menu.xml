@@ -25,11 +25,6 @@
               parent="menu_equity_root"
               sequence="20"/>
 
-    <!-- <menuitem id="menu_equity_capital_transaction_list"
-              name="Capital Transactions"
-              parent="menu_equity_transactions"
-              action="action_equity_capital_transaction"
-              sequence="10"/> -->
 
     <menuitem id="menu_equity_asset_contribution_list"
               name="Capital Contribution"

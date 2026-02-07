@@ -21,7 +21,9 @@
         'views/equity_ownership_master_views.xml',
         'views/company_views.xml',
 
-        'views/equity_transaction_views.xml',
+        'views/equity_transaction_main_views.xml',
+        'views/equity_asset_contribution_views.xml',
+        'views/equity_drawing_transaction_views.xml',
         'views/equity_allocation_views.xml',
         # Equity transaction report actions must be loaded before menu
         'reports/report_action.xml',
