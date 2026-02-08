@@ -141,7 +141,7 @@ class EquityTransactionReport(models.AbstractModel):
                     'date': result['date'],
                     'state': result['move_state'],
                     'reference': result['ref'] or result['move_name'],
-                    'description': result['move_name'] or result['name'] or result['ref'] or '',  # Show move number first
+                    'description': f"{result['move_name']} - {result['ref']}" if result['move_name'] and result['ref'] else result['move_name'] or result['ref'] or result['name'] or '',  # Show move number - reference
                     'account_name': result['account_name'],
                     'move_id': result.get('move_id'),  # Add move ID for linking to journal entry
                 })
