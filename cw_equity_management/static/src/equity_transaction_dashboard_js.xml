@@ -104,6 +104,7 @@
                                                 <th class="text-end">Drawing Account</th>
                                                 <th class="text-end">Current Equity</th>
                                                 <th class="text-end">After Profit and Loss</th>
+                                                <th class="text-end">Available for Withdrawal</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -122,6 +123,9 @@
                                                     <td t-attf-class="text-end #{equity.current_equity_after_pl >= 0 ? 'text-success' : 'text-danger'}">
                                                         <t t-esc="formatCurrency(equity.current_equity_after_pl)"/>
                                                     </td>
+                                                    <td t-attf-class="text-end #{equity.available_for_withdrawal >= 0 ? 'text-success' : 'text-danger'}">
+                                                        <t t-esc="formatCurrency(equity.available_for_withdrawal)"/>
+                                                    </td>
                                                 </tr>
                                             </t>
                                             <!-- Summary Row -->
@@ -138,6 +142,9 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.current_equity_after_pl, 0))"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.available_for_withdrawal, 0))"/>
                                                 </td>
                                             </tr>
                                         </tbody>

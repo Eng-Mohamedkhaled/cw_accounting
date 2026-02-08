@@ -354,6 +354,37 @@ class EquityTransactionReport(models.AbstractModel):
                 # Calculate current equity after P&L allocation
                 current_equity_after_pl = current_equity + pl_allocation
 
+                # Calculate available for withdrawal (liquid assets only)
+                # Get liquid asset accounts for this partner
+                liquid_asset_types = ['asset_cash', 'asset_current', 'asset_receivable']
+                liquid_asset_accounts = self.env['account.account'].search([
+                    ('company_ids', 'in', company_id),
+                    ('account_type', 'in', liquid_asset_types)
+                ])
+
+                # Calculate total liquid assets for the company (not tied to specific partner)
+                liquid_assets = 0.0
+                if liquid_asset_accounts:
+                    # Query account move lines for liquid asset accounts (without partner restriction)
+                    # This includes all liquid assets in the company, regardless of partner
+                    self.env.cr.execute("""
+                        SELECT SUM(aml.balance)
+                        FROM account_move_line aml
+                        JOIN account_move am ON aml.move_id = am.id
+                        JOIN account_account aa ON aml.account_id = aa.id
+                        WHERE aa.id IN %s
+                          AND aml.date <= %s
+                          AND aml.company_id = %s
+                          AND am.state = 'posted'
+                    """, (tuple(liquid_asset_accounts.ids), date_to, company_id))
+
+                    result = self.env.cr.fetchone()[0]
+                    liquid_assets = result or 0.0
+
+                # Calculate available for withdrawal based on liquid assets for this partner
+                # (Not multiplied by ownership percentage anymore)
+                available_for_withdrawal = liquid_assets
+
                 equity_info.append({
                     'partner_name': partner.name,
                     'partner_id': partner.id,
@@ -362,6 +393,7 @@ class EquityTransactionReport(models.AbstractModel):
                     'current_equity': current_equity,
                     'pl_allocation': pl_allocation,  # P&L allocation for this partner
                     'current_equity_after_pl': current_equity_after_pl,  # Current equity after P&L allocation
+                    'available_for_withdrawal': available_for_withdrawal,  # Available for withdrawal based on liquid assets
                 })
 
         # Get company information

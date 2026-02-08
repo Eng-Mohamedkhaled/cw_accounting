@@ -109,11 +109,12 @@
                         <table class="es">
                             <thead>
                                 <tr>
-                                    <th style="width: 25%;">Partner</th>
-                                    <th style="width: 15%;">Capital Account</th>
-                                    <th style="width: 15%;">Drawing Account</th>
-                                    <th style="width: 15%;">Current Equity</th>
-                                    <th style="width: 30%;">After Profit and Loss</th>
+                                    <th style="width: 20%;">Partner</th>
+                                    <th style="width: 12%;">Capital Account</th>
+                                    <th style="width: 12%;">Drawing Account</th>
+                                    <th style="width: 12%;">Current Equity</th>
+                                    <th style="width: 17%;">After Profit and Loss</th>
+                                    <th style="width: 27%;">Available for Withdrawal</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,6 +139,10 @@
                                             <t t-esc="equity['current_equity_after_pl']"
                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                         </td>
+                                        <td class="num" t-attf-class="equity-#{'positive' if equity['available_for_withdrawal'] >= 0 else 'negative'}">
+                                            <t t-esc="equity['available_for_withdrawal']"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
                                     </tr>
                                 </t>
 
@@ -158,6 +163,10 @@
                                     </td>
                                     <td class="num">
                                         <t t-esc="sum([e['current_equity_after_pl'] for e in equity_info])"
+                                           t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                    <td class="num">
+                                        <t t-esc="sum([e['available_for_withdrawal'] for e in equity_info])"
                                            t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                     </td>
                                 </tr>
