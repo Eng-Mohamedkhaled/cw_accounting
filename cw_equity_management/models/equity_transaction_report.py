@@ -354,19 +354,19 @@ class EquityTransactionReport(models.AbstractModel):
                 # Calculate current equity after P&L allocation
                 current_equity_after_pl = current_equity + pl_allocation
 
-                # Calculate available for withdrawal (liquid assets only)
-                # Get liquid asset accounts for this partner
+                # Calculate available for withdrawal considering individual equity position and company liquidity
+                # Get liquid asset accounts for the company
                 liquid_asset_types = ['asset_cash', 'asset_current', 'asset_receivable']
                 liquid_asset_accounts = self.env['account.account'].search([
                     ('company_ids', 'in', company_id),
                     ('account_type', 'in', liquid_asset_types)
                 ])
 
-                # Calculate total liquid assets for the company (not tied to specific partner)
-                liquid_assets = 0.0
+                # Calculate total liquid assets for the company
+                total_liquid_assets = 0.0
                 if liquid_asset_accounts:
                     # Query account move lines for liquid asset accounts (without partner restriction)
-                    # This includes all liquid assets in the company, regardless of partner
+                    # This includes all liquid assets in the company
                     self.env.cr.execute("""
                         SELECT SUM(aml.balance)
                         FROM account_move_line aml
@@ -379,11 +379,16 @@ class EquityTransactionReport(models.AbstractModel):
                     """, (tuple(liquid_asset_accounts.ids), date_to, company_id))
 
                     result = self.env.cr.fetchone()[0]
-                    liquid_assets = result or 0.0
+                    total_liquid_assets = result or 0.0
 
-                # Calculate available for withdrawal based on liquid assets for this partner
-                # (Not multiplied by ownership percentage anymore)
-                available_for_withdrawal = liquid_assets
+                # Calculate the individual partner's equity position
+                # This considers their specific contributions and withdrawals
+                partner_equity_position = current_equity_after_pl  # This already includes their contributions, drawings, and P&L allocation
+
+                # Available for withdrawal is the minimum of:
+                # 1. Their individual equity position (can't withdraw more than they own)
+                # 2. Available company liquid assets (can't withdraw more than company has)
+                available_for_withdrawal = min(max(0, partner_equity_position), total_liquid_assets)
 
                 equity_info.append({
                     'partner_name': partner.name,
@@ -393,7 +398,7 @@ class EquityTransactionReport(models.AbstractModel):
                     'current_equity': current_equity,
                     'pl_allocation': pl_allocation,  # P&L allocation for this partner
                     'current_equity_after_pl': current_equity_after_pl,  # Current equity after P&L allocation
-                    'available_for_withdrawal': available_for_withdrawal,  # Available for withdrawal based on liquid assets
+                    'available_for_withdrawal': available_for_withdrawal,  # Available for withdrawal based on individual equity position and company liquidity
                 })
 
         # Get company information
