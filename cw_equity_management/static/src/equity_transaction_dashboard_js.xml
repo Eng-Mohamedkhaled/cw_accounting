@@ -3,6 +3,12 @@
 
     <t t-name="cw_equity_management.EquityTransactionDashboardJS">
         <Layout display="{controlPanel: {}}" className="'o_dashboard h-100 cw-equity-dashboard-container'">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Equity Report</h2>
+                <div class="text-muted">
+                    <small>Period: <t t-esc="state.selectedDateFrom"/> to <t t-esc="state.selectedDateTo"/></small>
+                </div>
+            </div>
             <t t-set-slot="control-panel-create-button">
                 <div class="d-flex align-items-center gap-2">
                     <button t-on-click="printReport" type="button" class="btn btn-primary" title="Print">Print</button>
