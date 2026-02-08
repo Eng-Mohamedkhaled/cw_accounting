@@ -276,13 +276,40 @@ class EquityOwnership(models.Model):
 
     def action_view_equity_transactions(self):
         """Action to view equity transactions for this ownership"""
-        action = self.env["ir.actions.actions"]._for_xml_id("cw_equity_management.action_equity_transaction")
-        action['domain'] = [
-            ('partner_id', '=', self.partner_id.id),
-            ('company_id', '=', self.company_id.id)
-        ]
-        action['context'] = {
-            'default_partner_id': self.partner_id.id,
-            'default_company_id': self.company_id.id
+        # Create a domain to find journal entries related to this partner's equity/drawing accounts
+        equity_account = self.company_id.equity_shared_account_id
+        drawing_account = self.company_id.drawing_shared_account_id
+        
+        account_ids = []
+        if equity_account:
+            account_ids.append(equity_account.id)
+        if drawing_account:
+            account_ids.append(drawing_account.id)
+        
+        if account_ids:
+            # Search for account moves that have lines related to this partner and equity/drawing accounts
+            move_lines = self.env['account.move.line'].search([
+                ('partner_id', '=', self.partner_id.id),
+                ('account_id', 'in', account_ids),
+                ('company_id', '=', self.company_id.id),
+                ('move_id.state', '=', 'posted')
+            ])
+            
+            move_ids = move_lines.mapped('move_id').ids
+        else:
+            move_ids = []
+        
+        action = {
+            'name': _('Journal Entries for %s') % self.partner_id.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', move_ids)],
+            'context': {
+                'search_default_posted': 1,
+                'default_company_id': self.company_id.id,
+                'default_partner_id': self.partner_id.id,
+            },
+            'views': [[False, 'list'], [False, 'form']],  # Use default views but with our context
         }
         return action
