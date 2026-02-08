@@ -442,6 +442,15 @@ class EquityTransaction(models.Model):
             }
         return {'type': 'ir.actions.act_window.close'}
 
+    def unlink(self):
+        """Prevent deletion of posted equity transactions"""
+        for record in self:
+            if record.state == 'posted':
+                raise ValidationError(_("Cannot delete a posted equity transaction. Please cancel it first."))
+            elif record.state == 'cancelled':
+                raise ValidationError(_("Cannot delete a cancelled equity transaction."))
+        return super().unlink()
+
     @api.model
     def get_dashboard_data(self, dummy_records, date_from=None, date_to=None, partner_id=None, transaction_type=None, company_id=None):
         """
