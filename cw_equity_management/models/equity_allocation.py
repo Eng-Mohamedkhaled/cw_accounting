@@ -390,14 +390,18 @@ class EquityAllocation(models.Model):
         """Cancel the allocation"""
         for record in self:
             if record.state == 'posted' and record.move_id:
+                # Use the same journal as the original move for the reversal
+                original_journal = record.move_id.journal_id
+                
                 # Reverse the journal entry
                 reversal_wizard = self.env['account.move.reversal'].create({
                     'move_ids': [(4, record.move_id.id)],
                     'date': fields.Date.context_today(record),
                     'reason': 'Cancellation of P&L Allocation',
+                    'journal_id': original_journal.id,  # Use the same journal as the original move
                 })
                 reversal_wizard.reverse_moves()
-            
+
             record.write({
                 'move_id': False,
                 'state': 'cancelled'
