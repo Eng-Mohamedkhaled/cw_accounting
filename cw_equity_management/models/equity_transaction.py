@@ -293,6 +293,9 @@ class EquityTransaction(models.Model):
         """Prepare journal entry values for the transaction"""
         self.ensure_one()
 
+        # Ensure the required equity accounts exist, create them if they don't
+        self.company_id._ensure_equity_accounts_exist()
+
         # Prepare move lines
         move_lines = []
         total_amount = sum(self.line_ids.mapped('amount'))
