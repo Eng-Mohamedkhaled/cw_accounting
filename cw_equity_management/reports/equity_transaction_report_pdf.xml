@@ -109,10 +109,11 @@
                         <table class="es">
                             <thead>
                                 <tr>
-                                    <th style="width: 30%;">Partner</th>
-                                    <th style="width: 20%;">Capital Account</th>
-                                    <th style="width: 20%;">Drawing Account</th>
-                                    <th style="width: 30%;">Current Equity</th>
+                                    <th style="width: 25%;">Partner</th>
+                                    <th style="width: 15%;">Capital Account</th>
+                                    <th style="width: 15%;">Drawing Account</th>
+                                    <th style="width: 15%;">Current Equity</th>
+                                    <th style="width: 30%;">Current Equity After P&amp;L</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,6 +134,10 @@
                                             <t t-esc="equity['current_equity']"
                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                         </td>
+                                        <td class="num" t-attf-class="equity-#{'positive' if equity['current_equity_after_pl'] >= 0 else 'negative'}">
+                                            <t t-esc="equity['current_equity_after_pl']"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
                                     </tr>
                                 </t>
 
@@ -149,6 +154,10 @@
                                     </td>
                                     <td class="num">
                                         <t t-esc="sum([e['current_equity'] for e in equity_info])"
+                                           t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                    <td class="num">
+                                        <t t-esc="sum([e['current_equity_after_pl'] for e in equity_info])"
                                            t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                     </td>
                                 </tr>

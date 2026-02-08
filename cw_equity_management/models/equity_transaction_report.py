@@ -238,12 +238,130 @@ class EquityTransactionReport(models.AbstractModel):
                 # (drawing account typically has credit balances that reduce equity)
                 current_equity = -(equity_balance + drawing_balance)
 
+                # Calculate profit/loss allocation for this partner
+                pl_allocation = 0.0
+                # Get active ownership record for this partner during the period
+                ownership = self.env['equity.ownership'].search([
+                    ('partner_id', '=', partner_id_calc),
+                    ('company_id', '=', company_id),
+                    ('date_from', '<=', date_to),
+                    '|', ('date_to', '=', False), ('date_to', '>=', date_from)
+                ], limit=1)
+
+                if ownership:
+                    # Calculate P&L allocation using the same algorithm as in equity_allocation.py
+                    # Call the existing report to get the net profit/loss
+                    report_model = self.env['report.custom_account_move_line.profit_loss_report']
+
+                    # Prepare the data for the report
+                    date_from_str = str(date_from)
+                    date_to_str = str(date_to)
+
+                    report_data = {
+                        'date_from': date_from_str,
+                        'date_to': date_to_str,
+                        'company_id': company_id
+                    }
+
+                    try:
+                        # Get the report values
+                        report_values = report_model._get_report_values([], data=report_data)
+
+                        # Extract the net profit from the report values
+                        lines = report_values.get('lines', [])
+
+                        # Find the net profit line (the one with 'Net Profit' in the name)
+                        net_profit_line = None
+                        for line in lines:  # Look through all lines to find the Net Profit line
+                            if 'Net Profit' in str(line.get('account_name', '')) or 'net profit' in str(line.get('account_name', '')).lower():
+                                net_profit_line = line
+                                break
+
+                        if net_profit_line:
+                            original_net_profit = net_profit_line.get('balance', 0.0)
+
+                            # Calculate the sum of balances for equity_unaffected accounts during the period
+                            equity_unaffected_accounts = self.env['account.account'].search([
+                                ('company_ids', 'in', company_id),
+                                ('account_type', '=', 'equity_unaffected')
+                            ])
+
+                            total_equity_unaffected_change = 0.0
+                            if equity_unaffected_accounts:
+                                # Query the account move lines for equity unaffected accounts during the period
+                                self.env.cr.execute("""
+                                    SELECT SUM(aml.balance) FROM account_move_line aml
+                                    JOIN account_account aa ON aml.account_id = aa.id
+                                    JOIN account_move am ON aml.move_id = am.id
+                                    WHERE aa.id IN %s
+                                    AND aml.date >= %s
+                                    AND aml.date <= %s
+                                    AND aml.company_id = %s
+                                    AND am.state = 'posted'
+                                """, (tuple(equity_unaffected_accounts.ids), date_from, date_to, company_id))
+
+                                result = self.env.cr.fetchone()[0]
+                                total_equity_unaffected_change = result or 0.0
+
+                            adjusted_result = original_net_profit - total_equity_unaffected_change
+                            
+                            # Calculate this partner's share based on their ownership percentage
+                            pl_allocation = adjusted_result * (ownership.percentage / 100.0)
+                        else:
+                            # If we can't find the net profit line, calculate it manually from the lines
+                            # Find all income and expense lines
+                            income_total = 0.0
+                            expense_total = 0.0
+
+                            for line in lines:
+                                if line.get('key') in ['income', 'other_income']:
+                                    income_value = line.get('balance', 0.0)
+                                    income_total += income_value
+                                elif line.get('key') in ['cogs', 'opex', 'other_exp', 'depr']:
+                                    expense_value = line.get('balance', 0.0)
+                                    expense_total += expense_value
+
+                            # Calculate the sum of balances for equity_unaffected accounts during the period
+                            equity_unaffected_accounts = self.env['account.account'].search([
+                                ('company_ids', 'in', company_id),
+                                ('account_type', '=', 'equity_unaffected')
+                            ])
+
+                            total_equity_unaffected_change = 0.0
+                            if equity_unaffected_accounts:
+                                # Query the account move lines for equity unaffected accounts during the period
+                                self.env.cr.execute("""
+                                    SELECT SUM(aml.balance) FROM account_move_line aml
+                                    JOIN account_account aa ON aml.account_id = aa.id
+                                    JOIN account_move am ON aml.move_id = am.id
+                                    WHERE aa.id IN %s
+                                    AND aml.date >= %s
+                                    AND aml.date <= %s
+                                    AND aml.company_id = %s
+                                    AND am.state = 'posted'
+                                """, (tuple(equity_unaffected_accounts.ids), date_from, date_to, company_id))
+
+                                result = self.env.cr.fetchone()[0]
+                                total_equity_unaffected_change = result or 0.0
+
+                            manual_result = income_total - expense_total - total_equity_unaffected_change
+                            # Calculate this partner's share based on their ownership percentage
+                            pl_allocation = manual_result * (ownership.percentage / 100.0)
+                    except Exception as e:
+                        print(f"DEBUG: Error calculating P&L allocation: {e}")
+                        pl_allocation = 0.0
+
+                # Calculate current equity after P&L allocation
+                current_equity_after_pl = current_equity + pl_allocation
+
                 equity_info.append({
                     'partner_name': partner.name,
                     'partner_id': partner.id,
                     'equity_account_balance': -(equity_balance),
                     'drawing_account_balance': drawing_balance,
                     'current_equity': current_equity,
+                    'pl_allocation': pl_allocation,  # P&L allocation for this partner
+                    'current_equity_after_pl': current_equity_after_pl,  # Current equity after P&L allocation
                 })
 
         # Get company information
