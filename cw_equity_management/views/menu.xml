@@ -52,7 +52,7 @@
               sequence="10"/> -->
 
     <menuitem id="menu_equity_transaction_report_js"
-              name="Equity Transactions Dashboard (JS)"
+              name="Equity Report"
               parent="menu_equity_reports"
               action="action_equity_transaction_dashboard_js"
               sequence="20"/>
