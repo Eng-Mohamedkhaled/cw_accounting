@@ -195,26 +195,53 @@ class EquityOwnership(models.Model):
                 record.status = 'active'
     
     def _compute_total_contributions(self):
-        """Compute total contributions for this owner"""
+        """Compute total contributions for this owner from actual journal entries"""
         for record in self:
-            contributions = self.env['equity.transaction'].search([
-                ('partner_id', '=', record.partner_id.id),
-                ('company_id', '=', record.company_id.id),
-                ('transaction_type', '=', 'contribution'),
-                ('state', '=', 'posted')
-            ])
-            record.total_contributions = sum(contributions.mapped('amount'))
-    
+            # Get company's shared equity account
+            equity_account = record.company_id.equity_shared_account_id
+            
+            if equity_account:
+                # Query account move lines for this partner in the equity account
+                # Credits increase equity (contributions), debits decrease equity
+                self.env.cr.execute("""
+                    SELECT SUM(aml.credit - aml.debit)
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE aml.partner_id = %s
+                      AND aml.account_id = %s
+                      AND aml.company_id = %s
+                      AND am.state = 'posted'
+                """, (record.partner_id.id, equity_account.id, record.company_id.id))
+
+                result = self.env.cr.fetchone()[0]
+                record.total_contributions = result or 0.0
+            else:
+                record.total_contributions = 0.0
+
     def _compute_total_withdrawals(self):
-        """Compute total withdrawals for this owner"""
+        """Compute total withdrawals for this owner from actual journal entries"""
         for record in self:
-            withdrawals = self.env['equity.transaction'].search([
-                ('partner_id', '=', record.partner_id.id),
-                ('company_id', '=', record.company_id.id),
-                ('transaction_type', '=', 'withdrawal'),
-                ('state', '=', 'posted')
-            ])
-            record.total_withdrawals = sum(withdrawals.mapped('amount'))
+            # Get company's shared drawing account
+            drawing_account = record.company_id.drawing_shared_account_id
+            
+            if drawing_account:
+                # Query account move lines for this partner in the drawing account
+                # Debits increase drawings (negative impact on equity), credits decrease drawings (positive impact)
+                # For withdrawals, we want the net effect on equity
+                self.env.cr.execute("""
+                    SELECT SUM(aml.debit - aml.credit)
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE aml.partner_id = %s
+                      AND aml.account_id = %s
+                      AND aml.company_id = %s
+                      AND am.state = 'posted'
+                """, (record.partner_id.id, drawing_account.id, record.company_id.id))
+
+                result = self.env.cr.fetchone()[0]
+                record.total_withdrawals = result or 0.0
+            else:
+                record.total_withdrawals = 0.0
     
     @api.model
     def create(self, vals):
