@@ -19,16 +19,12 @@
                         <!-- Fields shown when using account type method -->
                         <group invisible="liquidity_configuration_method != 'account_type'">
                             <field name="liquid_asset_types" widget="many2many_tags"/>
-                        </group>
-                        <group invisible="liquidity_configuration_method != 'account_type'">
                             <field name="liability_types" widget="many2many_tags"/>
                         </group>
                         
                         <!-- Fields shown when using account method -->
                         <group invisible="liquidity_configuration_method != 'specific_account'">
-                            <field name="liquid_asset_accounts" widget="many2many_tags"/>
-                        </group>
-                        <group invisible="liquidity_configuration_method != 'specific_account'">
+                            <field name="liquid_asset_accounts" widget="many2many_tags"/>          
                             <field name="liability_accounts" widget="many2many_tags"/>
                         </group>
                         
@@ -109,7 +105,7 @@
         <field name="name">Equity Liquidity Settings</field>
         <field name="res_model">equity.management.config.settings</field>
         <field name="view_mode">form</field>
-        <field name="target">current</field>
+        <field name="target">new</field>
     </record>
 
 </odoo>
