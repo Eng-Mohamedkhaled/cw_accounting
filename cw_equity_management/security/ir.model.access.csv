@@ -6,3 +6,4 @@ access_equity_transaction_line_user,equity.transaction.line.user,model_equity_tr
 access_equity_asset_contribution_split_user,equity.asset.contribution.split.user,model_equity_asset_contribution_split,base.group_user,1,1,1,1
 access_equity_allocation_user,equity.allocation.user,model_equity_allocation,base.group_user,1,1,1,1
 access_equity_allocation_line_user,equity.allocation.line.user,model_equity_allocation_line,base.group_user,1,1,1,1
+access_equity_management_config_settings_user,equity.management.config.settings.user,model_equity_management_config_settings,base.group_user,1,1,1,1

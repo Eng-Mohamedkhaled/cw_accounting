@@ -8,3 +8,4 @@ from . import equity_transaction_line
 from . import equity_asset_contribution_split
 from . import equity_allocation
 from . import equity_transaction_report
+from . import equity_account_type_store

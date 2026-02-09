@@ -81,4 +81,10 @@
               parent="menu_equity_configuration"
               action="action_equity_ownership_master"
               sequence="10"/>
+
+     <menuitem id="menu_type_store"
+              name="Report Config"
+              parent="menu_equity_configuration"
+              action="action_type_store"
+              sequence="9"/>
 </odoo>
