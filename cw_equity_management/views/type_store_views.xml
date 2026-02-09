@@ -11,7 +11,7 @@
                     <group>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
-                    <group string="Liquidity Settings">
+                    
                         <group>
                             <field name="liquidity_configuration_method" widget="radio"/>
                         </group>
@@ -28,7 +28,7 @@
                             <field name="liability_accounts" widget="many2many_tags"/>
                         </group>
                         
-                    </group>
+                 
                     <footer>
                         <button string="Apply" name="execute" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-secondary" special="cancel"/>
