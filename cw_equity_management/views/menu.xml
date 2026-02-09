@@ -65,7 +65,7 @@
               sequence="30"/>
               
     <menuitem id="menu_equity_allocation_list" 
-              name="Allocations" 
+              name="Profit and Loss" 
               parent="menu_equity_allocation" 
               action="action_equity_allocation" 
               sequence="10"/>
