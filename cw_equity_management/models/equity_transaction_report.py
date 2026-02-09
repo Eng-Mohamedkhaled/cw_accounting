@@ -355,16 +355,30 @@ class EquityTransactionReport(models.AbstractModel):
                 current_equity_after_pl = current_equity + pl_allocation
 
                 # Calculate available for withdrawal considering individual equity position and company liquidity
-                # Get liquid asset accounts for the company
-                liquid_asset_types = ['asset_cash', 'asset_current', 'asset_receivable']
-                liquid_asset_accounts = self.env['account.account'].search([
-                    ('company_ids', 'in', company_id),
-                    ('account_type', 'in', liquid_asset_types)
-                ])
+                # Get liquid asset accounts for the company based on configuration
+                company_record = self.env['res.company'].browse(company_id)
+                
+                # Use configured liquid asset types if using account type method, otherwise use specific accounts
+                if company_record.liquidity_configuration_method == 'account_type':
+                    # Get liquid asset types from company configuration
+                    liquid_asset_types = company_record.liquid_asset_types.mapped('type')
+                    liquid_asset_accounts = self.env['account.account'].search([
+                        ('company_ids', 'in', company_id),
+                        ('account_type', 'in', liquid_asset_types)
+                    ])
+                else:  # specific_account method
+                    # Use specific liquid asset accounts from company configuration
+                    liquid_asset_accounts = company_record.liquid_asset_accounts
 
+                print(f"DEBUG: Company ID: {company_id}")
+                print(f"DEBUG: Configuration Method: {company_record.liquidity_configuration_method}")
+                
                 # Calculate total liquid assets for the company
                 total_liquid_assets = 0.0
                 if liquid_asset_accounts:
+                    print(f"DEBUG: Liquid Asset Accounts: {[acc.code + ' - ' + acc.name for acc in liquid_asset_accounts]}")
+                    print(f"DEBUG: Liquid Asset Account IDs: {liquid_asset_accounts.ids}")
+                    
                     # Query account move lines for liquid asset accounts (without partner restriction)
                     # This includes all liquid assets in the company
                     self.env.cr.execute("""
@@ -380,15 +394,91 @@ class EquityTransactionReport(models.AbstractModel):
 
                     result = self.env.cr.fetchone()[0]
                     total_liquid_assets = result or 0.0
+                    print(f"DEBUG: Total Liquid Assets before liability adjustment: {total_liquid_assets}")
+                else:
+                    print(f"DEBUG: No liquid asset accounts found for company {company_id}")
+
+                # Handle liability accounts if configured
+                total_liability_assets = 0.0
+                if company_record.liquidity_configuration_method == 'account_type':
+                    liability_types = company_record.liability_types.mapped('type')
+                    print(f"DEBUG: Liability Types: {liability_types}")
+                    if liability_types:
+                        liability_accounts = self.env['account.account'].search([
+                            ('company_ids', 'in', company_id),
+                            ('account_type', 'in', liability_types)
+                        ])
+                        print(f"DEBUG: Liability Accounts: {[acc.code + ' - ' + acc.name for acc in liability_accounts]}")
+                        if liability_accounts:
+                            # Query account move lines for liability accounts
+                            self.env.cr.execute("""
+                                SELECT SUM(aml.balance)
+                                FROM account_move_line aml
+                                JOIN account_move am ON aml.move_id = am.id
+                                JOIN account_account aa ON aml.account_id = aa.id
+                                WHERE aa.id IN %s
+                                  AND aml.date <= %s
+                                  AND aml.company_id = %s
+                                  AND am.state = 'posted'
+                            """, (tuple(liability_accounts.ids), date_to, company_id))
+
+                            result = self.env.cr.fetchone()[0]
+                            total_liability_assets = result or 0.0
+                            print(f"DEBUG: Total Liability Assets: {total_liability_assets}")
+                        else:
+                            print(f"DEBUG: No liability accounts found for company {company_id}")
+                    else:
+                        print(f"DEBUG: No liability types configured for company {company_id}")
+                else:  # specific_account method
+                    liability_accounts = company_record.liability_accounts
+                    print(f"DEBUG: Specific Liability Accounts: {[acc.code + ' - ' + acc.name for acc in liability_accounts]}")
+                    if liability_accounts:
+                        # Query account move lines for specific liability accounts
+                        self.env.cr.execute("""
+                            SELECT SUM(aml.balance)
+                            FROM account_move_line aml
+                            JOIN account_move am ON aml.move_id = am.id
+                            JOIN account_account aa ON aml.account_id = aa.id
+                            WHERE aa.id IN %s
+                              AND aml.date <= %s
+                              AND aml.company_id = %s
+                              AND am.state = 'posted'
+                        """, (tuple(liability_accounts.ids), date_to, company_id))
+
+                        result = self.env.cr.fetchone()[0]
+                        total_liability_assets = result or 0.0
+                        print(f"DEBUG: Total Liability Assets: {total_liability_assets}")
+                    else:
+                        print(f"DEBUG: No specific liability accounts configured for company {company_id}")
+
+                # Adjust total liquid assets based on liability configuration
+                # If liabilities should be considered, they may reduce available liquidity
+                original_liquid_assets = total_liquid_assets
+                total_liquid_assets = total_liquid_assets + total_liability_assets
+                print(f"DEBUG: Original Liquid Assets: {original_liquid_assets}, Liability Assets: {total_liability_assets}, Final Liquid Assets: {total_liquid_assets}")
 
                 # Calculate the individual partner's equity position
                 # This considers their specific contributions and withdrawals
                 partner_equity_position = current_equity_after_pl  # This already includes their contributions, drawings, and P&L allocation
 
+                print(f"DEBUG: Partner {partner.name} calculations:")
+                print(f"DEBUG: - Equity Account Balance: {-(equity_balance)}")
+                print(f"DEBUG: - Drawing Account Balance: {drawing_balance}")
+                print(f"DEBUG: - Current Equity: {current_equity}")
+                print(f"DEBUG: - P&L Allocation: {pl_allocation}")
+                print(f"DEBUG: - Current Equity After P&L: {current_equity_after_pl}")
+                print(f"DEBUG: - Partner Equity Position: {partner_equity_position}")
+                print(f"DEBUG: - Total Company Liquid Assets: {total_liquid_assets}")
+                
                 # Available for withdrawal is the minimum of:
                 # 1. Their individual equity position (can't withdraw more than they own)
                 # 2. Available company liquid assets (can't withdraw more than company has)
+
+                #If total is negative means that libilites more than assets
+                #We make zero for report visual
+                total_liquid_assets = max(0, total_liquid_assets)
                 available_for_withdrawal = min(max(0, partner_equity_position), total_liquid_assets)
+                print(f"DEBUG: - Available for Withdrawal: {available_for_withdrawal}")
 
                 equity_info.append({
                     'partner_name': partner.name,
