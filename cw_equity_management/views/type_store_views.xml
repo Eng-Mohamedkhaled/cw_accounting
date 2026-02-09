@@ -6,16 +6,32 @@
         <field name="name">equity.management.config.settings.form</field>
         <field name="model">equity.management.config.settings</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form string="Equity Management Settings">
                 <sheet>
                     <group>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
-                    <group >
-                        <field name="allowed_account_type_ids" widget="many2many_tags"/>
-                        <!-- <div class="text-muted">
-                            Select which account types are allowed for posting in equity transactions.
-                        </div> -->
+                    <group string="Liquidity Settings">
+                        <group>
+                            <field name="liquidity_configuration_method" widget="radio"/>
+                        </group>
+                        
+                        <!-- Fields shown when using account type method -->
+                        <group invisible="liquidity_configuration_method != 'account_type'">
+                            <field name="liquid_asset_types" widget="many2many_tags"/>
+                        </group>
+                        <group invisible="liquidity_configuration_method != 'account_type'">
+                            <field name="liability_types" widget="many2many_tags"/>
+                        </group>
+                        
+                        <!-- Fields shown when using account method -->
+                        <group invisible="liquidity_configuration_method != 'specific_account'">
+                            <field name="liquid_asset_accounts" widget="many2many_tags"/>
+                        </group>
+                        <group invisible="liquidity_configuration_method != 'specific_account'">
+                            <field name="liability_accounts" widget="many2many_tags"/>
+                        </group>
+                        
                     </group>
                     <footer>
                         <button string="Apply" name="execute" type="object" class="btn-primary"/>
@@ -35,19 +51,53 @@
         <field name="arch" type="xml">
            <xpath expr="//app[@name='account']" position="inside">
                 <div class="app_settings_block" data-string="Equity Management" string="Equity Management" groups="account.group_account_manager">
-                    <h2>Account Types</h2>
+                    <h2>Liquidity Settings</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-6 o_setting_box">
                             <div class="o_setting_left_pane">
-                                <label for="allowed_account_type_ids"/>
+                                <field name="liquidity_configuration_method" widget="radio"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <field name="allowed_account_type_ids" widget="many2many_tags"/>
-                                <div class="text-muted">
-                                    Select which account types are allowed for posting.
-                                </div>
+                                <label for="liquidity_configuration_method"/>
                             </div>
                         </div>
+                        
+                        <!-- Fields shown when using account type method -->
+                        <div class="col-12 col-lg-6 o_setting_box" invisible="liquidity_configuration_method != 'account_type'">
+                            <div class="o_setting_left_pane">
+                                <field name="liquid_asset_types" widget="many2many_tags"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="liquid_asset_types"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" invisible="liquidity_configuration_method != 'account_type'">
+                            <div class="o_setting_left_pane">
+                                <field name="liability_types" widget="many2many_tags"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="liability_types"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Fields shown when using account method -->
+                        <div class="col-12 col-lg-6 o_setting_box" invisible="liquidity_configuration_method != 'specific_account'">
+                            <div class="o_setting_left_pane">
+                                <field name="liquid_asset_accounts" widget="many2many_tags"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="liquid_asset_accounts"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" invisible="liquidity_configuration_method != 'specific_account'">
+                            <div class="o_setting_left_pane">
+                                <field name="liability_accounts" widget="many2many_tags"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="liability_accounts"/>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </xpath>
@@ -56,7 +106,7 @@
 
     <!-- Action to open the equity management settings -->
     <record id="action_type_store" model="ir.actions.act_window">
-        <field name="name">Equity Account Types</field>
+        <field name="name">Equity Liquidity Settings</field>
         <field name="res_model">equity.management.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
