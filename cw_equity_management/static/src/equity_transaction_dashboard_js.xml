@@ -128,25 +128,6 @@
                                                     </td>
                                                 </tr>
                                             </t>
-                                            <!-- Summary Row -->
-                                            <tr class="table-active fw-bold cw-equity-summary-total-row">
-                                                <td>Total</td>
-                                                <td class="text-end">
-                                                    <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.equity_account_balance, 0))"/>
-                                                </td>
-                                                <td class="text-end">
-                                                    <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.drawing_account_balance, 0))"/>
-                                                </td>
-                                                <td class="text-end">
-                                                    <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.current_equity, 0))"/>
-                                                </td>
-                                                <td class="text-end">
-                                                    <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.current_equity_after_pl, 0))"/>
-                                                </td>
-                                                <td class="text-end">
-                                                    <t t-esc="formatCurrency(state.equityInfo.reduce((sum, e) => sum + e.available_for_withdrawal, 0))"/>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
