@@ -11,7 +11,7 @@
   --equity-info-color: #17a2b8;
   --equity-light-bg: #f8f9fa;
   --equity-dark-text: #212529;
-  --equity-border-color: #888888;
+  --equity-border-color: #ffffff;
   --equity-card-shadow: 2px 2px 12px rgba(0,0,0,0.1);
   --equity-card-radius: 8px;
   --equity-header-bg: #f2f2f2; /* Light gray header like level-1 rows in report */
@@ -260,33 +260,36 @@
 @media (max-width: 768px) {
   .cw-equity-summary-header,
   .cw-equity-transactions-header {
-    width: 90% !important; /* Wider on smaller screens */
+    width: 100% !important; /* Full width on smaller screens */
   }
-  
+
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
-    width: 90% !important; /* Wider on smaller screens */
+    width: 100% !important; /* Full width on smaller screens */
+    overflow-x: auto; /* Enable horizontal scrolling */
   }
-  
+
   .cw-equity-summary-table,
   .cw-equity-transactions-table {
+    min-width: 800px; /* Minimum width to enable horizontal scrolling */
     font-size: 0.9em;
-    width: 100% !important; /* Full width on small screens */
+    width: auto !important; /* Allow table to be wider than container */
   }
-  
+
   .cw-equity-summary-table th,
   .cw-equity-summary-table td,
   .cw-equity-transactions-table th,
   .cw-equity-transactions-table td {
     padding: 4px 8px !important;
+    white-space: nowrap; /* Prevent text wrapping */
   }
-  
+
   .cw-equity-dashboard-container .filter_date {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
-  
+
   .cw-equity-dashboard-container .d-flex.flex-wrap {
     flex-direction: column !important;
   }
@@ -296,20 +299,23 @@
   .cw-equity-dashboard-container {
     padding: 10px;
   }
-  
+
   .cw-equity-summary-header,
   .cw-equity-transactions-header {
     padding: 8px 12px;
     width: 100% !important; /* Full width on very small screens */
   }
-  
+
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
     width: 100% !important; /* Full width on very small screens */
+    overflow-x: auto; /* Enable horizontal scrolling */
   }
-  
+
   .cw-equity-summary-table,
   .cw-equity-transactions-table {
+    min-width: 800px; /* Minimum width to enable horizontal scrolling */
     font-size: 0.85em;
+    width: auto !important; /* Allow table to be wider than container */
   }
 }
