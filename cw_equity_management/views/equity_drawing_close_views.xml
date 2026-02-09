@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form view for equity drawing close -->
+    <record id="view_equity_drawing_close_form" model="ir.ui.view">
+        <field name="name">equity.drawing.close.form</field>
+        <field name="model">equity.drawing.close</field>
+        <field name="arch" type="xml">
+            <form string="Drawing Close">
+                <header>
+                    <button name="action_post" type="object" string="Post" class="oe_highlight" 
+                            invisible="state != 'draft'"
+                            confirm="Are you sure you want to close this drawing account? This will zero out the drawing balance and adjust the equity account."/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'posted'"
+                            confirm="Are you sure you want to cancel this drawing close transaction?"/>
+                    <button name="action_draft" type="object" string="Set to Draft" 
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Posted" invisible="state != 'posted'"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_journal_entry" type="object" class="oe_stat_button" icon="fa-book"
+                                invisible="not move_id">
+                            <field name="move_name" string="Journal Entry" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id" 
+                                   domain="[('is_equity_owner', '=', True)]"
+                                   context="{'default_is_equity_owner': True}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="drawing_balance" readonly="1"/>
+                            <field name="amount" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+             
+                   <chatter reload_on_attachment="True"/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view for equity drawing close -->
+    <record id="view_equity_drawing_close_list" model="ir.ui.view">
+        <field name="name">equity.drawing.close.list</field>
+        <field name="model">equity.drawing.close</field>
+        <field name="arch" type="xml">
+            <list string="Drawing Close Transactions">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="drawing_balance"/>
+                <field name="amount"/>
+                <field name="date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search view for equity drawing close -->
+    <record id="view_equity_drawing_close_search" model="ir.ui.view">
+        <field name="name">equity.drawing.close.search</field>
+        <field name="model">equity.drawing.close</field>
+        <field name="arch" type="xml">
+            <search string="Search Drawing Close Transactions">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="posted" string="Posted" domain="[('state', '=', 'posted')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for equity drawing close -->
+    <record id="action_equity_drawing_close" model="ir.actions.act_window">
+        <field name="name">Drawing Close</field>
+        <field name="res_model">equity.drawing.close</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new drawing close transaction
+            </p><p>
+                This will zero out the drawing account for an equity owner and adjust the capital account accordingly.
+            </p>
+        </field>
+    </record>
+
+</odoo>

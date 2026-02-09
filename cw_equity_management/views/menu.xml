@@ -63,12 +63,18 @@
               name="Allocation"
               parent="menu_equity_root"
               sequence="30"/>
-              
-    <menuitem id="menu_equity_allocation_list" 
-              name="Profit and Loss" 
-              parent="menu_equity_allocation" 
-              action="action_equity_allocation" 
+
+    <menuitem id="menu_equity_allocation_list"
+              name="Profit and Loss"
+              parent="menu_equity_allocation"
+              action="action_equity_allocation"
               sequence="10"/>
+
+    <menuitem id="menu_equity_drawing_close_list"
+              name="Drawing Close"
+              parent="menu_equity_allocation"
+              action="action_equity_drawing_close"
+              sequence="11"/>
 
     <!-- Configuration Menu -->
     <menuitem id="menu_equity_configuration"
