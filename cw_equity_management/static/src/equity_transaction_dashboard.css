@@ -21,13 +21,18 @@
 /* Main dashboard layout styling */
 .cw-equity-dashboard-container {
   padding: 20px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
   background-color: #ffffff; /* White background to match report style */
   min-height: auto; /* Reduce minimum height */
   max-height: 90vh; /* Limit height to prevent taking too much space */
   margin-top: 15px;
   overflow-y: auto; /* Enable vertical scrolling for all content */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
-  margin-bottom: 20px; /* Add bottom margin for better spacing */
+  margin-bottom: 20px; 
+
+  /* Add bottom margin for better spacing */
 }
 
 /* Card styling - match the report table style */
@@ -45,13 +50,15 @@
 
 .cw-equity-summary-header,
 .cw-equity-transactions-header {
+  padding-top: 16px;
   background-color: var(--equity-header-bg); /* Light gray header like level-1 rows in report */
   color: #000000; /* Black text */
   border-bottom: 1px solid #888888; /* Border line */
   padding: 10px 15px; /* Reduced padding to match report */
   font-weight: bold;
   text-align: center; /* Center header text */
-  width: 40%; /* Same width as table */
+  width: 90%; 
+   /* Same width as table */
   border: 2px solid #888888; /* Same border as table */
   border-bottom: none; /* Border will be continued by table */
   border-radius: var(--equity-card-radius) var(--equity-card-radius) 0 0; /* Top rounded corners */
@@ -68,7 +75,7 @@
 .cw-equity-summary-body,
 .cw-equity-transactions-body {
   padding: 0; /* Remove body padding since table has its own */
-  width: 40%; /* Same width as table */
+  width: 90%; /* Same width as table */
 
 }
 
