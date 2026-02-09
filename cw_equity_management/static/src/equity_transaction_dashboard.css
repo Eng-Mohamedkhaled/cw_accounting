@@ -48,6 +48,11 @@
   align-items: center; /* Center the table inside the card */
 }
 
+/* Add specific spacing for equity summary card */
+.cw-equity-summary-card {
+  margin-top: 20px; /* Add space from top */
+}
+
 .cw-equity-summary-header,
 .cw-equity-transactions-header {
   padding-top: 16px;
