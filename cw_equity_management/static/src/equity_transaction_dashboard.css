@@ -263,6 +263,10 @@
     width: 100% !important; /* Full width on smaller screens */
   }
 
+  .cw-equity-dashboard-container{
+    width: 100% !important;
+  }
+  
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
     width: 100% !important; /* Full width on smaller screens */
@@ -298,6 +302,9 @@
 @media (max-width: 576px) {
   .cw-equity-dashboard-container {
     padding: 10px;
+  }
+  .cw-equity-dashboard-container{
+    width: 100% !important;
   }
 
   .cw-equity-summary-header,
