@@ -16,6 +16,7 @@
   --equity-card-radius: 8px;
   --equity-header-bg: #f2f2f2; /* Light gray header like level-1 rows in report */
   --equity-table-hover: #f2f2f2;
+  --equity-report-border: #b5b5b5; /* Consistent border color for reports */
 }
 
 /* Main dashboard layout styling */
@@ -58,13 +59,13 @@
   padding-top: 16px;
   background-color: var(--equity-header-bg); /* Light gray header like level-1 rows in report */
   color: #000000; /* Black text */
-  border-bottom: 1px solid #888888; /* Border line */
+  border-bottom: 1px solid var(--equity-report-border); /* Border line */
   padding: 10px 15px; /* Reduced padding to match report */
   font-weight: bold;
   text-align: center; /* Center header text */
   width: 90%;
    /* Same width as table */
-  border: 2px solid #888888; /* Same border as table */
+  border: 2px solid var(--equity-report-border); /* Same border as table */
   border-bottom: none; /* Border will be continued by table */
   border-radius: var(--equity-card-radius) var(--equity-card-radius) 0 0; /* Top rounded corners */
   box-sizing: border-box; /* Include padding and border in width calculation */
@@ -94,17 +95,46 @@
   margin: 0; /* No margin since it's in the body element */
   border-collapse: collapse;
   font-size: 14px; /* Slightly smaller font to match report */
-  border: 2px solid #888888; /* Border like in the report */
+  border: 2px solid var(--equity-report-border); /* Border like in the report */
   border-top: none; /* No top border since header has it */
   border-radius: 0 0 var(--equity-card-radius) var(--equity-card-radius); /* Bottom rounded corners */
   background-color: #ffffff; /* White background inside the box */
-  box-shadow: var(--equity-card-shadow); /* Subtle shadow */
-  table-layout: fixed; /* Fixed table layout to handle long content */
+  /* box-shadow: var(--equity-card-shadow);  */
+  box-shadow: none;
+  /* Subtle shadow */
+  /* table-layout: fixed;   */
+  /* Fixed table layout to handle long content */
+  table-layout: auto;
 }
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hide scrollbars but keep scroll functionality */
+.cw-equity-dashboard-container {
+  -ms-overflow-style: none;     /* IE 10+ */
+  scrollbar-width: none;        /* Firefox */
+}
+
+.cw-equity-dashboard-container::-webkit-scrollbar {
+  display: none;                /* Chrome, Edge, Safari */
+}
+
+.cw-equity-summary-body,
+.cw-equity-transactions-body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.cw-equity-summary-body::-webkit-scrollbar,
+.cw-equity-transactions-body::-webkit-scrollbar {
+  display: none;
+}
+
 
 .cw-equity-summary-table th,
 .cw-equity-transactions-table th {
-  border-bottom: 1px solid #000; /* Bold separator like in report */
+  border-bottom: 1px solid var(--equity-report-border); /* Bold separator like in report */
   padding: 6px 12px !important; /* Match report padding */
   text-align: left; /* Left aligned like in report */
   font-weight: bold; /* Bold header like in report */
@@ -116,7 +146,7 @@
 .cw-equity-transactions-table td {
   padding: 6px 12px !important; /* Match report padding */
   vertical-align: middle;
-  border-bottom: 1px solid #ddd; /* Light border between rows */
+  border-bottom: 1px solid var(--equity-report-border); /* Light border between rows */
 }
 
 /* Numeric alignment like in the report */
@@ -260,7 +290,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
   .cw-equity-dashboard-container{
     width: 100vw; /* Use full viewport width */
     min-width: 100%; /* At least full width */
@@ -276,7 +306,8 @@
   .cw-equity-transactions-header {
     width: 100%; /* Full width on smaller screens */
     min-width: 900px; /* Match the card width */
-    flex-shrink: 0; /* Prevent header from shrinking */
+    border: 2px solid var(--equity-report-border); /* Consistent border color */
+    /* flex-shrink: 0; Prevent header from shrinking */
   }
 
   .cw-equity-summary-body,
@@ -291,6 +322,7 @@
     min-width: 900px; /* Fixed minimum width to ensure scrolling */
     font-size: 0.9em;
     width: auto !important; /* Allow table to be wider than container */
+    border: 2px solid var(--equity-report-border); /* Consistent border color */
   }
 
   .cw-equity-summary-table th,
@@ -299,6 +331,7 @@
   .cw-equity-transactions-table td {
     padding: 4px 8px !important;
     white-space: nowrap; /* Prevent text wrapping */
+    border-color: var(--equity-report-border); /* Consistent border color */
   }
 
   .cw-equity-dashboard-container .filter_date {
@@ -330,6 +363,7 @@
     padding: 8px 12px;
     width: 100%; /* Full width on very small screens */
     min-width: 900px; /* Match the card width */
+    border: 2px solid var(--equity-report-border); /* Consistent border color */
     flex-shrink: 0; /* Prevent header from shrinking */
   }
 
@@ -345,5 +379,6 @@
     min-width: 900px; /* Fixed minimum width to ensure scrolling */
     font-size: 0.85em;
     width: auto !important; /* Allow table to be wider than container */
+    border: 2px solid var(--equity-report-border); /* Consistent border color */
   }
 }
