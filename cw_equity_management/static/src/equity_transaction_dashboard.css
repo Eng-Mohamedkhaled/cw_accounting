@@ -31,7 +31,6 @@
   overflow-y: auto; /* Enable vertical scrolling for all content */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
   margin-bottom: 20px;
-  min-width: fit-content; /* Allow container to expand to fit content */
 
   /* Add bottom margin for better spacing */
 }
@@ -47,7 +46,6 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* Center the table inside the card */
-  min-width: 100%; /* Ensure cards take at least full width to enable scrolling */
 }
 
 /* Add specific spacing for equity summary card */
@@ -264,24 +262,33 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .cw-equity-dashboard-container{
-    width: 100% !important;
+    width: 100vw; /* Use full viewport width */
+    min-width: 100%; /* At least full width */
+    overflow-x: auto; /* Enable horizontal scrolling when content is wider */
+  }
+
+  .cw-equity-summary-card,
+  .cw-equity-transactions-card {
+    min-width: 900px; /* Ensure cards are wide enough to trigger scrolling */
   }
 
   .cw-equity-summary-header,
   .cw-equity-transactions-header {
     width: 100%; /* Full width on smaller screens */
+    min-width: 900px; /* Match the card width */
     flex-shrink: 0; /* Prevent header from shrinking */
   }
 
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
     width: 100%; /* Full width on smaller screens */
+    min-width: 900px; /* Match the card width */
     overflow-x: hidden; /* Disable individual horizontal scrolling */
   }
 
   .cw-equity-summary-table,
   .cw-equity-transactions-table {
-    min-width: 800px; /* Minimum width to enable horizontal scrolling */
+    min-width: 900px; /* Fixed minimum width to ensure scrolling */
     font-size: 0.9em;
     width: auto !important; /* Allow table to be wider than container */
   }
@@ -308,27 +315,34 @@
 @media (max-width: 576px) {
   .cw-equity-dashboard-container {
     padding: 10px;
+    width: 100vw; /* Use full viewport width */
+    min-width: 100%; /* At least full width */
+    overflow-x: auto; /* Enable horizontal scrolling when content is wider */
   }
-  .cw-equity-dashboard-container{
-    width: 100% !important;
+  
+  .cw-equity-summary-card,
+  .cw-equity-transactions-card {
+    min-width: 900px; /* Ensure cards are wide enough to trigger scrolling */
   }
 
   .cw-equity-summary-header,
   .cw-equity-transactions-header {
     padding: 8px 12px;
     width: 100%; /* Full width on very small screens */
+    min-width: 900px; /* Match the card width */
     flex-shrink: 0; /* Prevent header from shrinking */
   }
 
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
     width: 100%; /* Full width on very small screens */
+    min-width: 900px; /* Match the card width */
     overflow-x: hidden; /* Disable individual horizontal scrolling */
   }
 
   .cw-equity-summary-table,
   .cw-equity-transactions-table {
-    min-width: 800px; /* Minimum width to enable horizontal scrolling */
+    min-width: 900px; /* Fixed minimum width to ensure scrolling */
     font-size: 0.85em;
     width: auto !important; /* Allow table to be wider than container */
   }
