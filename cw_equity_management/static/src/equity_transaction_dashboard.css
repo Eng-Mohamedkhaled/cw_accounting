@@ -307,7 +307,7 @@
     width: 100%; /* Full width on smaller screens */
     min-width: 900px; /* Match the card width */
     border: 2px solid var(--equity-report-border); /* Consistent border color */
-    /* flex-shrink: 0; Prevent header from shrinking */
+    flex-shrink: 0; /* Prevent header from shrinking - restore this to ensure proper alignment */
   }
 
   .cw-equity-summary-body,
@@ -321,7 +321,7 @@
   .cw-equity-transactions-table {
     min-width: 900px; /* Fixed minimum width to ensure scrolling */
     font-size: 0.9em;
-    width: auto !important; /* Allow table to be wider than container */
+    width: 100%; /* Make table width match the container */
     border: 2px solid var(--equity-report-border); /* Consistent border color */
   }
 
