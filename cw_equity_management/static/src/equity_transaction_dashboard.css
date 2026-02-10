@@ -30,7 +30,8 @@
   margin-top: 15px;
   overflow-y: auto; /* Enable vertical scrolling for all content */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
+  min-width: fit-content; /* Allow container to expand to fit content */
 
   /* Add bottom margin for better spacing */
 }
@@ -46,6 +47,7 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* Center the table inside the card */
+  min-width: 100%; /* Ensure cards take at least full width to enable scrolling */
 }
 
 /* Add specific spacing for equity summary card */
@@ -62,11 +64,13 @@
   padding: 10px 15px; /* Reduced padding to match report */
   font-weight: bold;
   text-align: center; /* Center header text */
-  width: 90%; 
+  width: 90%;
    /* Same width as table */
   border: 2px solid #888888; /* Same border as table */
   border-bottom: none; /* Border will be continued by table */
   border-radius: var(--equity-card-radius) var(--equity-card-radius) 0 0; /* Top rounded corners */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .cw-equity-summary-header .card-title,
@@ -81,7 +85,8 @@
 .cw-equity-transactions-body {
   padding: 0; /* Remove body padding since table has its own */
   width: 90%; /* Same width as table */
-
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  overflow-x: hidden; /* Disable individual horizontal scrolling */
 }
 
 /* Table styling for equity info and transactions - match report style */
@@ -258,19 +263,20 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .cw-equity-summary-header,
-  .cw-equity-transactions-header {
-    width: 100% !important; /* Full width on smaller screens */
-  }
-
   .cw-equity-dashboard-container{
     width: 100% !important;
   }
-  
+
+  .cw-equity-summary-header,
+  .cw-equity-transactions-header {
+    width: 100%; /* Full width on smaller screens */
+    flex-shrink: 0; /* Prevent header from shrinking */
+  }
+
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
-    width: 100% !important; /* Full width on smaller screens */
-    overflow-x: auto; /* Enable horizontal scrolling */
+    width: 100%; /* Full width on smaller screens */
+    overflow-x: hidden; /* Disable individual horizontal scrolling */
   }
 
   .cw-equity-summary-table,
@@ -310,13 +316,14 @@
   .cw-equity-summary-header,
   .cw-equity-transactions-header {
     padding: 8px 12px;
-    width: 100% !important; /* Full width on very small screens */
+    width: 100%; /* Full width on very small screens */
+    flex-shrink: 0; /* Prevent header from shrinking */
   }
 
   .cw-equity-summary-body,
   .cw-equity-transactions-body {
-    width: 100% !important; /* Full width on very small screens */
-    overflow-x: auto; /* Enable horizontal scrolling */
+    width: 100%; /* Full width on very small screens */
+    overflow-x: hidden; /* Disable individual horizontal scrolling */
   }
 
   .cw-equity-summary-table,
