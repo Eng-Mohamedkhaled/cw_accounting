@@ -17,6 +17,7 @@
   --equity-header-bg: #f2f2f2; /* Light gray header like level-1 rows in report */
   --equity-table-hover: #f2f2f2;
   --equity-report-border: #b5b5b5; /* Consistent border color for reports */
+
 }
 
 /* Main dashboard layout styling */
@@ -31,7 +32,8 @@
   margin-top: 15px;
   overflow-y: auto; /* Enable vertical scrolling for all content */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  /* padding-bottom: 30px; */
 
   /* Add bottom margin for better spacing */
 }
