@@ -18,17 +18,17 @@ msgstr ""
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "<strong>Period:</strong>"
-msgstr ""
+msgstr "<strong>الفترة:</strong>"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "<strong>Report generated on:</strong>"
-msgstr ""
+msgstr "<strong>تم إنشاء التقرير في:</strong>"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>الإجمالي</strong>"
 
 #. module: cw_equity_management
 #. odoo-python
@@ -38,6 +38,9 @@ msgid ""
 "Only one master structure is allowed per company.\n"
 "Existing structure(s): %s"
 msgstr ""
+"يوجد بالفعل هيكل ملكية رئيسي للشركة '%s'.\n"
+"يُسمح بهيكل رئيسي واحد فقط لكل شركة.\n"
+"الهيكل/الهياكل الموجودة: %s"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__google_translate_api_key
@@ -45,76 +48,78 @@ msgid ""
 "A valid Google API key is required to enable message translation. "
 "https://cloud.google.com/translate/docs/setup"
 msgstr ""
+"مفتاح Google API صالح مطلوب لتمكين ترجمة الرسائل. "
+"https://cloud.google.com/translate/docs/setup"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_api_endpoint
 msgid "AI API Endpoint"
-msgstr ""
+msgstr "نقطة نهاية API الذكاء الاصطناعي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_api_key
 msgid "AI API Key"
-msgstr ""
+msgstr "مفتاح API الذكاء الاصطناعي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_model
 msgid "AI Model"
-msgstr ""
+msgstr "نموذج الذكاء الاصطناعي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_provider
 msgid "AI Provider"
-msgstr ""
+msgstr "مقدم خدمة الذكاء الاصطناعي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__unsplash_access_key
 msgid "Access Key"
-msgstr ""
+msgstr "مفتاح الوصول"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__account_id
 msgid "Account"
-msgstr ""
+msgstr "الحساب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__twilio_account_token
 msgid "Account Auth Token"
-msgstr ""
+msgstr "رمز مصادقة الحساب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__twilio_account_sid
 msgid "Account SID"
-msgstr ""
+msgstr "معرف حساب SID"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__account_journal_early_pay_discount_loss_account_id
 msgid ""
 "Account for the difference amount after the expense discount has been "
 "granted"
-msgstr ""
+msgstr "الحساب الخاص بمبلغ الفرق بعد منح خصم المصروفات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__account_journal_early_pay_discount_gain_account_id
 msgid ""
 "Account for the difference amount after the income discount has been granted"
-msgstr ""
+msgstr "الحساب الخاص بمبلغ الفرق بعد منح خصم الإيرادات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__undistributed_profit_account_id
 msgid "Account for undistributed profit"
-msgstr ""
+msgstr "الحساب الخاص بالأرباح غير الموزعة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__account_cash_basis_base_account_id
 msgid ""
 "Account that will be set on lines created in cash basis journal entry and "
 "used to keep track of the tax base amount."
-msgstr ""
+msgstr "الحساب الذي سيتم تعيينه على الأسطر المنشأة في قيد اليومية على أساس نقدي ويُستخدم لتتبع مبلغ الوعاء الضريبي."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_accountant
 msgid "Accounting"
-msgstr ""
+msgstr "المحاسبة"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_allocation_form
@@ -122,7 +127,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_transaction_form
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_form
 msgid "Accounts"
-msgstr ""
+msgstr "الحسابات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__message_needaction
@@ -131,12 +136,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__message_needaction
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "إجراء مطلوب"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_master_form
 msgid "Activate"
-msgstr ""
+msgstr "تفعيل"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_ownership__status__active
@@ -144,12 +149,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_form
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_master_form
 msgid "Active"
-msgstr ""
+msgstr "نشط"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__active_provider_id
 msgid "Active Provider"
-msgstr ""
+msgstr "مقدم الخدمة النشط"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__activity_ids
@@ -158,7 +163,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__activity_ids
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "الأنشطة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__activity_exception_decoration
@@ -167,7 +172,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__activity_exception_decoration
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "زخرفة استثناء النشاط"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__activity_state
@@ -176,7 +181,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__activity_state
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "حالة النشاط"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__activity_type_icon
@@ -185,126 +190,126 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__activity_type_icon
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "أيقونة نوع النشاط"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__snailmail_cover
 msgid "Add a Cover Page"
-msgstr ""
+msgstr "إضافة صفحة غلاف"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__tenor_api_key
 msgid ""
 "Add a Tenor GIF API key to enable GIFs support. "
 "https://developers.google.com/tenor/guides/quickstart#setup"
-msgstr ""
+msgstr "أضف مفتاح Tenor GIF API لتمكين دعم GIFs. https://developers.google.com/tenor/guides/quickstart#setup"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_master_form
 msgid "Add notes for this structure..."
-msgstr ""
+msgstr "إضافة ملاحظات لهذا الهيكل..."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__notes
 msgid "Additional notes about this ownership structure"
-msgstr ""
+msgstr "ملاحظات إضافية حول هيكل الملكية هذا"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "After Profit and Loss"
-msgstr ""
+msgstr "بعد الأرباح والخسائر"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__alias_domain_id
 msgid "Alias Domain"
-msgstr ""
+msgstr "نطاق الاسم المستعار"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 msgid "All Transactions"
-msgstr ""
+msgstr "جميع المعاملات"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 msgid "All partners (search to select specific)"
-msgstr ""
+msgstr "جميع الشركاء (ابحث لتحديد معين)"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_allocation
 msgid "Allocate profits and losses to equity owners."
-msgstr ""
+msgstr "توزيع الأرباح والخسائر على مالكي حقوق الملكية."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation_line__allocation_id
 #: model:ir.ui.menu,name:cw_equity_management.menu_equity_allocation
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_allocation_form
 msgid "Allocation"
-msgstr ""
+msgstr "التوزيع"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__allocation_date
 msgid "Allocation Date"
-msgstr ""
+msgstr "تاريخ التوزيع"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_allocation_form
 msgid "Allocation Details"
-msgstr ""
+msgstr "تفاصيل التوزيع"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__allocation_line_ids
 msgid "Allocation Lines"
-msgstr ""
+msgstr "أسطر التوزيع"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_allocation_tree
 msgid "Allocation Name"
-msgstr ""
+msgstr "اسم التوزيع"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_allocation.py:0
 msgid "Allocation date cannot be before the period end date."
-msgstr ""
+msgstr "لا يمكن أن يكون تاريخ التوزيع قبل تاريخ نهاية الفترة."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_product_margin
 msgid "Allow Product Margin"
-msgstr ""
+msgstr "السماح بهامش المنتج"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_check_printing
 msgid "Allow check printing and deposits"
-msgstr ""
+msgstr "السماح بطباعة الشيكات والإيداعات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_mail_plugin
 msgid "Allow integration with the mail plugins"
-msgstr ""
+msgstr "السماح بالتكامل مع إضافات البريد"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_google_calendar
 msgid "Allow the users to synchronize their calendar  with Google Calendar"
-msgstr ""
+msgstr "السماح للمستخدمين بمزامنة تقويمهم مع تقويم Google"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_microsoft_calendar
 msgid "Allow the users to synchronize their calendar with Outlook Calendar"
-msgstr ""
+msgstr "السماح للمستخدمين بمزامنة تقويمهم مع تقويم Outlook"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_base_import
 msgid "Allow users to import data from CSV/XLS/XLSX/ODS files"
-msgstr ""
+msgstr "السماح للمستخدمين باستيراد البيانات من ملفات CSV/XLS/XLSX/ODS"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__group_multi_currency
 msgid "Allows to work in a multi currency environment"
-msgstr ""
+msgstr "يسمح بالعمل في بيئة متعددة العملات"
 
 #. module: cw_equity_management
 #. odoo-javascript
@@ -319,82 +324,82 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_transaction_tree
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_tree
 msgid "Amount"
-msgstr ""
+msgstr "المبلغ"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_asset_contribution_split__calculated_amount
 msgid "Amount that will be allocated to this partner"
-msgstr ""
+msgstr "المبلغ الذي سيتم توزيعه على هذا الشريك"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_drawing_close__amount
 msgid "Amount to close (absolute value of drawing balance)"
-msgstr ""
+msgstr "المبلغ للإقفال (القيمة المطلقة لرصيد المسحوبات)"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__group_analytic_accounting
 msgid "Analytic Accounting"
-msgstr ""
+msgstr "المحاسبة التحليلية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_api_key_anthropic
 msgid "Anthropic API Key"
-msgstr ""
+msgstr "مفتاح Anthropic API"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__unsplash_app_id
 msgid "Application ID"
-msgstr ""
+msgstr "معرف التطبيق"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_management_config_settings_view_form
 msgid "Apply"
-msgstr ""
+msgstr "تطبيق"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_master_form
 msgid "Archive"
-msgstr ""
+msgstr "أرشفة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_ownership_master__status__archived
 msgid "Archived"
-msgstr ""
+msgstr "مؤرشف"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_close_form
 msgid "Are you sure you want to cancel this drawing close transaction?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد إلغاء معاملة إقفال المسحوبات هذه؟"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_close_form
 msgid ""
 "Are you sure you want to close this drawing account? This will zero out the "
 "drawing balance and adjust the equity account."
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد إقفال حساب المسحوبات هذا؟ سيتم تصفير رصيد المسحوبات وتعديل حساب حقوق الملكية."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__split_line_ids
 msgid "Asset Contribution Splits"
-msgstr ""
+msgstr "تقسيمات مساهمة الأصول"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_asset_contribution_form
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_transaction_form
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_form
 msgid "Asset contribution splits not configured!"
-msgstr ""
+msgstr "تقسيمات مساهمة الأصول غير مهيأة!"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_transaction.py:0
 msgid "Asset contributions must have at least one split allocation."
-msgstr ""
+msgstr "يجب أن يكون لمساهمات الأصول توزيع واحد على الأقل."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__line_ids
 msgid "Asset/Cash/Bank Lines"
-msgstr ""
+msgstr "أسطر الأصول/النقد/البنك"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__message_attachment_count
@@ -403,86 +408,86 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__message_attachment_count
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "عدد المرفقات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__autopost_bills
 msgid "Auto-validate bills"
-msgstr ""
+msgstr "التحقق التلقائي من الفواتير"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_currency_rate_live
 msgid "Automatic Currency Rates"
-msgstr ""
+msgstr "أسعار العملات التلقائية"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "Available for Withdrawal"
-msgstr ""
+msgstr "متاح للسحب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_bank_statement_extract
 msgid "Bank Statement Digitization"
-msgstr ""
+msgstr "رقمنة كشف الحساب البنكي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_journal_suspense_account_id
 msgid "Bank Suspense"
-msgstr ""
+msgstr "حساب تعليق البنك"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__account_journal_suspense_account_id
 msgid ""
 "Bank Transactions are posted immediately after import or synchronization. Their counterparty is the bank suspense account.\n"
 "Reconciliation replaces the latter by the definitive account(s)."
-msgstr ""
+msgstr "يتم ترحيل معاملات البنك فورًا بعد الاستيراد أو المزامنة. الطرف المقابل هو حساب تعليق البنك.\nتستبدل التسوية الحساب الأخير بالحساب(ات) النهائي(ة)."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_cash_basis_base_account_id
 msgid "Base Tax Received Account"
-msgstr ""
+msgstr "حساب الوعاء الضريبي المستلم"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__sfu_server_key
 msgid "Base64 encoded key"
-msgstr ""
+msgstr "مفتاح مشفر Base64"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_budget
 msgid "Budget Management"
-msgstr ""
+msgstr "إدارة الميزانية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_asset_contribution_split__split_type__percentage
 msgid "By Percentage"
-msgstr ""
+msgstr "حسب النسبة"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_allocation_form
 msgid "Calculate"
-msgstr ""
+msgstr "حساب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_allocation__state__calculated
 msgid "Calculated"
-msgstr ""
+msgstr "محسوب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_asset_contribution_split__calculated_amount
 msgid "Calculated Amount"
-msgstr ""
+msgstr "المبلغ المحسوب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation_line__amount
 msgid "Calculated amount allocated to this owner"
-msgstr ""
+msgstr "المبلغ المحسوب الموزع على هذا المالك"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__net_amount
 msgid "Calculated net profit or loss for the period"
-msgstr ""
+msgstr "صافي الربح أو الخسارة المحسوب للفترة"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_management_config_settings_view_form
@@ -492,7 +497,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_transaction_form
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_form
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_allocation__state__cancelled
@@ -500,39 +505,39 @@ msgstr ""
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_transaction__state__cancelled
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_close_search
 msgid "Cancelled"
-msgstr ""
+msgstr "ملغى"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_drawing_close.py:0
 msgid "Cannot close drawing with zero or negative balance."
-msgstr ""
+msgstr "لا يمكن إقفال المسحوبات برصيد صفري أو سالب."
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_transaction.py:0
 msgid "Cannot delete a cancelled equity transaction."
-msgstr ""
+msgstr "لا يمكن حذف معاملة حقوق ملكية ملغاة."
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_transaction.py:0
 msgid "Cannot delete a posted equity transaction. Please cancel it first."
-msgstr ""
+msgstr "لا يمكن حذف معاملة حقوق ملكية مرحّلة. يرجى إلغاؤها أولاً."
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "Capital Account"
-msgstr ""
+msgstr "حساب رأس المال"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_transaction__transaction_type__asset_contribution
 #: model:ir.ui.menu,name:cw_equity_management.menu_equity_asset_contribution_list
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_asset_contribution_form
 msgid "Capital Contribution"
-msgstr ""
+msgstr "مساهمة رأس المال"
 
 #. module: cw_equity_management
 #. odoo-javascript
@@ -540,33 +545,33 @@ msgstr ""
 #: model:ir.actions.act_window,name:cw_equity_management.action_equity_asset_contribution
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_asset_contribution_tree
 msgid "Capital Contributions"
-msgstr ""
+msgstr "مساهمات رأس المال"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_transaction__transaction_type__withdrawal
 msgid "Capital Withdrawal"
-msgstr ""
+msgstr "سحب رأس المال"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__tax_exigibility
 msgid "Cash Basis"
-msgstr ""
+msgstr "الأساس النقدي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__group_cash_rounding
 msgid "Cash Rounding"
-msgstr ""
+msgstr "تقريب النقد"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__chart_template
 msgid "Chart Template"
-msgstr ""
+msgstr "قالب دليل الحسابات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_res_partner__is_equity_owner
 #: model:ir.model.fields,help:cw_equity_management.field_res_users__is_equity_owner
 msgid "Check this box if this partner is an equity owner."
-msgstr ""
+msgstr "حدد هذا المربع إذا كان هذا الشريك مالكًا لحقوق الملكية."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__liquidity_configuration_method
@@ -574,12 +579,12 @@ msgstr ""
 #: model:ir.model.fields,help:cw_equity_management.field_res_config_settings__liquidity_configuration_method
 msgid ""
 "Choose how to configure liquidity: by account types or by specific accounts."
-msgstr ""
+msgstr "اختر كيفية إعداد السيولة: حسب أنواع الحسابات أو حسب حسابات محددة."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_website_cf_turnstile
 msgid "Cloudflare Turnstile"
-msgstr ""
+msgstr "Cloudflare Turnstile"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_res_company
@@ -606,32 +611,32 @@ msgstr "الشركة"
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__company_country_code
 msgid "Company Country Code"
-msgstr ""
+msgstr "رمز بلد الشركة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__company_informations
 msgid "Company Informations"
-msgstr ""
+msgstr "معلومات الشركة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__company_name
 msgid "Company Name"
-msgstr ""
+msgstr "اسم الشركة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__company_id
 msgid "Company for which profit/loss is allocated"
-msgstr ""
+msgstr "الشركة التي يتم توزيع الربح/الخسارة عليها"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__company_id
 msgid "Company for which this ownership structure applies"
-msgstr ""
+msgstr "الشركة التي ينطبق عليها هيكل الملكية هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__has_chart_of_accounts
 msgid "Company has a chart of accounts"
-msgstr ""
+msgstr "الشركة لديها دليل حسابات"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_res_config_settings
@@ -641,27 +646,27 @@ msgstr "تهيئة الإعدادات"
 #. module: cw_equity_management
 #: model:ir.ui.menu,name:cw_equity_management.menu_equity_configuration
 msgid "Configuration"
-msgstr ""
+msgstr "الإعدادات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__res_company__liquidity_configuration_method__account_type
 msgid "Configure by Account Type"
-msgstr ""
+msgstr "الإعداد حسب نوع الحساب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__res_company__liquidity_configuration_method__specific_account
 msgid "Configure by Specific Accounts"
-msgstr ""
+msgstr "الإعداد حسب حسابات محددة"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_master_form
 msgid "Confirm"
-msgstr ""
+msgstr "تأكيد"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_ownership_master__status__confirmed
 msgid "Confirmed"
-msgstr ""
+msgstr "مؤكد"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_res_partner
@@ -671,52 +676,52 @@ msgstr "جهة الاتصال"
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_form
 msgid "Contributions"
-msgstr ""
+msgstr "المساهمات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__country_code
 msgid "Country Code"
-msgstr ""
+msgstr "رمز البلد"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__company_country_group_codes
 msgid "Country Group Codes"
-msgstr ""
+msgstr "رموز مجموعات البلدان"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_drawing_close
 msgid "Create a new drawing close transaction"
-msgstr ""
+msgstr "إنشاء معاملة إقفال مسحوبات جديدة"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_asset_contribution
 msgid "Create your first capital contribution"
-msgstr ""
+msgstr "إنشاء أول مساهمة رأس مال"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_drawing_transaction
 msgid "Create your first drawing transaction"
-msgstr ""
+msgstr "إنشاء أول معاملة مسحوبات"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_ownership
 msgid "Create your first equity ownership record"
-msgstr ""
+msgstr "إنشاء أول سجل ملكية حقوق"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_transaction
 msgid "Create your first equity transaction"
-msgstr ""
+msgstr "إنشاء أول معاملة حقوق ملكية"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_ownership_master
 msgid "Create your first master ownership structure"
-msgstr ""
+msgstr "إنشاء أول هيكل ملكية رئيسي"
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_allocation
 msgid "Create your first profit &amp; loss allocation"
-msgstr ""
+msgstr "إنشاء أول توزيع للأرباح والخسائر"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__create_uid
@@ -729,7 +734,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__create_uid
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "أنشئ بواسطة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__create_date
@@ -742,7 +747,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__create_date
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__create_date
 msgid "Created on"
-msgstr ""
+msgstr "أنشئ في"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__currency_id
@@ -754,73 +759,73 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__currency_id
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__currency_id
 msgid "Currency"
-msgstr ""
+msgstr "العملة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__currency_exchange_journal_id
 msgid "Currency Exchange Journal"
-msgstr ""
+msgstr "يومية صرف العملات"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "Current Equity"
-msgstr ""
+msgstr "حقوق الملكية الحالية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_partner__current_equity_percentage
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_users__current_equity_percentage
 msgid "Current Equity Percentage"
-msgstr ""
+msgstr "نسبة حقوق الملكية الحالية"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "Current Equity Summary"
-msgstr ""
+msgstr "ملخص حقوق الملكية الحالية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_drawing_close__drawing_balance
 msgid "Current drawing account balance for this partner"
-msgstr ""
+msgstr "رصيد حساب المسحوبات الحالي لهذا الشريك"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_res_partner__current_equity_percentage
 #: model:ir.model.fields,help:cw_equity_management.field_res_users__current_equity_percentage
 msgid "Current equity percentage in the current company"
-msgstr ""
+msgstr "نسبة حقوق الملكية الحالية في الشركة الحالية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_api_key_custom
 msgid "Custom API Key"
-msgstr ""
+msgstr "مفتاح API مخصص"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__report_footer
 msgid "Custom Report Footer"
-msgstr ""
+msgstr "تذييل تقرير مخصص"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__portal_allow_api_keys
 msgid "Customer API Keys"
-msgstr ""
+msgstr "مفاتيح API للعملاء"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__auth_signup_uninvited
 msgid "Customer Account"
-msgstr ""
+msgstr "حساب العميل"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__group_sale_delivery_address
 msgid "Customer Addresses"
-msgstr ""
+msgstr "عناوين العملاء"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_discount_expense_allocation_id
 msgid "Customer Invoices Discounts Account"
-msgstr ""
+msgstr "حساب خصومات فواتير العملاء"
 
 #. module: cw_equity_management
 #. odoo-javascript
@@ -832,79 +837,79 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_transaction_tree
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_tree
 msgid "Date"
-msgstr ""
+msgstr "التاريخ"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__allocation_date
 msgid "Date of the allocation"
-msgstr ""
+msgstr "تاريخ التوزيع"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_drawing_close__date
 msgid "Date of the drawing close transaction"
-msgstr ""
+msgstr "تاريخ معاملة إقفال المسحوبات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__date
 msgid "Date of the transaction"
-msgstr ""
+msgstr "تاريخ المعاملة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__date_from
 msgid "Date when this ownership structure becomes effective"
-msgstr ""
+msgstr "تاريخ بدء سريان هيكل الملكية هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__date_to
 msgid "Date when this ownership structure expires"
-msgstr ""
+msgstr "تاريخ انتهاء هيكل الملكية هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_default_credit_limit
 msgid "Default Credit Limit"
-msgstr ""
+msgstr "حد الائتمان الافتراضي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__purchase_tax_id
 msgid "Default Purchase Tax"
-msgstr ""
+msgstr "ضريبة الشراء الافتراضية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__sale_tax_id
 msgid "Default Sale Tax"
-msgstr ""
+msgstr "ضريبة البيع الافتراضية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_price_include
 msgid "Default Sales Price Include"
-msgstr ""
+msgstr "سعر البيع الافتراضي شامل"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__use_invoice_terms
 msgid "Default Terms & Conditions"
-msgstr ""
+msgstr "الشروط والأحكام الافتراضية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__incoterm_id
 msgid "Default incoterm"
-msgstr ""
+msgstr "شروط التجارة الدولية الافتراضية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__account_price_include
 msgid ""
 "Default on whether the sales price used on the product and invoices with "
 "this Company includes its taxes."
-msgstr ""
+msgstr "الإعداد الافتراضي لما إذا كان سعر البيع المستخدم على المنتج والفواتير مع هذه الشركة يشمل ضرائبه."
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_ownership_master
 msgid "Define equity ownership for multiple partners in your companies."
-msgstr ""
+msgstr "تحديد ملكية حقوق الملكية لشركاء متعددين في شركاتك."
 
 #. module: cw_equity_management
 #: model_terms:ir.actions.act_window,help:cw_equity_management.action_equity_ownership
 msgid "Define equity ownership for partners in your companies."
-msgstr ""
+msgstr "تحديد ملكية حقوق الملكية للشركاء في شركاتك."
 
 #. module: cw_equity_management
 #. odoo-javascript
@@ -912,32 +917,32 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__description
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "Description"
-msgstr ""
+msgstr "الوصف"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__description
 msgid "Detailed description of the transaction"
-msgstr ""
+msgstr "وصف مفصل للمعاملة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__digest_id
 msgid "Digest Email"
-msgstr ""
+msgstr "البريد الإلكتروني الملخص"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__digest_emails
 msgid "Digest Emails"
-msgstr ""
+msgstr "البريد الإلكتروني الملخص"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__display_account_storno
 msgid "Display Account Storno"
-msgstr ""
+msgstr "عرض حساب Storno"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__link_qr_code
 msgid "Display Link QR-code"
-msgstr ""
+msgstr "عرض رمز QR للرابط"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_move__display_name
@@ -961,22 +966,22 @@ msgstr "اسم العرض"
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__qr_code
 msgid "Display SEPA QR-code"
-msgstr ""
+msgstr "عرض رمز QR لـ SEPA"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__preview_ready
 msgid "Display preview button"
-msgstr ""
+msgstr "عرض زر المعاينة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_extract
 msgid "Document Digitization"
-msgstr ""
+msgstr "رقمنة المستندات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__external_report_layout_id
 msgid "Document Template"
-msgstr ""
+msgstr "قالب المستند"
 
 #. module: cw_equity_management
 #. odoo-python
@@ -987,171 +992,171 @@ msgstr ""
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_transaction__state__draft
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_close_search
 msgid "Draft"
-msgstr ""
+msgstr "مسودة"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_drawing_close.py:0
 msgid "Draft Drawing Close"
-msgstr ""
+msgstr "إقفال مسحوبات مسودة"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_transaction_report_pdf
 msgid "Drawing Account"
-msgstr ""
+msgstr "حساب المسحوبات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_drawing_close__drawing_balance
 msgid "Drawing Balance"
-msgstr ""
+msgstr "رصيد المسحوبات"
 
 #. module: cw_equity_management
 #: model:ir.actions.act_window,name:cw_equity_management.action_equity_drawing_close
 #: model:ir.ui.menu,name:cw_equity_management.menu_equity_drawing_close_list
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_close_form
 msgid "Drawing Close"
-msgstr ""
+msgstr "إقفال المسحوبات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_bank_statement_line__drawing_close_id
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_move__drawing_close_id
 msgid "Drawing Close Transaction"
-msgstr ""
+msgstr "معاملة إقفال المسحوبات"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_close_list
 msgid "Drawing Close Transactions"
-msgstr ""
+msgstr "معاملات إقفال المسحوبات"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_drawing_transaction_form
 msgid "Drawing Transaction"
-msgstr ""
+msgstr "معاملة المسحوبات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_reports
 msgid "Dynamic Reports"
-msgstr ""
+msgstr "تقارير ديناميكية"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_transaction.py:0
 msgid "Each partner can only appear once in the split allocations."
-msgstr ""
+msgstr "يمكن أن يظهر كل شريك مرة واحدة فقط في توزيعات التقسيم."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_journal_early_pay_discount_gain_account_id
 msgid "Early Discount Gain"
-msgstr ""
+msgstr "ربح الخصم المبكر"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_journal_early_pay_discount_loss_account_id
 msgid "Early Discount Loss"
-msgstr ""
+msgstr "خسارة الخصم المبكر"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__date_from
 msgid "Effective From"
-msgstr ""
+msgstr "ساري من"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__date_to
 msgid "Effective To"
-msgstr ""
+msgstr "ساري إلى"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__email_secondary_color
 msgid "Email Button Color"
-msgstr ""
+msgstr "لون زر البريد الإلكتروني"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__email_primary_color
 msgid "Email Button Text"
-msgstr ""
+msgstr "نص زر البريد الإلكتروني"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__auth_signup_reset_password
 msgid "Enable password reset from Login page"
-msgstr ""
+msgstr "تمكين إعادة تعيين كلمة المرور من صفحة تسجيل الدخول"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__account_use_credit_limit
 msgid "Enable the use of credit limit on partners."
-msgstr ""
+msgstr "تمكين استخدام حد الائتمان على الشركاء."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__restrictive_audit_trail
 msgid "Enable this option to prevent deletion of journal item related logs"
-msgstr ""
+msgstr "تمكين هذا الخيار لمنع حذف سجلات عناصر اليومية ذات الصلة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership__date_to
 msgid "End Date"
-msgstr ""
+msgstr "تاريخ الانتهاء"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership__date_to
 msgid "End date of the ownership period (leave empty for ongoing)"
-msgstr ""
+msgstr "تاريخ انتهاء فترة الملكية (اتركه فارغًا للمستمرة)"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__period_end
 msgid "End date of the period for profit/loss calculation"
-msgstr ""
+msgstr "تاريخ نهاية فترة حساب الربح/الخسارة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__auth_totp_enforce
 msgid "Enforce two-factor authentication"
-msgstr ""
+msgstr "فرض المصادقة الثنائية"
 
 #. module: cw_equity_management
 #: model:ir.ui.menu,name:cw_equity_management.menu_equity_root
 msgid "Equity"
-msgstr ""
+msgstr "حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_bank_statement_line__equity_allocation_id
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_move__equity_allocation_id
 msgid "Equity Allocation"
-msgstr ""
+msgstr "توزيع حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_equity_asset_contribution_split
 msgid "Equity Asset Contribution Split"
-msgstr ""
+msgstr "تقسيم مساهمة أصول حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_equity_drawing_close
 msgid "Equity Drawing Close Transaction"
-msgstr ""
+msgstr "معاملة إقفال مسحوبات حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.actions.act_window,name:cw_equity_management.action_type_store
 msgid "Equity Liquidity Settings"
-msgstr ""
+msgstr "إعدادات سيولة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.res_config_settings_view_form_inherit_account_type
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_company_equity_config_form
 msgid "Equity Management"
-msgstr ""
+msgstr "إدارة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_company_equity_config_form
 msgid "Equity Management Configuration"
-msgstr ""
+msgstr "تهيئة إدارة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_equity_management_config_settings
 msgid "Equity Management Configuration Settings"
-msgstr ""
+msgstr "إعدادات تهيئة إدارة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.equity_management_config_settings_view_form
 msgid "Equity Management Settings"
-msgstr ""
+msgstr "إعدادات إدارة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.actions.act_window,name:cw_equity_management.action_equity_ownership
@@ -1162,27 +1167,27 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_tree
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_partner_form_inherit_equity
 msgid "Equity Ownership"
-msgstr ""
+msgstr "ملكية حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_equity_ownership
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_partner_form_inherit_equity
 msgid "Equity Ownership Record"
-msgstr ""
+msgstr "سجل ملكية حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_partner__equity_ownership_ids
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_users__equity_ownership_ids
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_partner_form_inherit_equity
 msgid "Equity Ownership Records"
-msgstr ""
+msgstr "سجلات ملكية حقوق الملكية"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 #: model:ir.ui.menu,name:cw_equity_management.menu_equity_transaction_report_js
 msgid "Equity Report"
-msgstr ""
+msgstr "تقرير حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_bank_statement_line__equity_transaction_id
@@ -1191,74 +1196,74 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__transaction_id
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_form
 msgid "Equity Transaction"
-msgstr ""
+msgstr "معاملة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_equity_transaction
 msgid "Equity Transaction (Capital Contribution/Withdrawal)"
-msgstr ""
+msgstr "معاملة حقوق الملكية (مساهمة/سحب رأس المال)"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_equity_transaction_line
 msgid "Equity Transaction Line"
-msgstr ""
+msgstr "سطر معاملة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_report_cw_equity_management_equity_transaction_report
 msgid "Equity Transaction Report"
-msgstr ""
+msgstr "تقرير معاملة حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model,name:cw_equity_management.model_report_cw_equity_management_equity_transaction_report_pdf
 msgid "Equity Transaction Report (PDF Proxy)"
-msgstr ""
+msgstr "تقرير معاملة حقوق الملكية (وكيل PDF)"
 
 #. module: cw_equity_management
 #: model:ir.actions.report,name:cw_equity_management.action_report_equity_transaction_pdf
 msgid "Equity Transaction Report (PDF)"
-msgstr ""
+msgstr "تقرير معاملة حقوق الملكية (PDF)"
 
 #. module: cw_equity_management
 #: model:ir.actions.act_window,name:cw_equity_management.action_equity_transaction
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_transaction_tree
 msgid "Equity Transactions"
-msgstr ""
+msgstr "معاملات حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.actions.client,name:cw_equity_management.action_equity_transaction_dashboard_js
 msgid "Equity Transactions (JS Dashboard)"
-msgstr ""
+msgstr "معاملات حقوق الملكية (لوحة تحكم JS)"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__expense_account_id
 msgid "Expense Account"
-msgstr ""
+msgstr "حساب المصروفات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_ownership__status__expired
 msgid "Expired"
-msgstr ""
+msgstr "منتهي الصلاحية"
 
 #. module: cw_equity_management
 #. odoo-javascript
 #: code:addons/cw_equity_management/static/src/equity_transaction_dashboard_js.xml:0
 msgid "Export"
-msgstr ""
+msgstr "تصدير"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__fail_counter
 msgid "Fail Mail"
-msgstr ""
+msgstr "البريد الفاشل"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__account_fiscal_country_id
 msgid "Fiscal Country Code"
-msgstr ""
+msgstr "رمز البلد المالي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_asset_contribution_split__manual_amount
 msgid "Fixed amount allocated to this partner"
-msgstr ""
+msgstr "المبلغ الثابت المخصص لهذا الشريك"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__message_follower_ids
@@ -1267,7 +1272,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__message_follower_ids
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "المتابعون"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__message_partner_ids
@@ -1276,7 +1281,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__message_partner_ids
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "المتابعون (الشركاء)"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__activity_type_icon
@@ -1285,17 +1290,17 @@ msgstr ""
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__activity_type_icon
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "أيقونة Font Awesome على سبيل المثال fa-tasks"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__report_footer
 msgid "Footer text displayed at the bottom of all reports."
-msgstr ""
+msgstr "نص التذييل المعروض في أسفل جميع التقارير."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__force_restrictive_audit_trail
 msgid "Forced Audit Trail"
-msgstr ""
+msgstr "مسار التدقيق الإجباري"
 
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_ownership_master_tree
@@ -1312,62 +1317,62 @@ msgstr "من:"
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_ownership__status__future
 msgid "Future"
-msgstr ""
+msgstr "مستقبلي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__income_currency_exchange_account_id
 msgid "Gain Exchange Rate Account"
-msgstr ""
+msgstr "حساب مكسب سعر الصرف"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__move_id
 msgid "Generated journal entry for this allocation"
-msgstr ""
+msgstr "قيد اليومية المولد لهذا التوزيع"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_drawing_close__move_id
 msgid "Generated journal entry for this drawing close"
-msgstr ""
+msgstr "قيد اليومية المولد لإغلاق السحب هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__move_id
 msgid "Generated journal entry for this transaction"
-msgstr ""
+msgstr "قيد اليومية المولد لهذه المعاملة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_base_geolocalize
 msgid "GeoLocalize"
-msgstr ""
+msgstr "الموقع الجغرافي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__google_gmail_client_identifier
 msgid "Gmail Client Id"
-msgstr ""
+msgstr "معرف عميل Gmail"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__google_gmail_client_secret
 msgid "Gmail Client Secret"
-msgstr ""
+msgstr "سر عميل Gmail"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_google_address_autocomplete
 msgid "Google Address Autocomplete"
-msgstr ""
+msgstr "الإكمال التلقائي لعنوان Google"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__ai_api_key_gemini
 msgid "Google Gemini API Key"
-msgstr ""
+msgstr "مفتاح Google Gemini API"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__has_accounting_entries
 msgid "Has Accounting Entries"
-msgstr ""
+msgstr "لديه قيود محاسبية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__has_enabled_provider
 msgid "Has Enabled Provider"
-msgstr ""
+msgstr "لديه مزود ممكّن"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__has_message
@@ -1376,7 +1381,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__has_message
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "لديه رسالة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_account_move__id
@@ -1404,7 +1409,7 @@ msgstr "المُعرف"
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__activity_exception_icon
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "أيقونة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__activity_exception_icon
@@ -1413,7 +1418,7 @@ msgstr ""
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__activity_exception_icon
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "أيقونة للإشارة إلى نشاط استثنائي."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__message_needaction
@@ -1422,7 +1427,7 @@ msgstr ""
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__message_needaction
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "إذا تم تحديده، تتطلب الرسائل الجديدة انتباهك."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_allocation__message_has_error
@@ -1436,83 +1441,83 @@ msgstr ""
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__message_has_error
 #: model:ir.model.fields,help:cw_equity_management.field_equity_transaction__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "إذا تم تحديده، بعض الرسائل بها خطأ في التسليم."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__alias_domain_id
 msgid ""
 "If you have setup a catch-all email domain redirected to the Odoo server, "
 "enter the domain name here."
-msgstr ""
+msgstr "إذا قمت بإعداد نطاق بريد إلكتروني شامل تم إعادة توجيهه إلى خادم Odoo، أدخل اسم النطاق هنا."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__use_sfu_server
 msgid "If you want to setup SFU server for large group calls."
-msgstr ""
+msgstr "إذا كنت ترغب في إعداد خادم SFU لمكالمات المجموعات الكبيرة."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__use_twilio_rtc_servers
 msgid "If you want to use twilio as TURN/STUN server provider"
-msgstr ""
+msgstr "إذا كنت ترغب في استخدام twilio كمزود خادم TURN/STUN"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_bank_statement_import_qif
 msgid "Import .qif files"
-msgstr ""
+msgstr "استيراد ملفات .qif"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__income_account_id
 msgid "Income Account"
-msgstr ""
+msgstr "حساب الإيرادات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership_master__owners_line_ids
 msgid "Individual ownership records for this structure"
-msgstr ""
+msgstr "سجلات الملكية الفردية لهذا الهيكل"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__partner_autocomplete_insufficient_credit
 msgid "Insufficient credit"
-msgstr ""
+msgstr "رصيد غير كافٍ"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__transfer_account_id
 msgid ""
 "Intermediary account used when moving from a liquidity account to another."
-msgstr ""
+msgstr "الحساب الوسيط المستخدم عند الانتقال من حساب سيولة إلى آخر."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__transfer_account_id
 msgid "Internal Transfer"
-msgstr ""
+msgstr "تحويل داخلي"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_management_config_settings__incoterm_id
 msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
 "used in international transactions."
-msgstr ""
+msgstr "الشروط التجارية الدولية هي سلسلة من الشروط التجارية المحددة مسبقًا المستخدمة في المعاملات الدولية."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_intrastat
 msgid "Intrastat"
-msgstr ""
+msgstr "إنترستات"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_invoice_extract
 msgid "Invoice Digitization"
-msgstr ""
+msgstr "رقمنة الفواتير"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_account_payment
 msgid "Invoice Online Payment"
-msgstr ""
+msgstr "الدفع الإلكتروني للفواتير"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_partner__is_equity_owner
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_users__is_equity_owner
 msgid "Is Equity Owner"
-msgstr ""
+msgstr "هو مالك حقوق الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__message_is_follower
@@ -1521,18 +1526,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_ownership_master__message_is_follower
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "هو متابع"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__is_root_company
 msgid "Is Root Company"
-msgstr ""
+msgstr "هي الشركة الأم"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_ownership.py:0
 msgid "Journal Entries for %s"
-msgstr ""
+msgstr "قيود اليومية لـ %s"
 
 #. module: cw_equity_management
 #. odoo-python
@@ -1556,12 +1561,12 @@ msgstr "قيد اليومية"
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_drawing_close__move_name
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__move_name
 msgid "Journal Entry Number"
-msgstr ""
+msgstr "رقم قيد اليومية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__module_auth_ldap
 msgid "LDAP Authentication"
-msgstr ""
+msgstr "مصادقة LDAP"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__write_uid
@@ -1574,7 +1579,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__write_uid
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "آخر تحديث بواسطة"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_allocation__write_date
@@ -1587,44 +1592,44 @@ msgstr ""
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction__write_date
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_transaction_line__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "آخر تحديث في"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__liability_types
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_company__liability_types
 #: model:ir.model.fields,field_description:cw_equity_management.field_res_config_settings__liability_types
 msgid "Liability Types"
-msgstr ""
+msgstr "أنواع الالتزامات"
 
 #. module: cw_equity_management
 #. odoo-python
 #: code:addons/cw_equity_management/models/equity_transaction_line.py:0
 msgid "Line amount must be positive."
-msgstr ""
+msgstr "يجب أن يكون مبلغ السطر موجبًا."
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_account_bank_statement_line__drawing_close_id
 #: model:ir.model.fields,help:cw_equity_management.field_account_move__drawing_close_id
 msgid ""
 "Link to the drawing close transaction that generated this journal entry"
-msgstr ""
+msgstr "رابط لمعاملة إغلاق السحب التي ولّدت قيد اليومية هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_account_bank_statement_line__equity_allocation_id
 #: model:ir.model.fields,help:cw_equity_management.field_account_move__equity_allocation_id
 msgid "Link to the equity allocation that generated this journal entry"
-msgstr ""
+msgstr "رابط لتوزيع حقوق الملكية الذي ولّد قيد اليومية هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_account_bank_statement_line__equity_transaction_id
 #: model:ir.model.fields,help:cw_equity_management.field_account_move__equity_transaction_id
 msgid "Link to the equity transaction that generated this journal entry"
-msgstr ""
+msgstr "رابط لمعاملة حقوق الملكية التي ولّدت قيد اليومية هذا"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,help:cw_equity_management.field_equity_ownership__master_id
 msgid "Link to the master ownership structure that manages this ownership"
-msgstr ""
+msgstr "رابط لهيكل الملكية الرئيسي الذي يدير هذه الملكية"
 
 #. module: cw_equity_management
 #: model:ir.model.fields,field_description:cw_equity_management.field_equity_management_config_settings__liquid_asset_types
