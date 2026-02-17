@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="cw_equity_management.EquityTransactionDashboardJS">
-        <Layout display="{controlPanel: {}}" className="'o_dashboard h-100 cw-equity-dashboard-container'">
+        <Layout display="{controlPanel: {}}" className="'o_dashboard  cw-equity-dashboard-container'">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="mb-0">Equity Report</h2>
                 <div class="text-muted">
@@ -78,7 +78,7 @@
                 </button>
             </t>
             
-            <div class="o_content o_dashboard_container h-100 w-100">
+            <div class="o_content o_dashboard_container  w-100">
                 <t t-if="state.isLoading">
                     <div class="d-flex justify-content-center align-items-center h-50">
                         <div class="spinner-border cw-equity-spinner" role="status">
