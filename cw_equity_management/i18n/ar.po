@@ -467,7 +467,7 @@ msgstr "حسب النسبة"
 #. module: cw_equity_management
 #: model_terms:ir.ui.view,arch_db:cw_equity_management.view_equity_allocation_form
 msgid "Calculate"
-msgstr "حساب"
+msgstr "إحسب"
 
 #. module: cw_equity_management
 #: model:ir.model.fields.selection,name:cw_equity_management.selection__equity_allocation__state__calculated
